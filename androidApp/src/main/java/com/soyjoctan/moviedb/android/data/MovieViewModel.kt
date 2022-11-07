@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.model.Genre
 import com.soyjoctan.moviedb.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieViewModel : ViewModel() {
+@HiltViewModel
+class MovieViewModel @Inject constructor() : ViewModel() {
     private val repository: Repository = Repository()
     private var _genresMutableLiveData: MutableLiveData<List<Genre>> = MutableLiveData()
-
     val listGenresObservable: LiveData<List<Genre>> = _genresMutableLiveData
-
     var genreSelected: Genre? = null
 
     fun getGenres() {

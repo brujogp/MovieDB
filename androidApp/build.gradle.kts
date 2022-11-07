@@ -1,6 +1,10 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.application")
+    id("com.google.dagger.hilt.android")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -39,6 +43,7 @@ android {
 dependencies {
     val navVersion = "2.5.3"
     val composeComponent = "1.3.0"
+    val hiltVersion = "2.44"
 
     implementation(project(":shared"))
     implementation("androidx.compose.ui:ui:$composeComponent")
@@ -50,4 +55,16 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.compose.runtime:runtime-livedata:1.4.0-alpha01")
     implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation("androidx.compose.material:material-icons-extended:$composeComponent")
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+}
+
+kapt {
+    correctErrorTypes = true
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

@@ -7,7 +7,7 @@ import Foundation
 import SwiftUI
 import shared
 
-struct ViewListMovies: View {
+struct ScreenListMovies: View {
     var genreItem: Genre
 
     var body: some View {

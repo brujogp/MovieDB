@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.ViewModelProvider
 import com.soyjoctan.moviedb.android.data.MovieViewModel
 import com.soyjoctan.moviedb.android.iu.MainActivity

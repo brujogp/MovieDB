@@ -11,7 +11,7 @@ struct ContentView: View {
             VStack {
                 List(viewModel.genresList, id: \.self) { item in
                     NavigationLink(item.name!) {
-                        ViewListMovies(genreItem: item)
+                        ScreenListMovies(genreItem: item)
                     }
                 }
             }
