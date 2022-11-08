@@ -19,7 +19,7 @@ fun TextItem(gender: Genre, modifier: Modifier, onClickGenre: (itemSelected: Gen
         Button(
             shape = RoundedCornerShape(40.dp),
             onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
         ) {
             Text(
                 text = gender.name!!,

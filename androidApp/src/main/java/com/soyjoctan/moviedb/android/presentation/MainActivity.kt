@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
@@ -34,15 +33,17 @@ fun MyApplicationTheme(
 ) {
     val colors = if (darkTheme) {
         darkColors(
-            primary = Color(0xFFBB86FC),
-            primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            primary = Color(0xFF37474f),
+            primaryVariant = Color(0xFF62727b),
+            secondary = Color(0xFF102027)
         )
     } else {
         lightColors(
-            primary = Color(0xFF6200EE),
-            primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+
+            primary = Color(0xFFff8a80),
+            primaryVariant = Color(0xFFffbcaf),
+            secondary = Color(0xFFc85a54),
+            onSecondary = Color(0xFF000000)
         )
     }
     val typography = Typography(
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val controller = rememberNavController()
 
-            MaterialTheme {
+            MyApplicationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background

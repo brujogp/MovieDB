@@ -24,7 +24,7 @@ class Repository {
             host = "api.themoviedb.org"
             url {
                 parameters.append("api_key", "c32a3b714b45efcc4f83833f9f955d5d")
-                parameters.append("language", "es")
+                parameters.append("language", "es-MX")
                 protocol = URLProtocol.HTTPS
             }
             headers {

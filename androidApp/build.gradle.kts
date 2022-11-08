@@ -42,6 +42,7 @@ dependencies {
     val navVersion = "2.5.3"
     val composeComponent = "1.3.0"
     val hiltVersion = "2.44"
+    val coliVersion = "2.2.2"
 
     implementation(project(":shared"))
     implementation("androidx.compose.ui:ui:$composeComponent")
@@ -55,7 +56,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeComponent")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("io.coil-kt:coil-compose:$coliVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 }
 
