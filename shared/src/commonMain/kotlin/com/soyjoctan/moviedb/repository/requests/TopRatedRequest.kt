@@ -1,7 +1,8 @@
 package com.soyjoctan.moviedb.repository.requests
-import kotlinx.serialization.*
+
 import io.ktor.resources.*
+import kotlinx.serialization.*
 
 @Serializable
-@Resource("/3/genre/movie/list")
-class Genres
+@Resource("/3/movie/top_rated")
+class TopRatedRequest

@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.android.iu.screens
+package com.soyjoctan.moviedb.android.presentation.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
-import com.soyjoctan.moviedb.android.data.MovieViewModel
-import com.soyjoctan.moviedb.android.iu.MainActivity
+import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
+import com.soyjoctan.moviedb.android.presentation.MainActivity
 
 @Composable
 fun MainDetailGenre() {

@@ -1,6 +1,7 @@
 package com.soyjoctan.moviedb.repository
 
-import com.soyjoctan.moviedb.model.GenresDTO
+import com.soyjoctan.moviedb.model.genres.GenresDTO
+import com.soyjoctan.moviedb.model.toprated.TopRatedDTO
 import com.soyjoctan.moviedb.repository.requests.*
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -33,6 +34,10 @@ class Repository {
     }
 
     suspend fun getGenres(): GenresDTO {
-        return client.get(resource = Genres()).body()
+        return client.get(resource = GenresRequest()).body()
+    }
+
+    suspend fun getTopRated(): TopRatedDTO {
+        return client.get(resource = TopRatedRequest()).body()
     }
 }

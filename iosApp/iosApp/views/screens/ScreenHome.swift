@@ -6,9 +6,14 @@ struct ContentView: View {
     @ObservedObject private var viewModel: ViewModel = ViewModel()
     @State private var isDisableDownloadButton = false
 
+    init() {
+        viewModel.getGenres()
+    }
+
     var body: some View {
         NavigationView {
             VStack {
+                Text("Selecciona un género para comenzar")
                 List(viewModel.genresList, id: \.self) { item in
                     NavigationLink(item.name!) {
                         ScreenListMovies(genreItem: item)
@@ -16,15 +21,6 @@ struct ContentView: View {
                 }
             }
                     .navigationBarTitle("Géneros")
-                    .navigationBarItems(trailing:
-                    Button(action: {
-                        viewModel.getGenres()
-                        isDisableDownloadButton = true
-                    }) {
-                        Image(systemName: "arrow.down")
-                    }
-                            .disabled(isDisableDownloadButton)
-                    )
         }
     }
 }

@@ -5,6 +5,7 @@ plugins {
     kotlin("android").version("1.7.10").apply(false)
     kotlin("multiplatform").version("1.7.10").apply(false)
     id("com.google.dagger.hilt.android").version("2.44").apply(false)
+    id("org.jetbrains.kotlin.plugin.serialization").version("1.7.10")
 }
 
 tasks.register("clean", Delete::class) {

@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.android.iu
+package com.soyjoctan.moviedb.android.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,14 +18,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.soyjoctan.moviedb.android.data.MovieViewModel
-import com.soyjoctan.moviedb.android.iu.screens.*
-import com.soyjoctan.moviedb.model.Genre
+import com.soyjoctan.moviedb.android.presentation.screens.*
+import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
+import com.soyjoctan.moviedb.model.genres.Genre
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 
@@ -76,21 +74,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val controller = rememberNavController()
-            val scope: CoroutineScope = rememberCoroutineScope()
 
             MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val genres: List<Genre>? by viewModel.listGenresObservable.observeAsState()
 
                     NavHost(navController = controller, startDestination = "GenresList") {
                         composable("GenresList") {
                             HomeGenres(
                                 viewModel = viewModel,
-                                genres = genres,
-                                scope = scope,
                                 onClickGenre = {
                                     controller.navigate("DetailGenre")
                                     viewModel.genreSelected = it
