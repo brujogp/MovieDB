@@ -18,6 +18,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.data.model.genres.Genre
+import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
 import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 import com.soyjoctan.moviedb.presentation.models.UpcomingMoviesModel
@@ -25,14 +26,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeGenres(
-    viewModel: MovieViewModel,
-    onClickGenre: (genre: Genre) -> Unit,
-) {
+fun HomeGenres(viewModel: MovieViewModel) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
 
-    val genres: List<Genre>? by viewModel.listGenresObservable.observeAsState()
+    val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
     val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
     val upcomingMovies by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
 
@@ -82,9 +80,10 @@ fun HomeGenres(
                 genres?.let { genres ->
                     ComposableStaggered(
                         genres = genres,
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        onClickGenre = onClickGenre,
-                    )
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) { genreClicked: Long ->
+                        /* TODO */
+                    }
                 }
 
                 CustomDivider()

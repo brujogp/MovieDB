@@ -85,11 +85,8 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = controller, startDestination = "GenresList") {
                         composable("GenresList") {
                             HomeGenres(
-                                viewModel = viewModel,
-                                onClickGenre = {
-                                    controller.navigate("DetailGenre")
-                                    viewModel.genreSelected = it
-                                })
+                                viewModel = viewModel
+                            )
                         }
                         composable("DetailGenre") {
                             MainDetailGenre()

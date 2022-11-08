@@ -12,11 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.data.model.genres.Genre
+import com.soyjoctan.moviedb.presentation.models.GenreModel
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ComposableStaggered(genres: List<Genre>, modifier: Modifier, onClickGenre: (genre: Genre) -> Unit) {
+fun ComposableStaggered(genres: List<GenreModel>, modifier: Modifier, onClickGenre: (genre: Long) -> Unit) {
     LazyHorizontalStaggeredGrid(
         contentPadding = PaddingValues(start = 16.dp, end = 0.dp),
         modifier = modifier

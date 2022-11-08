@@ -11,20 +11,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.data.model.genres.Genre
+import com.soyjoctan.moviedb.presentation.models.GenreModel
 import kotlin.math.round
 
 @Composable
-fun TextItem(gender: Genre, modifier: Modifier, onClickGenre: (itemSelected: Genre) -> Unit) {
+fun TextItem(gender: GenreModel, modifier: Modifier, onClickGenre: (itemSelected: Long) -> Unit) {
     gender.name?.let {
         Button(
             shape = RoundedCornerShape(40.dp),
-            onClick = { /*TODO*/ },
+            onClick = { onClickGenre(gender.id!!) },
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
         ) {
             Text(
                 text = gender.name!!,
                 textAlign = TextAlign.Center,
-            color = Color.White
+                color = Color.White
             )
         }
     }

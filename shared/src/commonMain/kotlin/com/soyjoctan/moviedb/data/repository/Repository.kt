@@ -1,8 +1,11 @@
 package com.soyjoctan.moviedb.data.repository
 
+import com.soyjoctan.moviedb.data.constants.GenresEnum
+import com.soyjoctan.moviedb.data.model.genres.Genre
 import com.soyjoctan.moviedb.data.model.genres.GenresDTO
 import com.soyjoctan.moviedb.data.model.toprated.TopRatedDTO
 import com.soyjoctan.moviedb.data.model.upcoming.UpComingMoviesDTO
+import com.soyjoctan.moviedb.data.repository.requests.FindByGenres
 import com.soyjoctan.moviedb.data.repository.requests.GenresRequest
 import com.soyjoctan.moviedb.data.repository.requests.TopRatedRequest
 import com.soyjoctan.moviedb.data.repository.requests.UpComingMoviesRequest
@@ -37,8 +40,8 @@ class Repository {
         }
     }
 
-    suspend fun getGenres(): GenresDTO {
-        return client.get(resource = GenresRequest()).body()
+    suspend fun getGenres(): HttpResponse{
+        return client.get(resource = GenresRequest())
     }
 
     suspend fun getTopRated(): HttpResponse {
@@ -47,5 +50,18 @@ class Repository {
 
     suspend fun getUpcomingMovies(): HttpResponse {
         return client.get(resource = UpComingMoviesRequest())
+    }
+
+    suspend fun getMoviesByGenre(genreId: Long): HttpResponse {
+        val movieId: Long = when (genreId) {
+            GenresEnum.ANIMATION.genreId -> {
+                GenresEnum.ANIMATION.movieId
+            }
+            else -> {
+                0L
+            }
+        }
+
+        return client.get(resource = FindByGenres.Id(movieId = movieId))
     }
 }

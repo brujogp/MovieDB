@@ -16,14 +16,4 @@ import com.soyjoctan.moviedb.android.presentation.MainActivity
 fun MainDetailGenre() {
     val viewModel =
         ViewModelProvider(LocalContext.current as MainActivity)[MovieViewModel::class.java]
-    viewModel.genreSelected?.let {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(it.name!!)
-            }
-        }
-    }
 }

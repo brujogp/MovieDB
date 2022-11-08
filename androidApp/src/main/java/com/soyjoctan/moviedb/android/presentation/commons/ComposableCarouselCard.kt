@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
-import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 
 @Composable
 fun ViewCarousel(content: ArrayList<CarouselModel>?, modifier: Modifier) {
@@ -50,7 +49,9 @@ fun CardCarouselItem(item: CarouselModel) {
         ) {
             Box(contentAlignment = Alignment.BottomStart) {
                 PortalImage(item.posterPathImage)
-                ComposableMovieRate(item)
+
+                if (item.popularity != null)
+                    ComposableMovieRate(item)
             }
         }
 
@@ -66,31 +67,29 @@ fun CardCarouselItem(item: CarouselModel) {
 
 @Composable
 fun ComposableMovieRate(item: CarouselModel?) {
-    if (item?.popularity != null) {
-        Card(
+    Card(
+        modifier = Modifier
+            .padding(8.dp),
+        shape = RoundedCornerShape(30.dp)
+    ) {
+        Row(
             modifier = Modifier
-                .padding(8.dp),
-            shape = RoundedCornerShape(30.dp)
+                .background(MaterialTheme.colors.secondary)
+                .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .background(MaterialTheme.colors.secondary)
-                    .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
-            ) {
-                Icon(
-                    Icons.Filled.Star,
-                    contentDescription = "",
-                    tint = Color.White,
-                    modifier = Modifier.size(18.dp)
-                )
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = String.format("%.1f", item.popularity),
-                    color = Color.White, fontSize = 12.sp,
-                    modifier = Modifier.padding(start = 4.dp)
-                )
+            Icon(
+                Icons.Filled.Star,
+                contentDescription = "",
+                tint = Color.White,
+                modifier = Modifier.size(18.dp)
+            )
+            Text(
+                textAlign = TextAlign.Center,
+                text = String.format("%.1f", item!!.popularity),
+                color = Color.White, fontSize = 12.sp,
+                modifier = Modifier.padding(start = 4.dp)
+            )
 
-            }
         }
     }
 }

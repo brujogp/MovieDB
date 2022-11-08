@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.genres.Genre
-import com.soyjoctan.moviedb.data.repository.Repository
+import com.soyjoctan.moviedb.domain.use_cases.GenresUseCase
 import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
 import com.soyjoctan.moviedb.domain.use_cases.UpcomingMovieUseCase
+import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 import com.soyjoctan.moviedb.presentation.models.UpcomingMoviesModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,10 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieViewModel @Inject constructor(
     private val topRatedMoviesUseCase: TopRatedUseCase,
-    private val upcomingUseCase: UpcomingMovieUseCase
+    private val upcomingUseCase: UpcomingMovieUseCase,
+    private val genresUseCase: GenresUseCase
 ) : ViewModel() {
-    private var _genresMutableLiveData: MutableLiveData<List<Genre>> = MutableLiveData()
-    val listGenresObservable: LiveData<List<Genre>> = _genresMutableLiveData
+
+    // Lista de géneros
+    private var _genresMutableLiveData: MutableLiveData<List<GenreModel>> = MutableLiveData()
+    val listGenresObservable: LiveData<List<GenreModel>> = _genresMutableLiveData
 
     // Películas mejor ranqueadas
     private var _topRatedModelMutableLiveData: MutableLiveData<ArrayList<TopRatedModel>> =
@@ -36,15 +39,20 @@ class MovieViewModel @Inject constructor(
     val listUpcomingMoviesModelMoviesObservable: LiveData<ArrayList<UpcomingMoviesModel>> =
         _upcomingMoviesModelMutableLiveData
 
-
-    // TODO: Poner esto en un caso de uso
-    private val repository: Repository = Repository()
-    var genreSelected: Genre? = null
-
-
     fun getGenres() {
         viewModelScope.launch {
-            _genresMutableLiveData.value = repository.getGenres().genres!!
+            genresUseCase().collect {
+                when (it) {
+                    is WrapperStatusRequest.loading -> {
+                        Log.d("TEST-T", "Cargando")
+                    }
+                    is WrapperStatusRequest.SuccessResponse<*> -> {
+                        _genresMutableLiveData.value =
+                            it.response as ArrayList<GenreModel>
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
