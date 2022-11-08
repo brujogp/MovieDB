@@ -1,6 +1,8 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -13,8 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.*
+import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.data.model.genres.Genre
+import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
+import com.soyjoctan.moviedb.presentation.models.TopRatedModel
+import com.soyjoctan.moviedb.presentation.models.UpcomingMoviesModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,6 +34,7 @@ fun HomeGenres(
 
     val genres: List<Genre>? by viewModel.listGenresObservable.observeAsState()
     val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
+    val upcomingMovies by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
 
     makeRequests(viewModel)
 
@@ -68,6 +75,7 @@ fun HomeGenres(
             Column(
                 modifier = Modifier
                     .padding(it)
+                    .verticalScroll(rememberScrollState())
             ) {
 
                 Subtitle("Géneros")
@@ -82,7 +90,17 @@ fun HomeGenres(
                 CustomDivider()
 
                 Subtitle("Las mejores películas")
-                ViewCarousel(topRatedMovies, Modifier)
+                ViewCarousel(
+                    convertorToCarouselModel(topRatedMovies),
+                    Modifier
+                )
+                CustomDivider()
+
+                Subtitle("Próximos estrenos")
+                ViewCarousel(
+                    convertorToCarouselModel(upcomingMovies),
+                    Modifier
+                )
             }
 
         }
@@ -93,5 +111,22 @@ fun HomeGenres(
 fun makeRequests(viewModel: MovieViewModel) {
     viewModel.getGenres()
     viewModel.getTopRatedMovies()
+    viewModel.getUpcomingMoviesList()
 }
 
+inline fun <reified TypeToCarouselModel> convertorToCarouselModel(elements: ArrayList<TypeToCarouselModel>?): ArrayList<CarouselModel> {
+    val array = arrayListOf<CarouselModel>()
+
+    elements?.forEach {
+        (it as PresentationModelParent)
+        array.add(
+            CarouselModel(
+                movieName = it.movieName,
+                posterPathImage = it.posterPathImage,
+                popularity = it.popularity
+            )
+        )
+    }
+
+    return array
+}

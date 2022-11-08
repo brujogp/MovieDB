@@ -1,6 +1,7 @@
 package com.soyjoctan.moviedb.presentation.models
 
 data class UpcomingMoviesModel(
-    val movieName: String,
-    val posterPathImage: String
-)
+    override var movieName: String?,
+    override var posterPathImage: String?,
+    override var popularity: Double?
+) : PresentationModelParent()

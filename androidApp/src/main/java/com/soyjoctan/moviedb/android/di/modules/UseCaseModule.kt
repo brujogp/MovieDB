@@ -1,6 +1,7 @@
 package com.soyjoctan.moviedb.android.di.modules
 
 import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
+import com.soyjoctan.moviedb.domain.use_cases.UpcomingMovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +14,10 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun providerCreateAccountApi(): TopRatedUseCase = TopRatedUseCase()
+    fun provideTopRatedUseCase(): TopRatedUseCase = TopRatedUseCase()
+
+
+    @Provides
+    @Singleton
+    fun provideUpcomingMoviesUseCase(): UpcomingMovieUseCase = UpcomingMovieUseCase()
 }

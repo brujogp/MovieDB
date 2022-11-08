@@ -11,7 +11,7 @@ object BasePaths {
 }
 
 @Composable
-fun PortalImage(stringPath: String, contentDescription: String = "") {
+fun PortalImage(stringPath: String?, contentDescription: String = "") {
     AsyncImage(
         modifier = Modifier.fillMaxSize(),
         model = BasePaths.BASE_PATH_IMAGE + stringPath,
