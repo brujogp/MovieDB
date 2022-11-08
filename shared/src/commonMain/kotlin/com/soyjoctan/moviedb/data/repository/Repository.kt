@@ -1,14 +1,18 @@
-package com.soyjoctan.moviedb.repository
+package com.soyjoctan.moviedb.data.repository
 
-import com.soyjoctan.moviedb.model.genres.GenresDTO
-import com.soyjoctan.moviedb.model.toprated.TopRatedDTO
-import com.soyjoctan.moviedb.repository.requests.*
+import com.soyjoctan.moviedb.data.model.genres.GenresDTO
+import com.soyjoctan.moviedb.data.model.toprated.TopRatedDTO
+import com.soyjoctan.moviedb.data.model.upcoming.UpComingMoviesDTO
+import com.soyjoctan.moviedb.data.repository.requests.GenresRequest
+import com.soyjoctan.moviedb.data.repository.requests.TopRatedRequest
+import com.soyjoctan.moviedb.data.repository.requests.UpComingMoviesRequest
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.resources.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
@@ -37,7 +41,11 @@ class Repository {
         return client.get(resource = GenresRequest()).body()
     }
 
-    suspend fun getTopRated(): TopRatedDTO {
-        return client.get(resource = TopRatedRequest()).body()
+    suspend fun getTopRated(): HttpResponse {
+        return client.get(resource = TopRatedRequest())
+    }
+
+    suspend fun getUpcomingMovies(): HttpResponse {
+        return client.get(resource = UpComingMoviesRequest())
     }
 }

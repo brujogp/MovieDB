@@ -5,16 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyjoctan.moviedb.android.data.network.RequestStatus
-import com.soyjoctan.moviedb.android.domain.models.TopRated
-import com.soyjoctan.moviedb.android.domain.usecases.TopRatedUseCase
-import com.soyjoctan.moviedb.model.genres.Genre
-import com.soyjoctan.moviedb.repository.Repository
+import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.genres.Genre
+import com.soyjoctan.moviedb.data.repository.Repository
+import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
+import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,8 +21,8 @@ class MovieViewModel @Inject constructor(
     private var _genresMutableLiveData: MutableLiveData<List<Genre>> = MutableLiveData()
     val listGenresObservable: LiveData<List<Genre>> = _genresMutableLiveData
 
-    private var _topRatedMutableLiveData: MutableLiveData<ArrayList<TopRated>> = MutableLiveData()
-    val listTopRatedMoviesObservable: LiveData<ArrayList<TopRated>> = _topRatedMutableLiveData
+    private var _topRatedModelMutableLiveData: MutableLiveData<ArrayList<TopRatedModel>> = MutableLiveData()
+    val listTopRatedModelMoviesObservable: LiveData<ArrayList<TopRatedModel>> = _topRatedModelMutableLiveData
 
     private val repository: Repository = Repository()
     var genreSelected: Genre? = null
@@ -39,13 +35,13 @@ class MovieViewModel @Inject constructor(
 
     fun getTopRatedMovies() {
         viewModelScope.launch {
-            topRatedMoviesUseCase().collect() {
+            topRatedMoviesUseCase().collect {
                 when (it) {
-                    is RequestStatus.loading -> {
+                    is WrapperStatusRequest.loading -> {
                         Log.d("TEST-T", "Cargando")
                     }
-                    is RequestStatus.SuccessResponse<*> -> {
-                        _topRatedMutableLiveData.value = it.response as ArrayList<TopRated>
+                    is WrapperStatusRequest.SuccessResponse<*> -> {
+                        _topRatedModelMutableLiveData.value = it.response as ArrayList<TopRatedModel>
                     }
                     else -> {}
                 }

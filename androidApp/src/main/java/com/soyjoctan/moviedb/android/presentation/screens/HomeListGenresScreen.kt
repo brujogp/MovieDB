@@ -1,11 +1,6 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -19,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.model.genres.Genre
+import com.soyjoctan.moviedb.data.model.genres.Genre
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -32,7 +27,7 @@ fun HomeGenres(
     val scope: CoroutineScope = rememberCoroutineScope()
 
     val genres: List<Genre>? by viewModel.listGenresObservable.observeAsState()
-    val topRatedMovies by viewModel.listTopRatedMoviesObservable.observeAsState()
+    val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
 
     makeRequests(viewModel)
 

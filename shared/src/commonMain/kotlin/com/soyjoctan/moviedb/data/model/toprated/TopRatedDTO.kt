@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.model.toprated
+package com.soyjoctan.moviedb.data.model.toprated
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

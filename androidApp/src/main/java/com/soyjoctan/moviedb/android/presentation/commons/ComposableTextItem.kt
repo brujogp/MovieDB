@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soyjoctan.moviedb.model.genres.Genre
+import com.soyjoctan.moviedb.data.model.genres.Genre
 import kotlin.math.round
 
 @Composable

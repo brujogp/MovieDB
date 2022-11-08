@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.repository.requests
+package com.soyjoctan.moviedb.data.repository.requests
 
 import io.ktor.resources.*
 import kotlinx.serialization.*

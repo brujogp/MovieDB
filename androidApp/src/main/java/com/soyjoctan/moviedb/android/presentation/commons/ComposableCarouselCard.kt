@@ -3,18 +3,14 @@ package com.soyjoctan.moviedb.android.presentation.commons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.soyjoctan.moviedb.android.domain.models.TopRated
 import java.util.ArrayList
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Compost
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Start
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -22,15 +18,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 
 @Composable
-fun ViewCarousel(content: ArrayList<TopRated>?, modifier: Modifier) {
+fun ViewCarousel(content: ArrayList<TopRatedModel>?, modifier: Modifier) {
     LazyRow(
         contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         content?.let {
-            items(it.toList()) { item: TopRated ->
+            items(it.toList()) { item: TopRatedModel ->
                 CardCarouselItem(item)
             }
         }
@@ -38,7 +35,7 @@ fun ViewCarousel(content: ArrayList<TopRated>?, modifier: Modifier) {
 }
 
 @Composable
-fun CardCarouselItem(item: TopRated) {
+fun CardCarouselItem(item: TopRatedModel) {
     Column(
         modifier = Modifier.width(170.dp),
     ) {
@@ -64,7 +61,7 @@ fun CardCarouselItem(item: TopRated) {
 }
 
 @Composable
-fun ComposableMovieRate(item: TopRated) {
+fun ComposableMovieRate(item: TopRatedModel) {
     Card(
         modifier = Modifier
             .padding(8.dp),

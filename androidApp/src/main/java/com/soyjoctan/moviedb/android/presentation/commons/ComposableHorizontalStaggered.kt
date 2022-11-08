@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.soyjoctan.moviedb.model.genres.Genre
+import com.soyjoctan.moviedb.data.model.genres.Genre
 
 
 @OptIn(ExperimentalFoundationApi::class)
