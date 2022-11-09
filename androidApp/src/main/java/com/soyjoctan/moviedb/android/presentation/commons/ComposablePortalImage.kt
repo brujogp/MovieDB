@@ -1,9 +1,14 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 object BasePaths {
@@ -13,8 +18,12 @@ object BasePaths {
 @Composable
 fun PortalImage(stringPath: String?, contentDescription: String = "") {
     AsyncImage(
+        modifier = Modifier
+            .height(270.dp)
+            .width(180.dp)
+            .background(Color.Gray),
         model = BasePaths.BASE_PATH_IMAGE + stringPath,
         contentDescription = contentDescription,
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
     )
 }

@@ -62,14 +62,14 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
             )
         },
         content = {
-            Column(
+            Box(
                 modifier = Modifier
                     .padding(it)
                     .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentAlignment = Alignment.Center
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 120.dp),
+                    columns = GridCells.Fixed(2),
                     contentPadding = PaddingValues(
                         top = 16.dp,
                         bottom = 32.dp,
@@ -92,7 +92,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                             }
                         }
                     },
-                modifier = Modifier.padding(start = 12.dp, end = 12.dp)
+                    modifier = Modifier.padding(start = 12.dp, end = 12.dp)
                 )
             }
         })

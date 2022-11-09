@@ -15,31 +15,36 @@ import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 
 @Composable
 fun ComposableCardPoster(item: CarouselModel) {
-    Column(
+    Box(
         modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
-                .height(250.dp)
-                .width(150.dp),
+                .fillMaxHeight()
+                .width(180.dp),
             elevation = 8.dp,
-            backgroundColor = Color.Gray,
+            backgroundColor = Color.Transparent,
         ) {
-            Box(contentAlignment = Alignment.BottomStart) {
-                PortalImage(item.posterPathImage)
+            Column {
+                Box(contentAlignment = Alignment.BottomStart) {
+                    PortalImage(item.posterPathImage)
 
-                if (item.popularity != null)
-                    ComposableMovieRate(item)
+                    if (item.popularity != null)
+                        ComposableMovieRate(item)
+                }
+                Text(
+                    text = item.movieName ?: "",
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .width(150.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
 
-        Text(
-            text = item.movieName ?: "",
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top = 8.dp).width(150.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
     }
 }
 

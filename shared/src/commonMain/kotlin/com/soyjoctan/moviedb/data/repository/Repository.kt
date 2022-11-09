@@ -54,11 +54,63 @@ class Repository {
 
     suspend fun getMoviesByGenre(genreId: Long): HttpResponse {
         val movieId: Long = when (genreId) {
+            GenresEnum.ACTION.genreId -> {
+                GenresEnum.ACTION.movieId
+            }
+            GenresEnum.ADVENTURE.genreId -> {
+                GenresEnum.ADVENTURE.movieId
+            }
+
             GenresEnum.ANIMATION.genreId -> {
                 GenresEnum.ANIMATION.movieId
             }
+            GenresEnum.COMEDY.genreId -> {
+                GenresEnum.COMEDY.movieId
+            }
+            GenresEnum.CRIME.genreId -> {
+                GenresEnum.CRIME.movieId
+            }
+            GenresEnum.DOCUMENTARY.genreId -> {
+                GenresEnum.DOCUMENTARY.movieId
+            }
+            GenresEnum.DRAMA.genreId -> {
+                GenresEnum.DRAMA.movieId
+            }
+            GenresEnum.FAMILY.genreId -> {
+                GenresEnum.FAMILY.movieId
+            }
+            GenresEnum.FANTASY.genreId -> {
+                GenresEnum.FANTASY.movieId
+            }
+            GenresEnum.HISTORY.genreId -> {
+                GenresEnum.HISTORY.movieId
+            }
             GenresEnum.HORROR.genreId -> {
                 GenresEnum.HORROR.movieId
+            }
+            GenresEnum.MUSIC.genreId -> {
+                GenresEnum.MUSIC.movieId
+            }
+            GenresEnum.MYSTERY.genreId -> {
+                GenresEnum.MYSTERY.movieId
+            }
+            GenresEnum.ROMANCE.genreId -> {
+                GenresEnum.ROMANCE.movieId
+            }
+            GenresEnum.SCIENCE_FICTION.genreId -> {
+                GenresEnum.SCIENCE_FICTION.movieId
+            }
+            GenresEnum.TV_MOVIES.genreId -> {
+                GenresEnum.TV_MOVIES.movieId
+            }
+            GenresEnum.THRILLER.genreId -> {
+                GenresEnum.THRILLER.movieId
+            }
+            GenresEnum.WAR.genreId -> {
+                GenresEnum.WAR.movieId
+            }
+            GenresEnum.WESTERN.genreId -> {
+                GenresEnum.WESTERN.movieId
             }
             else -> {
                 0L
