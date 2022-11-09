@@ -24,7 +24,8 @@ class TopRatedUseCase {
                             TopRatedModel(
                                 movieName = movie.title ?: "Sin título",
                                 posterPathImage = movie.posterPath ?: "Sin imágen",
-                                popularity = movie.popularity ?: 0.0
+                                popularity = movie.popularity ?: 0.0,
+                                movieId = movie.id
                             )
                         )
                     }

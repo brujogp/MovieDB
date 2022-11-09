@@ -1,5 +1,6 @@
 package com.soyjoctan.moviedb.android.di.modules
 
+import com.soyjoctan.moviedb.domain.use_cases.FindMoviesByGenreUseCase
 import com.soyjoctan.moviedb.domain.use_cases.GenresUseCase
 import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
 import com.soyjoctan.moviedb.domain.use_cases.UpcomingMovieUseCase
@@ -25,4 +26,8 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGenresMoviesUseCase(): GenresUseCase = GenresUseCase()
+
+    @Provides
+    @Singleton
+    fun provideFindMoviesByGenreUseCase(): FindMoviesByGenreUseCase = FindMoviesByGenreUseCase()
 }

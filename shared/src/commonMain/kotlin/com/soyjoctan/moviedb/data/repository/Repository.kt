@@ -57,6 +57,9 @@ class Repository {
             GenresEnum.ANIMATION.genreId -> {
                 GenresEnum.ANIMATION.movieId
             }
+            GenresEnum.HORROR.genreId -> {
+                GenresEnum.HORROR.movieId
+            }
             else -> {
                 0L
             }

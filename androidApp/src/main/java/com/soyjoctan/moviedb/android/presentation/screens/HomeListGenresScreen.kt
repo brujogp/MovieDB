@@ -14,19 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.data.model.genres.Genre
 import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
-import com.soyjoctan.moviedb.presentation.models.TopRatedModel
-import com.soyjoctan.moviedb.presentation.models.UpcomingMoviesModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeGenres(viewModel: MovieViewModel) {
+fun HomeGenres(viewModel: MovieViewModel, controller: NavHostController) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
 
@@ -52,7 +51,7 @@ fun HomeGenres(viewModel: MovieViewModel) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Géneros")
+                    Text(text = "Lista de películas")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -77,12 +76,13 @@ fun HomeGenres(viewModel: MovieViewModel) {
             ) {
 
                 Subtitle("Géneros")
-                genres?.let { genres ->
+                genres?.let { genres: List<GenreModel> ->
                     ComposableStaggered(
                         genres = genres,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
-                    ) { genreClicked: Long ->
-                        /* TODO */
+                    ) { genreClickedId: GenreModel ->
+                        controller.navigate(ListByDetailGenreScreen.route + "/${genreClickedId.name}")
+                        viewModel.getMoviesByGenre(genreClickedId.id!!)
                     }
                 }
 
@@ -101,7 +101,6 @@ fun HomeGenres(viewModel: MovieViewModel) {
                     Modifier
                 )
             }
-
         }
     )
 }
@@ -122,7 +121,8 @@ inline fun <reified TypeToCarouselModel> convertorToCarouselModel(elements: Arra
             CarouselModel(
                 movieName = it.movieName,
                 posterPathImage = it.posterPathImage,
-                popularity = it.popularity
+                popularity = it.popularity,
+                movieId = it.movieId
             )
         )
     }

@@ -12,11 +12,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
@@ -29,39 +26,9 @@ fun ViewCarousel(content: ArrayList<CarouselModel>?, modifier: Modifier) {
     ) {
         content?.let {
             items(it.toList()) { item: CarouselModel ->
-                CardCarouselItem(item)
+                ComposableCardPoster(item)
             }
         }
-    }
-}
-
-@Composable
-fun CardCarouselItem(item: CarouselModel) {
-    Column(
-        modifier = Modifier.width(170.dp),
-    ) {
-        Card(
-            modifier = Modifier
-                .height(250.dp)
-                .width(170.dp),
-            elevation = 8.dp,
-            backgroundColor = Color.Gray,
-        ) {
-            Box(contentAlignment = Alignment.BottomStart) {
-                PortalImage(item.posterPathImage)
-
-                if (item.popularity != null)
-                    ComposableMovieRate(item)
-            }
-        }
-
-        Text(
-            text = item.movieName ?: "",
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top = 8.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
     }
 }
 

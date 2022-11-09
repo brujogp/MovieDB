@@ -15,11 +15,15 @@ import com.soyjoctan.moviedb.presentation.models.GenreModel
 import kotlin.math.round
 
 @Composable
-fun TextItem(gender: GenreModel, modifier: Modifier, onClickGenre: (itemSelected: Long) -> Unit) {
-    gender.name?.let {
+fun TextItem(
+    gender: GenreModel,
+    modifier: Modifier,
+    onClickGenre: (itemSelected: GenreModel) -> Unit
+) {
+    gender.apply {
         Button(
             shape = RoundedCornerShape(40.dp),
-            onClick = { onClickGenre(gender.id!!) },
+            onClick = { onClickGenre(GenreModel(id = id, name = name)) },
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
         ) {
             Text(

@@ -26,7 +26,8 @@ class UpcomingMovieUseCase {
                             UpcomingMoviesModel(
                                 movieName = movie.title ?: "Sin título",
                                 posterPathImage = movie.posterPath ?: "Sin imágen",
-                                popularity = null
+                                popularity = null,
+                                movieId = movie.id
                             )
                         )
                     }

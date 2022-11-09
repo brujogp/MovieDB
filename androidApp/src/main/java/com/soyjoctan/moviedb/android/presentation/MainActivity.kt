@@ -11,7 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-
+import com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -22,9 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.soyjoctan.moviedb.android.presentation.screens.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.data.model.genres.Genre
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun MyApplicationTheme(
@@ -82,14 +80,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
 
-                    NavHost(navController = controller, startDestination = "GenresList") {
-                        composable("GenresList") {
+                    NavHost(
+                        navController = controller,
+                        startDestination = HomeScreen.route
+                    ) {
+                        composable(HomeScreen.route) {
                             HomeGenres(
-                                viewModel = viewModel
+                                viewModel = viewModel,
+                                controller
                             )
                         }
-                        composable("DetailGenre") {
-                            MainDetailGenre()
+                        composable(ListByDetailGenreScreen.route + "/{genreName}") { bachStackEntry ->
+                            val genreName = bachStackEntry.arguments?.getString("genreName")
+                            ListMovieByGenreScreen(viewModel = viewModel, genreName )
                         }
                     }
                 }

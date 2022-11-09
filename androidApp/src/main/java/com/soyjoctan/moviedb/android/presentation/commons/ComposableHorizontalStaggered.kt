@@ -17,7 +17,7 @@ import com.soyjoctan.moviedb.presentation.models.GenreModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ComposableStaggered(genres: List<GenreModel>, modifier: Modifier, onClickGenre: (genre: Long) -> Unit) {
+fun ComposableStaggered(genres: List<GenreModel>, modifier: Modifier, onClickGenre: (genre: GenreModel) -> Unit) {
     LazyHorizontalStaggeredGrid(
         contentPadding = PaddingValues(start = 16.dp, end = 0.dp),
         modifier = modifier
