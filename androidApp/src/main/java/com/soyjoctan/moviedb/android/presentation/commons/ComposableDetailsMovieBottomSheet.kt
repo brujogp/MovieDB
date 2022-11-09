@@ -1,5 +1,6 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,8 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -17,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
+import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,6 +32,11 @@ fun ComposableDetailsMovieBottomSheet(
     viewModel: MovieViewModel
 ) {
     val movieSelected: CarouselModel? by viewModel.movieDetailsSelected.observeAsState()
+    val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieMutableLiveDataObservable.observeAsState()
+
+    movieSelected?.movieId?.let {
+        makeDetailRequest(viewModel, it)
+    }
 
     ModalBottomSheetLayout(
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -40,39 +49,36 @@ fun ComposableDetailsMovieBottomSheet(
                 ) {
                     LandscapeImage(stringPath = movieSelected?.backdropPath)
                     Text(
-                        movieSelected?.movieName ?: "",
-                        modifier = Modifier.padding(bottom= 16.dp, end = 32.dp, start = 12.dp),
+                        text = movieSelected?.movieName ?: "",
+                        color = Color.White,
+                        modifier = Modifier.padding(bottom = 16.dp, end = 32.dp, start = 12.dp),
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 32.sp,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-
-
+                detailMovieSelected?.overview?.let {
+                    Text(
+                        text = it,
+                        modifier = Modifier.padding(16.dp),
+                        lineHeight = 26.sp
+                    )
+                }
             }
         },
         sheetState = modalState,
-        scrimColor = Color(0x7C3A3A3A)
-
+        scrimColor = Color(0xC8000000)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-        }
-        /*
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .padding(64.dp),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            LandscapeImage(stringPath = movieSelected?.backdropPath)
-            Text(movieSelected?.movieName ?: "")
-        }
-        */
+        ) {}
     }
+}
+
+fun makeDetailRequest(viewModel: MovieViewModel, movieId: Long) {
+    viewModel.getMovieDetailsById(movieId)
 }

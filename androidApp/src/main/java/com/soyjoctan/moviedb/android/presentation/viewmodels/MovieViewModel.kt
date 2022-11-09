@@ -7,14 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.domain.use_cases.FindMoviesByGenreUseCase
-import com.soyjoctan.moviedb.domain.use_cases.GenresUseCase
-import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
-import com.soyjoctan.moviedb.domain.use_cases.UpcomingMovieUseCase
-import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
-import com.soyjoctan.moviedb.presentation.models.GenreModel
-import com.soyjoctan.moviedb.presentation.models.TopRatedModel
-import com.soyjoctan.moviedb.presentation.models.UpcomingMoviesModel
+import com.soyjoctan.moviedb.domain.use_cases.*
+import com.soyjoctan.moviedb.presentation.models.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +18,8 @@ class MovieViewModel @Inject constructor(
     private val genresUseCase: GenresUseCase,
     private val topRatedMoviesUseCase: TopRatedUseCase,
     private val upcomingUseCase: UpcomingMovieUseCase,
-    private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase
+    private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase,
+    private val moveDetailsUseCase: DetailMoviesUseCase
 ) : ViewModel() {
 
     // Lista de géneros
@@ -50,7 +45,14 @@ class MovieViewModel @Inject constructor(
         _moviesByGenreModelMutableLiveData
 
 
-    // Observers para comunicaciòn de datos
+    // Detalle de la película
+    private var _detailsMovieMutableLiveData: MutableLiveData<DetailsMovieModel> =
+        MutableLiveData()
+    val detailsMovieMutableLiveDataObservable: LiveData<DetailsMovieModel> =
+        _detailsMovieMutableLiveData
+
+
+    // Observers para comunicación de datos
     val movieDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
 
     fun getGenres() {
@@ -115,6 +117,23 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _moviesByGenreModelMutableLiveData.value =
                             it.response as ArrayList<FindByGenreModel>
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun getMovieDetailsById(movieId: Long) {
+        viewModelScope.launch {
+            moveDetailsUseCase(movieId).collect {
+                when (it) {
+                    is WrapperStatusRequest.loading -> {
+                        Log.d("TEST-T", "Cargando")
+                    }
+                    is WrapperStatusRequest.SuccessResponse<*> -> {
+                        _detailsMovieMutableLiveData.value =
+                            it.response as DetailsMovieModel
                     }
                     else -> {}
                 }

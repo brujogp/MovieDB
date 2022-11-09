@@ -1,8 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
 import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.findbygenre.FindByGenreDTO
-import com.soyjoctan.moviedb.data.model.findbygenre.Result
 import com.soyjoctan.moviedb.data.model.moviedetails.MovieDetailsDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.*
@@ -59,14 +57,13 @@ class DetailMoviesUseCase {
                             homepage = homepage,
                             originalLanguage = originalLanguage,
                             originalTitle = originalTitle,
-                            overview = overview,
+                            overview = if (overview.isNullOrEmpty()) "Aún no se tiene sinópsis para el idioma Español. Por favor cambia de idioma al Inglés e intenta de nuevo." else overview,
                             releaseDate = releaseDate,
                             voteAverage = voteAverage,
                             productionCompanies = productionCompaniesList,
                             productionCountries = productionCountriesList,
                             spokenLanguages = spokenLanguagesList
                         )
-
 
                         emit(
                             WrapperStatusRequest.SuccessResponse(

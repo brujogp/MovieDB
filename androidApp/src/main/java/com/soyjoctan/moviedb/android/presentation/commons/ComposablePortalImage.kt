@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,8 +21,7 @@ fun PortalImage(stringPath: String?, contentDescription: String = "") {
     AsyncImage(
         modifier = Modifier
             .height(270.dp)
-            .width(180.dp)
-            .background(Color.Gray),
+            .width(180.dp),
         model = BasePaths.BASE_PATH_IMAGE + stringPath,
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,

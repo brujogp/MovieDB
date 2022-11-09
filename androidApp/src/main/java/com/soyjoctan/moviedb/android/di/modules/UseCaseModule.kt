@@ -1,9 +1,6 @@
 package com.soyjoctan.moviedb.android.di.modules
 
-import com.soyjoctan.moviedb.domain.use_cases.FindMoviesByGenreUseCase
-import com.soyjoctan.moviedb.domain.use_cases.GenresUseCase
-import com.soyjoctan.moviedb.domain.use_cases.TopRatedUseCase
-import com.soyjoctan.moviedb.domain.use_cases.UpcomingMovieUseCase
+import com.soyjoctan.moviedb.domain.use_cases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +15,6 @@ object UseCaseModule {
     @Singleton
     fun provideTopRatedUseCase(): TopRatedUseCase = TopRatedUseCase()
 
-
     @Provides
     @Singleton
     fun provideUpcomingMoviesUseCase(): UpcomingMovieUseCase = UpcomingMovieUseCase()
@@ -30,4 +26,8 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideFindMoviesByGenreUseCase(): FindMoviesByGenreUseCase = FindMoviesByGenreUseCase()
+
+    @Provides
+    @Singleton
+    fun provideGetMovieDetailsUseCase(): DetailMoviesUseCase = DetailMoviesUseCase()
 }
