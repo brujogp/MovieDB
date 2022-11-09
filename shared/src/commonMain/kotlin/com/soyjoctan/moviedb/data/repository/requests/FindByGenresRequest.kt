@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Resource("/3/movie")
-class FindByGenres {
+class FindByGenresRequest {
     @Serializable
     @Resource("/{movie_id}/similar")
-    class Id(val parent: FindByGenres = FindByGenres(), @SerialName("movie_id") val movieId: Long)
+    class Id(val parent: FindByGenresRequest = FindByGenresRequest(), @SerialName("movie_id") val movieId: Long)
 }

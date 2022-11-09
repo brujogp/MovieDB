@@ -1,16 +1,8 @@
 package com.soyjoctan.moviedb.data.repository
 
 import com.soyjoctan.moviedb.data.constants.GenresEnum
-import com.soyjoctan.moviedb.data.model.genres.Genre
-import com.soyjoctan.moviedb.data.model.genres.GenresDTO
-import com.soyjoctan.moviedb.data.model.toprated.TopRatedDTO
-import com.soyjoctan.moviedb.data.model.upcoming.UpComingMoviesDTO
-import com.soyjoctan.moviedb.data.repository.requests.FindByGenres
-import com.soyjoctan.moviedb.data.repository.requests.GenresRequest
-import com.soyjoctan.moviedb.data.repository.requests.TopRatedRequest
-import com.soyjoctan.moviedb.data.repository.requests.UpComingMoviesRequest
+import com.soyjoctan.moviedb.data.repository.requests.*
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.resources.*
@@ -40,7 +32,7 @@ class Repository {
         }
     }
 
-    suspend fun getGenres(): HttpResponse{
+    suspend fun getGenres(): HttpResponse {
         return client.get(resource = GenresRequest())
     }
 
@@ -60,7 +52,6 @@ class Repository {
             GenresEnum.ADVENTURE.genreId -> {
                 GenresEnum.ADVENTURE.movieId
             }
-
             GenresEnum.ANIMATION.genreId -> {
                 GenresEnum.ANIMATION.movieId
             }
@@ -117,6 +108,10 @@ class Repository {
             }
         }
 
-        return client.get(resource = FindByGenres.Id(movieId = movieId))
+        return client.get(resource = FindByGenresRequest.Id(movieId = movieId))
+    }
+
+    suspend fun getMovieDetailById(movieId: Long): HttpResponse {
+        return client.get(resource = MovieDetailsRequest.Id(movieId = movieId))
     }
 }
