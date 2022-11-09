@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
 import com.soyjoctan.moviedb.domain.use_cases.FindMoviesByGenreUseCase
 import com.soyjoctan.moviedb.domain.use_cases.GenresUseCase
@@ -47,6 +48,10 @@ class MovieViewModel @Inject constructor(
         MutableLiveData()
     val moviesByGenreModelMutableLiveDataObservable: LiveData<ArrayList<FindByGenreModel>> =
         _moviesByGenreModelMutableLiveData
+
+
+    // Observers para comunicaciòn de datos
+    val movieDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
 
     fun getGenres() {
         viewModelScope.launch {

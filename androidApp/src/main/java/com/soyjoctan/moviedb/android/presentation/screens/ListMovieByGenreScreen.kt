@@ -1,7 +1,6 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -17,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableCardPoster
-import com.soyjoctan.moviedb.android.presentation.commons.ComposableMovieRate
+import com.soyjoctan.moviedb.android.presentation.commons.ComposableDetailsMovieBottomSheet
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
@@ -25,11 +24,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
-
-    val scope: CoroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+    )
 
     val result: ArrayList<FindByGenreModel>? by viewModel.moviesByGenreModelMutableLiveDataObservable.observeAsState()
 
@@ -48,7 +51,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        scope.launch {
+                        coroutineScope.launch {
                             scaffoldState.drawerState.apply {
                                 open()
                             }
@@ -86,9 +89,15 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                                         movieName = item.movieName,
                                         posterPathImage = item.posterPathImage,
                                         popularity = item.popularity,
-                                        movieId = item.movieId
+                                        movieId = item.movieId,
+                                        backdropPath = item.backdropPath
                                     )
-                                )
+                                ) {
+                                    coroutineScope.launch {
+                                        bottomSheetState.show()
+                                    }
+                                    viewModel.movieDetailsSelected.value = it
+                                }
                             }
                         }
                     },
@@ -96,4 +105,10 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                 )
             }
         })
+
+    ComposableDetailsMovieBottomSheet(
+        modalState = bottomSheetState,
+        scope = coroutineScope,
+        viewModel = viewModel
+    )
 }

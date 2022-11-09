@@ -5,4 +5,5 @@ abstract class PresentationModelParent {
     abstract var posterPathImage: String?
     abstract var popularity: Double?
     abstract var movieId: Long?
+    abstract var backdropPath: String?
 }

@@ -27,7 +27,8 @@ class UpcomingMovieUseCase {
                                 movieName = movie.title ?: "Sin título",
                                 posterPathImage = movie.posterPath ?: "Sin imágen",
                                 popularity = null,
-                                movieId = movie.id
+                                movieId = movie.id,
+                                backdropPath = movie.backdropPath
                             )
                         )
                     }

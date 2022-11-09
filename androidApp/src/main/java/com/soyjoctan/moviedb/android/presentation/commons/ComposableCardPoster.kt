@@ -1,20 +1,21 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.node.modifierElementOf
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ComposableCardPoster(item: CarouselModel) {
+fun ComposableCardPoster(item: CarouselModel, onClickPosterImage: (item: CarouselModel) -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -25,6 +26,9 @@ fun ComposableCardPoster(item: CarouselModel) {
                 .width(180.dp),
             elevation = 8.dp,
             backgroundColor = Color.Transparent,
+            onClick = {
+                onClickPosterImage(item)
+            }
         ) {
             Column {
                 Box(contentAlignment = Alignment.BottomStart) {
@@ -44,7 +48,6 @@ fun ComposableCardPoster(item: CarouselModel) {
                 )
             }
         }
-
     }
 }
 

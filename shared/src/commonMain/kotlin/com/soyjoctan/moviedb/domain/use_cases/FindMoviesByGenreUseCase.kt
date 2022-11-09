@@ -28,7 +28,8 @@ class FindMoviesByGenreUseCase {
                                 movieId = item.id,
                                 movieName = item.title,
                                 posterPathImage = item.posterPath,
-                                popularity = null
+                                popularity = null,
+                                backdropPath = item.backdropPath
                             )
                         )
                     }

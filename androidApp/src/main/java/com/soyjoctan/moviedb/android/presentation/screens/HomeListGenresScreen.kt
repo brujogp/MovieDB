@@ -24,10 +24,14 @@ import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeGenres(viewModel: MovieViewModel, controller: NavHostController) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+    )
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
     val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
@@ -92,16 +96,32 @@ fun HomeGenres(viewModel: MovieViewModel, controller: NavHostController) {
                 ViewCarousel(
                     convertorToCarouselModel(topRatedMovies),
                     Modifier
-                )
+                ) {
+                    scope.launch {
+                        bottomSheetState.show()
+                    }
+                    viewModel.movieDetailsSelected.value = it
+                }
                 CustomDivider()
 
                 Subtitle("Próximos estrenos")
                 ViewCarousel(
                     convertorToCarouselModel(upcomingMovies),
                     Modifier
-                )
+                ) {
+                    scope.launch {
+                        bottomSheetState.show()
+                    }
+                    viewModel.movieDetailsSelected.value = it
+                }
             }
         }
+    )
+
+    ComposableDetailsMovieBottomSheet(
+        modalState = bottomSheetState,
+        scope = scope,
+        viewModel = viewModel
     )
 }
 
@@ -122,7 +142,8 @@ inline fun <reified TypeToCarouselModel> convertorToCarouselModel(elements: Arra
                 movieName = it.movieName,
                 posterPathImage = it.posterPathImage,
                 popularity = it.popularity,
-                movieId = it.movieId
+                movieId = it.movieId,
+                backdropPath = it.backdropPath
             )
         )
     }
