@@ -14,9 +14,7 @@ class UpcomingMovieUseCase {
     private val repository: Repository = Repository()
 
     operator fun invoke(): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getUpcomingMovies()
-
-        basicValidationResponse<UpComingMoviesDTO>(response).collect {
+        basicValidationResponse<UpComingMoviesDTO>(repository.getUpcomingMovies()).collect {
             when (it) {
                 is WrapperStatusRequest.SuccessResponse<*> -> {
                     val results: ArrayList<UpcomingMoviesModel> = arrayListOf()

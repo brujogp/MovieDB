@@ -118,6 +118,11 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
                     }
                     CustomDivider()
                 } else {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 2.dp)
+                    )
                 }
 
                 Subtitle("Próximos estrenos")

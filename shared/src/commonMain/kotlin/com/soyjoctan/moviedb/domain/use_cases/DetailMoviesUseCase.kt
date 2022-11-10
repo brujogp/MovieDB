@@ -12,9 +12,7 @@ class DetailMoviesUseCase {
     private val repository: Repository = Repository()
 
     operator fun invoke(movieId: Long): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getMovieDetailById(movieId)
-
-        basicValidationResponse<MovieDetailsDTO>(response).collect {
+        basicValidationResponse<MovieDetailsDTO>(repository.getMovieDetailById(movieId)).collect {
             when (it) {
                 is WrapperStatusRequest.SuccessResponse<*> -> {
                     (it.response as MovieDetailsDTO).apply {

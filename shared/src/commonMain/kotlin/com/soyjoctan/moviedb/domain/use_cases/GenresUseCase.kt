@@ -14,9 +14,7 @@ class GenresUseCase {
     private val repository: Repository = Repository()
 
     operator fun invoke(): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getGenres()
-
-        basicValidationResponse<GenresDTO>(response).collect {
+        basicValidationResponse<GenresDTO>(repository.getGenres()).collect {
             when (it) {
                 is WrapperStatusRequest.SuccessResponse<*> -> {
                     val results: ArrayList<GenreModel> = arrayListOf()

@@ -12,9 +12,7 @@ class TopRatedUseCase {
     private val repository: Repository = Repository()
 
     operator fun invoke(): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getTopRated()
-
-        basicValidationResponse<TopRatedDTO>(response).collect {
+        basicValidationResponse<TopRatedDTO>(repository.getTopRated()).collect {
             when (it) {
                 is WrapperStatusRequest.SuccessResponse<*> -> {
                     val results: ArrayList<TopRatedModel> = arrayListOf()

@@ -32,19 +32,40 @@ class Repository {
         }
     }
 
-    suspend fun getGenres(): HttpResponse {
-        return client.get(resource = GenresRequest())
+    suspend fun getGenres(): HttpResponse? {
+        val finalRequest = try {
+            client.get(resource = GenresRequest())
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalRequest
     }
 
-    suspend fun getTopRated(): HttpResponse {
-        return client.get(resource = TopRatedRequest())
+    suspend fun getTopRated(): HttpResponse? {
+        val finalResponse =
+            try {
+                client.get(resource = TopRatedRequest())
+            } catch (e: Throwable) {
+                print(e.stackTraceToString())
+                null
+            }
+
+        return finalResponse
     }
 
-    suspend fun getUpcomingMovies(): HttpResponse {
-        return client.get(resource = UpComingMoviesRequest())
+    suspend fun getUpcomingMovies(): HttpResponse? {
+        val finalResponse = try {
+            client.get(resource = UpComingMoviesRequest())
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+        return finalResponse
     }
 
-    suspend fun getMoviesByGenre(genreId: Long, page: Long): HttpResponse {
+    suspend fun getMoviesByGenre(genreId: Long, page: Long): HttpResponse? {
         val movieId: Long = when (genreId) {
             GenresEnum.ACTION.genreId -> {
                 GenresEnum.ACTION.movieId
@@ -108,10 +129,24 @@ class Repository {
             }
         }
 
-        return client.get(resource = FindByGenresRequest.Id(movieId = movieId, page = page))
+        val finalRequest = try {
+            client.get(resource = FindByGenresRequest.Id(movieId = movieId, page = page))
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalRequest
     }
 
-    suspend fun getMovieDetailById(movieId: Long): HttpResponse {
-        return client.get(resource = MovieDetailsRequest.Id(movieId = movieId))
+    suspend fun getMovieDetailById(movieId: Long): HttpResponse? {
+        val finalResponse = try {
+            client.get(resource = MovieDetailsRequest.Id(movieId = movieId))
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalResponse
     }
 }

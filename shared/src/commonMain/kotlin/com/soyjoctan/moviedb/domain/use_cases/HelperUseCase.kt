@@ -7,12 +7,12 @@ import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-inline fun <reified Type> basicValidationResponse(response: HttpResponse): Flow<WrapperStatusRequest> {
+inline fun <reified Type> basicValidationResponse(response: HttpResponse?): Flow<WrapperStatusRequest> {
     return flow {
         try {
             emit(WrapperStatusRequest.loading)
 
-            when (response.status) {
+            when (response?.status) {
                 HttpStatusCode.OK -> {
                     emit(WrapperStatusRequest.SuccessResponse<Type>(response.body()))
                 }
@@ -21,6 +21,9 @@ inline fun <reified Type> basicValidationResponse(response: HttpResponse): Flow<
                 }
                 HttpStatusCode.NotFound -> {
                     emit(WrapperStatusRequest.notFound)
+                }
+                null -> {
+                    emit(WrapperStatusRequest.noInternetConnection)
                 }
             }
 

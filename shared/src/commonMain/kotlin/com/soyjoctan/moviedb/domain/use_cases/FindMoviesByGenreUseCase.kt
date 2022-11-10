@@ -19,9 +19,12 @@ class FindMoviesByGenreUseCase {
         page: Long,
         currentListItems: ArrayList<FindByGenreModel>?
     ): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getMoviesByGenre(genreId, page)
-
-        basicValidationResponse<FindByGenreDTO>(response).collect {
+        basicValidationResponse<FindByGenreDTO>(
+            repository.getMoviesByGenre(
+                genreId,
+                page
+            )
+        ).collect {
             when (it) {
                 is WrapperStatusRequest.SuccessResponse<*> -> {
                     val results: ArrayList<FindByGenreModel> = arrayListOf()
@@ -57,12 +60,13 @@ class FindMoviesByGenreUseCase {
         currentListItems: ArrayList<FindByGenreModel>?,
         newListItems: ArrayList<FindByGenreModel>
     ): ArrayList<FindByGenreModel> {
-        val finalListItems: ArrayList<FindByGenreModel> = if (currentListItems?.isNotEmpty() == true) {
-            currentListItems.addAll(newListItems)
-            currentListItems
-        } else {
-            newListItems
-        }
+        val finalListItems: ArrayList<FindByGenreModel> =
+            if (currentListItems?.isNotEmpty() == true) {
+                currentListItems.addAll(newListItems)
+                currentListItems
+            } else {
+                newListItems
+            }
 
         return finalListItems
     }

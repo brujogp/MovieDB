@@ -1,6 +1,5 @@
 package com.soyjoctan.moviedb.android.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,13 +42,11 @@ class MovieViewModel @Inject constructor(
     val moviesByGenreModelMutableLiveDataObservable: LiveData<ArrayList<FindByGenreModel>> =
         _moviesByGenreModelMutableLiveData
 
-
     // Detalle de la película
     private var _detailsMovieMutableLiveData: MutableLiveData<DetailsMovieModel> =
         MutableLiveData()
     val detailsMovieMutableLiveDataObservable: LiveData<DetailsMovieModel> =
         _detailsMovieMutableLiveData
-
 
     // Observers para comunicación de datos
     val movieDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
@@ -64,6 +61,9 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _genresMutableLiveData.value =
                             it.response as ArrayList<GenreModel>
+                    }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _genresMutableLiveData.value = null
                     }
                     else -> {}
                 }
@@ -82,6 +82,9 @@ class MovieViewModel @Inject constructor(
                         _topRatedModelMutableLiveData.value =
                             it.response as ArrayList<TopRatedModel>
                     }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _genresMutableLiveData.value = null
+                    }
                     else -> {}
                 }
             }
@@ -99,6 +102,9 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _upcomingMoviesModelMutableLiveData.value =
                             it.response as ArrayList<UpcomingMoviesModel>
+                    }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _genresMutableLiveData.value = null
                     }
                     else -> {}
                 }
@@ -121,6 +127,9 @@ class MovieViewModel @Inject constructor(
                         _moviesByGenreModelMutableLiveData.value =
                             it.response as ArrayList<FindByGenreModel>
                     }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _genresMutableLiveData.value = null
+                    }
                     else -> {}
                 }
             }
@@ -137,6 +146,9 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _detailsMovieMutableLiveData.value =
                             it.response as DetailsMovieModel
+                    }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _genresMutableLiveData.value = null
                     }
                     else -> {}
                 }
