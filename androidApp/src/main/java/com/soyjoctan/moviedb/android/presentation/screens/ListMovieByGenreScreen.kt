@@ -1,22 +1,27 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableCardPoster
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableDetailsMovieBottomSheet
+import com.soyjoctan.moviedb.android.presentation.extensions.OnBottomReached
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
@@ -26,7 +31,10 @@ import java.util.ArrayList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
+fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreId: Long?) {
+    var currentPage by rememberSaveable { mutableStateOf(1L) }
+    var isLoading by rememberSaveable { mutableStateOf(true) }
+
     val scaffoldState = rememberScaffoldState()
 
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
@@ -34,6 +42,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
         initialValue = ModalBottomSheetValue.Hidden,
     )
 
+    val listState = rememberLazyGridState()
     val result: ArrayList<FindByGenreModel>? by viewModel.moviesByGenreModelMutableLiveDataObservable.observeAsState()
 
     Scaffold(
@@ -68,7 +77,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
             Box(
                 modifier = Modifier
                     .padding(it)
-                    .fillMaxWidth(),
+                    .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 LazyVerticalGrid(
@@ -82,8 +91,9 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     content = {
-                        result?.let { list ->
-                            items(list.toList()) { item: FindByGenreModel ->
+                        if (result != null) {
+                            isLoading = false
+                            items(result!!.toList()) { item: FindByGenreModel ->
                                 ComposableCardPoster(
                                     CarouselModel(
                                         movieName = item.movieName,
@@ -99,12 +109,29 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?) {
                                     viewModel.movieDetailsSelected.value = it
                                 }
                             }
+                        } else {
+                            isLoading = true
                         }
                     },
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp)
+                    modifier = Modifier
+                        .padding(start = 12.dp, end = 12.dp),
+                    state = listState
                 )
             }
-        })
+            if (isLoading) {
+                LinearProgressIndicator(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 2.dp))
+            }
+        }
+    )
+
+
+    listState.OnBottomReached {
+        // do on load more
+        currentPage += 1
+        viewModel.getMoviesByGenre(genreId!!, currentPage)
+    }
 
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,

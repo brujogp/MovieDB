@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeGenres(viewModel: MovieViewModel, controller: NavHostController) {
+fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String) -> Unit) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
@@ -85,8 +85,12 @@ fun HomeGenres(viewModel: MovieViewModel, controller: NavHostController) {
                         genres = genres,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) { genreClickedId: GenreModel ->
-                        controller.navigate(ListByDetailGenreScreen.route + "/${genreClickedId.name}")
-                        viewModel.getMoviesByGenre(genreClickedId.id!!)
+                        //controller.navigate(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
+                        onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
+
+                        genreClickedId.id?.let { it1 ->
+                            viewModel.getMoviesByGenre(it1, 1)
+                        }
                     }
                 }
 

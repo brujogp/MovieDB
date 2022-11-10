@@ -52,12 +52,13 @@ dependencies {
     implementation("androidx.compose.material:material:$composeComponent")
     implementation("androidx.activity:activity-compose:1.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("androidx.compose.runtime:runtime-livedata:1.4.0-alpha01")
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.0-alpha02")
     implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeComponent")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("io.coil-kt:coil-compose:$coliVersion")
+    implementation ("com.google.accompanist:accompanist-navigation-animation:0.27.0")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 }
 

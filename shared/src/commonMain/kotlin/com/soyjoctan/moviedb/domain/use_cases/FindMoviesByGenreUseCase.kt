@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.flow
 class FindMoviesByGenreUseCase {
     private val repository: Repository = Repository()
 
-    operator fun invoke(genreId: Long): Flow<WrapperStatusRequest> = flow {
-        val response: HttpResponse = repository.getMoviesByGenre(genreId)
+    operator fun invoke(genreId: Long, page: Long): Flow<WrapperStatusRequest> = flow {
+        val response: HttpResponse = repository.getMoviesByGenre(genreId, page)
 
         basicValidationResponse<FindByGenreDTO>(response).collect {
             when (it) {

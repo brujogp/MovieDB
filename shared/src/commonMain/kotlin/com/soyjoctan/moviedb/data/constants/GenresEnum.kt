@@ -11,7 +11,7 @@ enum class GenresEnum(val genreId: Long, val movieId: Long) {
     FAMILY(10751, 0L),
     FANTASY(14, 129),
     HISTORY(36, 424),
-    HORROR(27, 493922),
+    HORROR(27, 292280),
     MUSIC(10402, 0L),
     MYSTERY(9648, 0L),
     ROMANCE(10749, 851644),

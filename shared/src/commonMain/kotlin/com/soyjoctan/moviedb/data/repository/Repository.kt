@@ -44,7 +44,7 @@ class Repository {
         return client.get(resource = UpComingMoviesRequest())
     }
 
-    suspend fun getMoviesByGenre(genreId: Long): HttpResponse {
+    suspend fun getMoviesByGenre(genreId: Long, page: Long): HttpResponse {
         val movieId: Long = when (genreId) {
             GenresEnum.ACTION.genreId -> {
                 GenresEnum.ACTION.movieId
@@ -108,7 +108,7 @@ class Repository {
             }
         }
 
-        return client.get(resource = FindByGenresRequest.Id(movieId = movieId))
+        return client.get(resource = FindByGenresRequest.Id(movieId = movieId, page = page))
     }
 
     suspend fun getMovieDetailById(movieId: Long): HttpResponse {

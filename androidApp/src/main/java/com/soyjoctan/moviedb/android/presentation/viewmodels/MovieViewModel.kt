@@ -21,6 +21,8 @@ class MovieViewModel @Inject constructor(
     private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase,
     private val moveDetailsUseCase: DetailMoviesUseCase
 ) : ViewModel() {
+    var currentItemsInFindMoviesByGenre = arrayListOf<FindByGenreModel>()
+    var currentIdGenre: Long = 0
 
     // Lista de géneros
     private var _genresMutableLiveData: MutableLiveData<List<GenreModel>> = MutableLiveData()
@@ -107,16 +109,32 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun getMoviesByGenre(idGenre: Long) {
+    fun getMoviesByGenre(idGenre: Long, page: Long) {
+        if (currentIdGenre != idGenre) {
+            currentItemsInFindMoviesByGenre = arrayListOf()
+        }
+        currentIdGenre = idGenre
         viewModelScope.launch {
-            findMoviesByGenreUseCase(idGenre).collect {
+            findMoviesByGenreUseCase(idGenre, page).collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
-                        Log.d("TEST-T", "Cargando")
+                        _moviesByGenreModelMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
-                        _moviesByGenreModelMutableLiveData.value =
+                        val newItems =
                             it.response as ArrayList<FindByGenreModel>
+
+                        if (currentItemsInFindMoviesByGenre.isNotEmpty()) {
+                            currentItemsInFindMoviesByGenre.addAll(newItems)
+
+                            _moviesByGenreModelMutableLiveData.value =
+                                currentItemsInFindMoviesByGenre
+                        } else {
+                            _moviesByGenreModelMutableLiveData.value = newItems
+
+                            currentItemsInFindMoviesByGenre =
+                                _moviesByGenreModelMutableLiveData.value!!
+                        }
                     }
                     else -> {}
                 }

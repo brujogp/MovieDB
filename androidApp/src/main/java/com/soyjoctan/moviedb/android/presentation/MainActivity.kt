@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.soyjoctan.moviedb.android.presentation.screens.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,12 +91,19 @@ class MainActivity : ComponentActivity() {
                         composable(HomeScreen.route) {
                             HomeGenres(
                                 viewModel = viewModel,
-                                controller
-                            )
+                            ) {
+                                controller.navigate(it)
+                            }
                         }
-                        composable(ListByDetailGenreScreen.route + "/{genreName}") { bachStackEntry ->
+                        composable(ListByDetailGenreScreen.route + "/{genreName}/{genreId}") { bachStackEntry ->
                             val genreName = bachStackEntry.arguments?.getString("genreName")
-                            ListMovieByGenreScreen(viewModel = viewModel, genreName )
+                            val genreId = bachStackEntry.arguments?.getString("genreId")
+
+                            ListMovieByGenreScreen(
+                                viewModel = viewModel,
+                                genreName,
+                                genreId!!.toLong()
+                            )
                         }
                     }
                 }
