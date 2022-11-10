@@ -21,7 +21,6 @@ class MovieViewModel @Inject constructor(
     private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase,
     private val moveDetailsUseCase: DetailMoviesUseCase
 ) : ViewModel() {
-    var currentItemsInFindMoviesByGenre = arrayListOf<FindByGenreModel>()
     var currentIdGenre: Long = 0
 
     // Lista de géneros
@@ -109,32 +108,20 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun getMoviesByGenre(idGenre: Long, page: Long) {
-        if (currentIdGenre != idGenre) {
-            currentItemsInFindMoviesByGenre = arrayListOf()
-        }
-        currentIdGenre = idGenre
+    fun getMoviesByGenre(
+        idGenre: Long,
+        page: Long,
+        currentListItems: ArrayList<FindByGenreModel>?
+    ) {
         viewModelScope.launch {
-            findMoviesByGenreUseCase(idGenre, page).collect {
+            findMoviesByGenreUseCase(idGenre, page, currentListItems).collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
                         _moviesByGenreModelMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
-                        val newItems =
+                        _moviesByGenreModelMutableLiveData.value =
                             it.response as ArrayList<FindByGenreModel>
-
-                        if (currentItemsInFindMoviesByGenre.isNotEmpty()) {
-                            currentItemsInFindMoviesByGenre.addAll(newItems)
-
-                            _moviesByGenreModelMutableLiveData.value =
-                                currentItemsInFindMoviesByGenre
-                        } else {
-                            _moviesByGenreModelMutableLiveData.value = newItems
-
-                            currentItemsInFindMoviesByGenre =
-                                _moviesByGenreModelMutableLiveData.value!!
-                        }
                     }
                     else -> {}
                 }

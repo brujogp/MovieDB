@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
@@ -89,7 +88,7 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
                         onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
 
                         genreClickedId.id?.let { it1 ->
-                            viewModel.getMoviesByGenre(it1, 1)
+                            viewModel.getMoviesByGenre(it1, 1, null)
                         }
                     }
                 }

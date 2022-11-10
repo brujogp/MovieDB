@@ -1,14 +1,10 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -119,9 +115,11 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
                 )
             }
             if (isLoading) {
-                LinearProgressIndicator(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 2.dp))
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 2.dp)
+                )
             }
         }
     )
@@ -130,7 +128,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
     listState.OnBottomReached {
         // do on load more
         currentPage += 1
-        viewModel.getMoviesByGenre(genreId!!, currentPage)
+        viewModel.getMoviesByGenre(genreId!!, currentPage, result)
     }
 
     ComposableDetailsMovieBottomSheet(

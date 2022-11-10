@@ -14,7 +14,11 @@ import kotlinx.coroutines.flow.flow
 class FindMoviesByGenreUseCase {
     private val repository: Repository = Repository()
 
-    operator fun invoke(genreId: Long, page: Long): Flow<WrapperStatusRequest> = flow {
+    operator fun invoke(
+        genreId: Long,
+        page: Long,
+        currentListItems: ArrayList<FindByGenreModel>?
+    ): Flow<WrapperStatusRequest> = flow {
         val response: HttpResponse = repository.getMoviesByGenre(genreId, page)
 
         basicValidationResponse<FindByGenreDTO>(response).collect {
@@ -33,9 +37,12 @@ class FindMoviesByGenreUseCase {
                             )
                         )
                     }
+
+                    val listItems = verifyInfoAppend(currentListItems, results)
+
                     emit(
                         WrapperStatusRequest.SuccessResponse(
-                            results
+                            listItems
                         )
                     )
                 }
@@ -44,5 +51,19 @@ class FindMoviesByGenreUseCase {
                 }
             }
         }
+    }
+
+    private fun verifyInfoAppend(
+        currentListItems: ArrayList<FindByGenreModel>?,
+        newListItems: ArrayList<FindByGenreModel>
+    ): ArrayList<FindByGenreModel> {
+        val finalListItems: ArrayList<FindByGenreModel> = if (currentListItems?.isNotEmpty() == true) {
+            currentListItems.addAll(newListItems)
+            currentListItems
+        } else {
+            newListItems
+        }
+
+        return finalListItems
     }
 }
