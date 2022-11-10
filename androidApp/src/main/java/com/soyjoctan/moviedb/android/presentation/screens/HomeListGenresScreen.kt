@@ -6,10 +6,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,9 +27,12 @@ import kotlinx.coroutines.launch
 fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String) -> Unit) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-    )
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+
+    var isGenresLoading by rememberSaveable { mutableStateOf(true) }
+    var isTopMoviesLoading by rememberSaveable { mutableStateOf(true) }
+    var isUpcomingMoviesLoading by rememberSaveable { mutableStateOf(true) }
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
     val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
@@ -79,47 +81,69 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
             ) {
 
                 Subtitle("Géneros")
-                genres?.let { genres: List<GenreModel> ->
+                if (genres != null) {
+                    isGenresLoading = false
                     ComposableStaggered(
-                        genres = genres,
+                        genres = genres!!,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) { genreClickedId: GenreModel ->
-                        //controller.navigate(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
                         onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
 
                         genreClickedId.id?.let { it1 ->
                             viewModel.getMoviesByGenre(it1, 1, null)
                         }
                     }
+
+                    CustomDivider()
+                } else {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 2.dp)
+                    )
                 }
 
-                CustomDivider()
 
                 Subtitle("Las mejores películas")
-                ViewCarousel(
-                    convertorToCarouselModel(topRatedMovies),
-                    Modifier
-                ) {
-                    scope.launch {
-                        bottomSheetState.show()
+                if (topRatedMovies != null) {
+                    isTopMoviesLoading = false
+                    ViewCarousel(
+                        convertorToCarouselModel(topRatedMovies),
+                        Modifier
+                    ) {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
+                        viewModel.movieDetailsSelected.value = it
                     }
-                    viewModel.movieDetailsSelected.value = it
+                    CustomDivider()
+                } else {
                 }
-                CustomDivider()
 
                 Subtitle("Próximos estrenos")
-                ViewCarousel(
-                    convertorToCarouselModel(upcomingMovies),
-                    Modifier
-                ) {
-                    scope.launch {
-                        bottomSheetState.show()
+                if (upcomingMovies != null) {
+                    isUpcomingMoviesLoading = false
+                    ViewCarousel(
+                        convertorToCarouselModel(upcomingMovies),
+                        Modifier
+                    ) {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
+                        viewModel.movieDetailsSelected.value = it
                     }
-                    viewModel.movieDetailsSelected.value = it
+                } else {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 2.dp)
+                    )
                 }
             }
         }
     )
+
+
 
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,

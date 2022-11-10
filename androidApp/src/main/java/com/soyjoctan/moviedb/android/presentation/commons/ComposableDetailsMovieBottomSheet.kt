@@ -12,6 +12,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +34,8 @@ fun ComposableDetailsMovieBottomSheet(
 ) {
     val movieSelected: CarouselModel? by viewModel.movieDetailsSelected.observeAsState()
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieMutableLiveDataObservable.observeAsState()
+
+    var isLoading by rememberSaveable { mutableStateOf(true) }
 
     movieSelected?.movieId?.let {
         makeDetailRequest(viewModel, it)
@@ -58,11 +61,18 @@ fun ComposableDetailsMovieBottomSheet(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                detailMovieSelected?.overview?.let {
+                if (detailMovieSelected != null) {
+                    isLoading = false
                     Text(
-                        text = it,
+                        text = detailMovieSelected!!.overview!!,
                         modifier = Modifier.padding(16.dp),
                         lineHeight = 26.sp
+                    )
+                } else {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 2.dp)
                     )
                 }
             }

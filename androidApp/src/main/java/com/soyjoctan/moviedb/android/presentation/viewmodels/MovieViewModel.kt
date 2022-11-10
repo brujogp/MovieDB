@@ -21,8 +21,6 @@ class MovieViewModel @Inject constructor(
     private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase,
     private val moveDetailsUseCase: DetailMoviesUseCase
 ) : ViewModel() {
-    var currentIdGenre: Long = 0
-
     // Lista de géneros
     private var _genresMutableLiveData: MutableLiveData<List<GenreModel>> = MutableLiveData()
     val listGenresObservable: LiveData<List<GenreModel>> = _genresMutableLiveData
@@ -61,7 +59,7 @@ class MovieViewModel @Inject constructor(
             genresUseCase().collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
-                        Log.d("TEST-T", "Cargando")
+                        _genresMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _genresMutableLiveData.value =
@@ -78,7 +76,7 @@ class MovieViewModel @Inject constructor(
             topRatedMoviesUseCase().collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
-                        Log.d("TEST-T", "Cargando")
+                        _topRatedModelMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _topRatedModelMutableLiveData.value =
@@ -96,7 +94,7 @@ class MovieViewModel @Inject constructor(
             upcomingUseCase().collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
-                        Log.d("TEST-T", "Cargando")
+                        _upcomingMoviesModelMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _upcomingMoviesModelMutableLiveData.value =
@@ -134,7 +132,7 @@ class MovieViewModel @Inject constructor(
             moveDetailsUseCase(movieId).collect {
                 when (it) {
                     is WrapperStatusRequest.loading -> {
-                        Log.d("TEST-T", "Cargando")
+                        _detailsMovieMutableLiveData.value = null
                     }
                     is WrapperStatusRequest.SuccessResponse<*> -> {
                         _detailsMovieMutableLiveData.value =
