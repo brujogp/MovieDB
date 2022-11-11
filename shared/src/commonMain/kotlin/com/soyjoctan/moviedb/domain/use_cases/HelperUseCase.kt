@@ -7,14 +7,14 @@ import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-inline fun <reified Type> basicValidationResponse(response: HttpResponse?): Flow<WrapperStatusRequest> {
+inline fun <reified DtoType> basicValidationResponse(response: HttpResponse?): Flow<WrapperStatusRequest> {
     return flow {
         try {
             emit(WrapperStatusRequest.loading)
 
             when (response?.status) {
                 HttpStatusCode.OK -> {
-                    emit(WrapperStatusRequest.SuccessResponse<Type>(response.body()))
+                    emit(WrapperStatusRequest.SuccessResponse<DtoType>(response.body()))
                 }
                 HttpStatusCode.BadGateway -> {
                     emit(WrapperStatusRequest.ErrorResponse("Error en el servidor"))

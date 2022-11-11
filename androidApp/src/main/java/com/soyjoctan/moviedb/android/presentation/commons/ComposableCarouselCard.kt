@@ -19,7 +19,11 @@ import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 
 @Composable
-fun ViewCarousel(content: ArrayList<CarouselModel>?, modifier: Modifier, onClickPosterImage: (item: CarouselModel) -> Unit) {
+fun ViewCarousel(
+    content: ArrayList<CarouselModel>?,
+    modifier: Modifier,
+    onClickPosterImage: (item: CarouselModel) -> Unit
+) {
     LazyRow(
         contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)

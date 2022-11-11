@@ -35,7 +35,6 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
     var isPopularTvShowsLoading by rememberSaveable { mutableStateOf(true) }
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
-
     val topRatedMovies: ArrayList<TopRatedModel>? by viewModel.listTopRatedModelMoviesObservable.observeAsState()
     val upcomingMovies: ArrayList<UpcomingMoviesModel>? by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
     val popularTvShows: ArrayList<PopularTvShowsModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
@@ -89,12 +88,10 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) { genreClickedId: GenreModel ->
                         onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
-
                         genreClickedId.id?.let { it1 ->
                             viewModel.getMoviesByGenre(it1, 1, null)
                         }
                     }
-
                     CustomDivider()
                 } else {
                     LinearProgressIndicator(
@@ -104,46 +101,24 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
                     )
                 }
 
-
-                Subtitle("Las mejores películas")
-                if (topRatedMovies != null) {
-                    isTopMoviesLoading = false
-                    ViewCarousel(
-                        convertorToCarouselModel(topRatedMovies),
-                        Modifier
-                    ) {
-                        scope.launch {
-                            bottomSheetState.show()
-                        }
-                        viewModel.movieDetailsSelected.value = it
+                isTopMoviesLoading = Section("Las mejores películas", topRatedMovies)
+                {
+                    scope.launch {
+                        bottomSheetState.show()
                     }
-                    CustomDivider()
-                } else {
-                    LinearProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 2.dp)
-                    )
+                    viewModel.itemDetailsSelected.value = it
                 }
 
-                Subtitle("Próximos estrenos")
-                if (upcomingMovies != null) {
-                    isUpcomingMoviesLoading = false
-                    ViewCarousel(
-                        convertorToCarouselModel(upcomingMovies),
-                        Modifier
-                    ) {
-                        scope.launch {
-                            bottomSheetState.show()
-                        }
-                        viewModel.movieDetailsSelected.value = it
+                isUpcomingMoviesLoading = Section("Próximos estrenos", upcomingMovies)
+                {
+                    scope.launch {
+                        bottomSheetState.show()
                     }
-                } else {
-                    LinearProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 2.dp)
-                    )
+                    viewModel.itemDetailsSelected.value = it
+                }
+
+                isPopularTvShowsLoading = Section("Series populares", popularTvShows)
+                {
                 }
             }
         }
@@ -156,28 +131,53 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
     )
 }
 
-
 fun makeRequests(viewModel: MovieViewModel) {
     viewModel.getGenres()
     viewModel.getTopRatedMovies()
     viewModel.getUpcomingMoviesList()
+    viewModel.getPopularTvShows()
 }
 
-inline fun <reified TypeToCarouselModel> convertorToCarouselModel(elements: ArrayList<TypeToCarouselModel>?): ArrayList<CarouselModel> {
+fun convertorToCarouselModel(elements: ArrayList<PresentationModelParent>?): ArrayList<CarouselModel> {
     val array = arrayListOf<CarouselModel>()
 
     elements?.forEach {
-        (it as PresentationModelParent)
         array.add(
             CarouselModel(
-                movieName = it.movieName,
+                itemName = it.itemName,
                 posterPathImage = it.posterPathImage,
                 popularity = it.popularity,
-                movieId = it.movieId,
+                itemId = it.itemId,
                 backdropPath = it.backdropPath
             )
         )
     }
 
     return array
+}
+
+@Composable
+inline fun <reified T : PresentationModelParent> Section(
+    titleSection: String,
+    list: ArrayList<T>?,
+    noinline onClickElement: (item: CarouselModel) -> Unit
+): Boolean {
+    Subtitle(titleSection)
+    if (list != null) {
+        ViewCarousel(
+            content = convertorToCarouselModel(list as ArrayList<PresentationModelParent>),
+            modifier = Modifier,
+            onClickPosterImage = onClickElement
+        )
+        CustomDivider()
+        return false
+    } else {
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 2.dp)
+        )
+        return true
+    }
+
 }
