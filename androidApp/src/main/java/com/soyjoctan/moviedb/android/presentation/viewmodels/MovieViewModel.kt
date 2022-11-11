@@ -91,7 +91,7 @@ class MovieViewModel @Inject constructor(
                             it.response as ArrayList<TopRatedModel>
                     }
                     is WrapperStatusRequest.noInternetConnection -> {
-                        _genresMutableLiveData.value = null
+                        _topRatedModelMutableLiveData.value = null
                     }
                     else -> {}
                 }
@@ -112,7 +112,7 @@ class MovieViewModel @Inject constructor(
                             it.response as ArrayList<UpcomingMoviesModel>
                     }
                     is WrapperStatusRequest.noInternetConnection -> {
-                        _genresMutableLiveData.value = null
+                        _upcomingMoviesModelMutableLiveData.value = null
                     }
                     else -> {}
                 }
@@ -136,7 +136,7 @@ class MovieViewModel @Inject constructor(
                             it.response as ArrayList<FindByGenreModel>
                     }
                     is WrapperStatusRequest.noInternetConnection -> {
-                        _genresMutableLiveData.value = null
+                        _moviesByGenreModelMutableLiveData.value = null
                     }
                     else -> {}
                 }
@@ -156,7 +156,7 @@ class MovieViewModel @Inject constructor(
                             it.response as DetailsMovieModel
                     }
                     is WrapperStatusRequest.noInternetConnection -> {
-                        _genresMutableLiveData.value = null
+                        _detailsMovieMutableLiveData.value = null
                     }
                     else -> {}
                 }

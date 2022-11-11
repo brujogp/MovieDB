@@ -5,6 +5,11 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
+// To parse the JSON, install kotlin's serialization plugin and do:
+//
+// val json    = Json(JsonConfiguration.Stable)
+// val welcome = json.parse(Welcome.serializer(), jsonString)
+
 @Serializable
 data class FindByGenreDTO(
     val page: Long? = null,
