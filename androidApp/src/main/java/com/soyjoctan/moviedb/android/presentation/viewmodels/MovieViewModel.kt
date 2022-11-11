@@ -18,7 +18,8 @@ class MovieViewModel @Inject constructor(
     private val topRatedMoviesUseCase: TopRatedUseCase,
     private val upcomingUseCase: UpcomingMovieUseCase,
     private val findMoviesByGenreUseCase: FindMoviesByGenreUseCase,
-    private val moveDetailsUseCase: DetailMoviesUseCase
+    private val moveDetailsUseCase: DetailMoviesUseCase,
+    private val popularTvShowsUseCase: PopularTvShowsUseCase
 ) : ViewModel() {
     // Lista de géneros
     private var _genresMutableLiveData: MutableLiveData<List<GenreModel>> = MutableLiveData()
@@ -45,11 +46,18 @@ class MovieViewModel @Inject constructor(
     // Detalle de la película
     private var _detailsMovieMutableLiveData: MutableLiveData<DetailsMovieModel> =
         MutableLiveData()
-    val detailsMovieMutableLiveDataObservable: LiveData<DetailsMovieModel> =
+    val detailsMovieLiveDataObservable: LiveData<DetailsMovieModel> =
         _detailsMovieMutableLiveData
 
+
+    // Lista de series populares
+    private var _popularTvShowsListMutableLiveData: MutableLiveData<ArrayList<PopularTvShowsModel>> =
+        MutableLiveData()
+    val popularTvShowsListLiveDataObservable: LiveData<ArrayList<PopularTvShowsModel>> =
+        _popularTvShowsListMutableLiveData
+
     // Observers para comunicación de datos
-    val movieDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
+    val itemDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
 
     fun getGenres() {
         viewModelScope.launch {
@@ -149,6 +157,26 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusRequest.noInternetConnection -> {
                         _genresMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun getPopularTvShows() {
+        viewModelScope.launch {
+            popularTvShowsUseCase().collect {
+                when (it) {
+                    is WrapperStatusRequest.loading -> {
+                        _popularTvShowsListMutableLiveData.value = null
+                    }
+                    is WrapperStatusRequest.SuccessResponse<*> -> {
+                        _popularTvShowsListMutableLiveData.value =
+                            it.response as ArrayList<PopularTvShowsModel>
+                    }
+                    is WrapperStatusRequest.noInternetConnection -> {
+                        _popularTvShowsListMutableLiveData.value = null
                     }
                     else -> {}
                 }

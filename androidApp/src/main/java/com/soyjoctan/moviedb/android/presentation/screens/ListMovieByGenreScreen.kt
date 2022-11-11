@@ -92,17 +92,17 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
                             items(result!!.toList()) { item: FindByGenreModel ->
                                 ComposableCardPoster(
                                     CarouselModel(
-                                        movieName = item.movieName,
+                                        itemName = item.itemName,
                                         posterPathImage = item.posterPathImage,
                                         popularity = item.popularity,
-                                        movieId = item.movieId,
+                                        itemId = item.itemId,
                                         backdropPath = item.backdropPath
                                     )
                                 ) {
                                     coroutineScope.launch {
                                         bottomSheetState.show()
                                     }
-                                    viewModel.movieDetailsSelected.value = it
+                                    viewModel.itemDetailsSelected.value = it
                                 }
                             }
                         } else {

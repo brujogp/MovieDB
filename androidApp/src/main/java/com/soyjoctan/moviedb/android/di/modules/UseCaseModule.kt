@@ -30,4 +30,8 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetMovieDetailsUseCase(): DetailMoviesUseCase = DetailMoviesUseCase()
+
+    @Provides
+    @Singleton
+    fun providePopularTvShowsUseCase(): PopularTvShowsUseCase = PopularTvShowsUseCase()
 }

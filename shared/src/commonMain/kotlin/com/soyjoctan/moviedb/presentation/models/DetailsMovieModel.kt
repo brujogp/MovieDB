@@ -3,10 +3,10 @@ package com.soyjoctan.moviedb.presentation.models
 import com.soyjoctan.moviedb.data.model.moviedetails.Genre
 
 data class DetailsMovieModel(
-    override var movieName: String?,
+    override var itemName: String?,
     override var posterPathImage: String?,
     override var popularity: Double?,
-    override var movieId: Long?,
+    override var itemId: Long?,
     override var backdropPath: String?,
     val budget: Long?,
     val genres: List<Genre>? = null,

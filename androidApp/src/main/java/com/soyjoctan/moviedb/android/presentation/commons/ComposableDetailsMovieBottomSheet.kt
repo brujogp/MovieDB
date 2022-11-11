@@ -1,17 +1,12 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 
-import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +18,6 @@ import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -32,12 +26,12 @@ fun ComposableDetailsMovieBottomSheet(
     scope: CoroutineScope,
     viewModel: MovieViewModel
 ) {
-    val movieSelected: CarouselModel? by viewModel.movieDetailsSelected.observeAsState()
-    val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieMutableLiveDataObservable.observeAsState()
+    val movieSelected: CarouselModel? by viewModel.itemDetailsSelected.observeAsState()
+    val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
-    movieSelected?.movieId?.let {
+    movieSelected?.itemId?.let {
         makeDetailRequest(viewModel, it)
     }
 
@@ -52,7 +46,7 @@ fun ComposableDetailsMovieBottomSheet(
                 ) {
                     LandscapeImage(stringPath = movieSelected?.backdropPath)
                     Text(
-                        text = movieSelected?.movieName ?: "",
+                        text = movieSelected?.itemName ?: "",
                         color = Color.White,
                         modifier = Modifier.padding(bottom = 16.dp, end = 32.dp, start = 12.dp),
                         fontWeight = FontWeight.ExtraBold,

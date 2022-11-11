@@ -149,4 +149,16 @@ class Repository {
 
         return finalResponse
     }
+
+
+    suspend fun getPopularTVShows(): HttpResponse? {
+        val finalResponse = try {
+            client.get(resource = PopularTvShowsRequest())
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalResponse
+    }
 }

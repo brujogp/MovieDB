@@ -17,8 +17,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.presentation.models.GenreModel
-import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
+import com.soyjoctan.moviedb.presentation.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -33,10 +32,13 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
     var isGenresLoading by rememberSaveable { mutableStateOf(true) }
     var isTopMoviesLoading by rememberSaveable { mutableStateOf(true) }
     var isUpcomingMoviesLoading by rememberSaveable { mutableStateOf(true) }
+    var isPopularTvShowsLoading by rememberSaveable { mutableStateOf(true) }
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
-    val topRatedMovies by viewModel.listTopRatedModelMoviesObservable.observeAsState()
-    val upcomingMovies by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
+
+    val topRatedMovies: ArrayList<TopRatedModel>? by viewModel.listTopRatedModelMoviesObservable.observeAsState()
+    val upcomingMovies: ArrayList<UpcomingMoviesModel>? by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
+    val popularTvShows: ArrayList<PopularTvShowsModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
 
     makeRequests(viewModel)
 
@@ -79,7 +81,6 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-
                 Subtitle("Géneros")
                 if (genres != null) {
                     isGenresLoading = false
@@ -147,8 +148,6 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
             }
         }
     )
-
-
 
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,

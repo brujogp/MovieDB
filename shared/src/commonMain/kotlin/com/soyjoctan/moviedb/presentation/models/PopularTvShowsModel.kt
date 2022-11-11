@@ -1,8 +1,6 @@
-package com.soyjoctan.moviedb.android.presentation.models
+package com.soyjoctan.moviedb.presentation.models
 
-import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
-
-data class CarouselModel(
+data class PopularTvShowsModel(
     override var itemName: String?,
     override var posterPathImage: String?,
     override var popularity: Double?,

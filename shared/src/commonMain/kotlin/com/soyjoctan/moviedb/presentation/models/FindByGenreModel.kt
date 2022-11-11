@@ -1,9 +1,9 @@
 package com.soyjoctan.moviedb.presentation.models
 
 data class FindByGenreModel(
-    override var movieName: String?,
+    override var itemName: String?,
     override var posterPathImage: String?,
     override var popularity: Double?,
-    override var movieId: Long?,
+    override var itemId: Long?,
     override var backdropPath: String?
 ) : PresentationModelParent()

@@ -4,7 +4,6 @@ import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
 import com.soyjoctan.moviedb.data.model.moviedetails.MovieDetailsDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.*
-import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -48,8 +47,8 @@ class DetailMoviesUseCase {
                             backdropPath = backdropPath,
                             posterPathImage = posterPath,
                             popularity = popularity,
-                            movieId = movieId,
-                            movieName = title,
+                            itemId = movieId,
+                            itemName = title,
                             budget = budget,
                             genres = genres,
                             homepage = homepage,

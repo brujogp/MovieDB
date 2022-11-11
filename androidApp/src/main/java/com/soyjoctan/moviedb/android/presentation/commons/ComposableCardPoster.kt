@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,7 +12,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -40,7 +38,7 @@ fun ComposableCardPoster(item: CarouselModel, onClickPosterImage: (item: Carouse
                         ComposableMovieRate(item)
                 }
                 Text(
-                    text = item.movieName ?: "",
+                    text = item.itemName ?: "",
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
                         .padding(top = 8.dp)
