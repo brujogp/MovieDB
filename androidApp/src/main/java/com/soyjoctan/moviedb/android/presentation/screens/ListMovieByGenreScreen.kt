@@ -6,17 +6,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableCardPoster
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableDetailsMovieBottomSheet
+import com.soyjoctan.moviedb.android.presentation.commons.ComposableMainScaffold
 import com.soyjoctan.moviedb.android.presentation.extensions.OnBottomReached
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
@@ -27,7 +25,12 @@ import java.util.ArrayList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreId: Long?) {
+fun ListMovieByGenreScreen(
+    viewModel: MovieViewModel,
+    genreName: String?,
+    genreId: Long?,
+    onNavigationController: (path: String) -> Unit
+) {
     var currentPage by rememberSaveable { mutableStateOf(1L) }
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
@@ -41,34 +44,8 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
     val listState = rememberLazyGridState()
     val result: ArrayList<FindByGenreModel>? by viewModel.moviesByGenreModelMutableLiveDataObservable.observeAsState()
 
-    Scaffold(
+    ComposableMainScaffold(
         scaffoldState = scaffoldState,
-        drawerContent = {
-            Text("Hola mundo")
-            Divider()
-            Text("Hola mundo")
-            Divider()
-        },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Películas de ${genreName?.lowercase()}")
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            scaffoldState.drawerState.apply {
-                                open()
-                            }
-                        }
-                    }) {
-                        Icon(Icons.Filled.Menu, "Menu button")
-                    }
-                },
-                contentColor = Color.White,
-                elevation = 16.dp
-            )
-        },
         content = {
             Box(
                 modifier = Modifier
@@ -121,9 +98,11 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
                         .padding(top = 2.dp)
                 )
             }
-        }
+        },
+        titleSection = genreName,
+        coroutineScope = coroutineScope,
+        onFloatingButtonClick = {}
     )
-
 
     listState.OnBottomReached {
         // do on load more
@@ -134,6 +113,7 @@ fun ListMovieByGenreScreen(viewModel: MovieViewModel, genreName: String?, genreI
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,
         scope = coroutineScope,
-        viewModel = viewModel
+        viewModel = viewModel,
+        onNavigationController
     )
 }

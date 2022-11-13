@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
@@ -23,7 +21,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String) -> Unit) {
+fun HomeGenres(
+    viewModel: MovieViewModel,
+    onNavigationController: (path: String) -> Unit
+) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
     val bottomSheetState =
@@ -41,39 +42,10 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
 
     makeRequests(viewModel)
 
-    Scaffold(
+    ComposableMainScaffold(
         scaffoldState = scaffoldState,
-        drawerContent = {
-            Text("Hola mundo")
-            Divider()
-            Text("Hola mundo")
-            Divider()
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.Add, "Add item", tint = Color.White)
-            }
-        },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Lista de películas")
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.apply {
-                                open()
-                            }
-                        }
-                    }) {
-                        Icon(Icons.Filled.Menu, "Menu button")
-                    }
-                },
-                contentColor = Color.White,
-                elevation = 16.dp
-            )
-        },
+        titleSection = "Página de inicio",
+        coroutineScope = scope,
         content = {
             Column(
                 modifier = Modifier
@@ -119,15 +91,21 @@ fun HomeGenres(viewModel: MovieViewModel, onNavigationController: (path: String)
 
                 isPopularTvShowsLoading = Section("Series populares", popularTvShows)
                 {
+                    onNavigationController(CompleteDetailsItemScreen.route)
                 }
             }
+        },
+        requireTopBar = false,
+        onFloatingButtonClick = {
+
         }
     )
 
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,
         scope = scope,
-        viewModel = viewModel
+        viewModel = viewModel,
+        onNavigationController = onNavigationController
     )
 }
 

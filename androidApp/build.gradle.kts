@@ -43,6 +43,7 @@ dependencies {
     val composeComponent = "1.3.0"
     val hiltVersion = "2.44"
     val coliVersion = "2.2.2"
+    val accompanistVersion = "0.27.0"
 
     implementation(project(":shared"))
     implementation("androidx.compose.ui:ui:$composeComponent")
@@ -58,8 +59,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("io.coil-kt:coil-compose:$coliVersion")
-    implementation ("com.google.accompanist:accompanist-navigation-animation:0.27.0")
+    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
 }
 
 kapt {

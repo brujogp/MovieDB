@@ -58,6 +58,7 @@ class MovieViewModel @Inject constructor(
 
     // Observers para comunicación de datos
     val itemDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
+    val detailsOfItemSelected: MutableLiveData<DetailsMovieModel> = MutableLiveData()
 
     fun getGenres() {
         viewModelScope.launch {

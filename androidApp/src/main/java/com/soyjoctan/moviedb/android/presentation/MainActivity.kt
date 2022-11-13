@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soyjoctan.moviedb.android.presentation.screens.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +34,29 @@ fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    // Remember a SystemUiController
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = false
+        )
+
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = false
+        )
+
+        systemUiController.setNavigationBarColor(
+            color = Color.Transparent
+        )
+
+        // setStatusBarColor() and setNavigationBarColor() also exist
+    }
+
     val colors = if (darkTheme) {
         darkColors(
             primary = Color(0xFF37474f),
@@ -91,19 +115,26 @@ class MainActivity : ComponentActivity() {
                         composable(HomeScreen.route) {
                             HomeGenres(
                                 viewModel = viewModel,
-                            ) {
-                                controller.navigate(it)
-                            }
+                                onNavigationController = {
+                                    controller.navigate(it)
+                                }
+                            )
                         }
                         composable(ListByDetailGenreScreen.route + "/{genreName}/{genreId}") { bachStackEntry ->
                             val genreName = bachStackEntry.arguments?.getString("genreName")
                             val genreId = bachStackEntry.arguments?.getString("genreId")
 
                             ListMovieByGenreScreen(
+                                genreName = genreName,
+                                genreId = genreId!!.toLong(),
                                 viewModel = viewModel,
-                                genreName,
-                                genreId!!.toLong()
+                                onNavigationController = {
+                                    controller.navigate(it)
+                                }
                             )
+                        }
+                        composable(CompleteDetailsItemScreen.route) { bachStackEntry ->
+                            CompleteDetailsItemScreen(viewModel)
                         }
                     }
                 }
