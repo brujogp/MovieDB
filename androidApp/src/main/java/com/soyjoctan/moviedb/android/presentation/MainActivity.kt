@@ -136,6 +136,9 @@ class MainActivity : ComponentActivity() {
                         composable(CompleteDetailsItemScreen.route) { bachStackEntry ->
                             CompleteDetailsItemScreen(viewModel)
                         }
+                        composable(ListToWatchScreen.route) { bachStackEntry ->
+                            ListToWatchScreen(viewModel)
+                        }
                     }
                 }
             }

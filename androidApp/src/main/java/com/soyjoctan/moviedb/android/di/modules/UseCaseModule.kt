@@ -1,9 +1,13 @@
 package com.soyjoctan.moviedb.android.di.modules
 
+import android.content.Context
 import com.soyjoctan.moviedb.domain.use_cases.*
+import com.soyjoctan.moviedb.shared.cache.DatabaseDriverFactory
+import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -34,4 +38,18 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun providePopularTvShowsUseCase(): PopularTvShowsUseCase = PopularTvShowsUseCase()
+
+
+    @Provides
+    @Singleton
+    fun provideItemsToWatchUseCase(): ItemsForWatchUseCase = ItemsForWatchUseCase()
+
+    @Provides
+    @Singleton
+    fun provideDatabaseDriverFactory(@ApplicationContext appContext: Context): DatabaseDriverFactory =
+        DatabaseDriverFactory(context = appContext)
+
+    @Provides
+    @Singleton
+    fun providerDbSDK(databaseFactory: DatabaseDriverFactory) = MovieDataSkd(databaseFactory)
 }

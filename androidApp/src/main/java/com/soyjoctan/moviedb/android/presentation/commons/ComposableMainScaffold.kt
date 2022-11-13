@@ -18,15 +18,17 @@ fun ComposableMainScaffold(
     coroutineScope: CoroutineScope,
     content: @Composable (paddingValues: PaddingValues) -> Unit,
     onFloatingButtonClick: (() -> Unit)?,
+    drawableOnClick: (() -> Unit)?,
     requireTopBar: Boolean = true
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
-            Text("Hola mundo")
-            Divider()
-            Text("Hola mundo")
-            Divider()
+            if (drawableOnClick != null) {
+                TextButton(onClick = drawableOnClick) {
+                    Text(text = "Películas para ver")
+                }
+            }
         },
         topBar = {
             if (requireTopBar) {

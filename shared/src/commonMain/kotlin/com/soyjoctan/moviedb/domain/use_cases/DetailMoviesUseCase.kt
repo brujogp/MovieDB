@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.dtos.moviedetails.MovieDetailsDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.*
@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.flow
 class DetailMoviesUseCase {
     private val repository: Repository = Repository()
 
-    operator fun invoke(movieId: Long): Flow<WrapperStatusRequest> = flow {
+    operator fun invoke(movieId: Long): Flow<WrapperStatusInfo> = flow {
         basicValidationResponse<MovieDetailsDTO>(repository.getMovieDetailById(movieId)).collect {
             when (it) {
-                is WrapperStatusRequest.SuccessResponse<*> -> {
+                is WrapperStatusInfo.SuccessResponse<*> -> {
                     (it.response as MovieDetailsDTO).apply {
                         val productionCompaniesList: ArrayList<ProductionCompany> = arrayListOf()
                         productionCompanies?.forEach { itemCompany ->
@@ -63,7 +63,7 @@ class DetailMoviesUseCase {
                         )
 
                         emit(
-                            WrapperStatusRequest.SuccessResponse(
+                            WrapperStatusInfo.SuccessResponse(
                                 result
                             )
                         )

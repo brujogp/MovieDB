@@ -98,6 +98,9 @@ fun HomeGenres(
         requireTopBar = false,
         onFloatingButtonClick = {
 
+        },
+        drawableOnClick = {
+            onNavigationController(ListToWatchScreen.route)
         }
     )
 

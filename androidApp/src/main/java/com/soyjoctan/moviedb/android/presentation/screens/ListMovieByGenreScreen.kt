@@ -101,7 +101,8 @@ fun ListMovieByGenreScreen(
         },
         titleSection = genreName,
         coroutineScope = coroutineScope,
-        onFloatingButtonClick = {}
+        onFloatingButtonClick = {},
+        drawableOnClick = {}
     )
 
     listState.OnBottomReached {

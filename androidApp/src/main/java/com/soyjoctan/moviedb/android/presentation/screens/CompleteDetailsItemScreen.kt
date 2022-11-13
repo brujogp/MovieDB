@@ -39,6 +39,7 @@ fun CompleteDetailsItemScreen(
         onFloatingButtonClick = {
 
         },
-        requireTopBar = false
+        requireTopBar = false,
+        drawableOnClick = {}
     )
 }

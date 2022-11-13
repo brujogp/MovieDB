@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.dtos.populartvshows.PopularTvShowsDTO
 import com.soyjoctan.moviedb.data.model.dtos.populartvshows.Result
 import com.soyjoctan.moviedb.data.repository.Repository
@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.flow
 class PopularTvShowsUseCase {
     private val repository: Repository = Repository()
 
-    operator fun invoke(): Flow<WrapperStatusRequest> = flow {
+    operator fun invoke(): Flow<WrapperStatusInfo> = flow {
         basicValidationResponse<PopularTvShowsDTO>(repository.getPopularTVShows()).collect {
             when (it) {
-                is WrapperStatusRequest.SuccessResponse<*> -> {
+                is WrapperStatusInfo.SuccessResponse<*> -> {
                     val results: ArrayList<PopularTvShowsModel> = arrayListOf()
 
                     (it.response as PopularTvShowsDTO).results?.forEach { tvShow: Result ->
@@ -29,7 +29,7 @@ class PopularTvShowsUseCase {
                         )
                     }
                     emit(
-                        WrapperStatusRequest.SuccessResponse(
+                        WrapperStatusInfo.SuccessResponse(
                             results
                         )
                     )

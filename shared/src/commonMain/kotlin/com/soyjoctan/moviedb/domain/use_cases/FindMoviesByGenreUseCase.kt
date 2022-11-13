@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.dtos.findbygenre.FindByGenreDTO
 import com.soyjoctan.moviedb.data.model.dtos.findbygenre.Result
 import com.soyjoctan.moviedb.data.repository.Repository
@@ -15,7 +15,7 @@ class FindMoviesByGenreUseCase {
         genreId: Long,
         page: Long,
         currentListItems: ArrayList<FindByGenreModel>?
-    ): Flow<WrapperStatusRequest> = flow {
+    ): Flow<WrapperStatusInfo> = flow {
         basicValidationResponse<FindByGenreDTO>(
             repository.getMoviesByGenre(
                 genreId,
@@ -23,7 +23,7 @@ class FindMoviesByGenreUseCase {
             )
         ).collect {
             when (it) {
-                is WrapperStatusRequest.SuccessResponse<*> -> {
+                is WrapperStatusInfo.SuccessResponse<*> -> {
                     val results: ArrayList<FindByGenreModel> = arrayListOf()
 
                     (it.response as FindByGenreDTO).results?.forEach { item: Result ->
@@ -41,7 +41,7 @@ class FindMoviesByGenreUseCase {
                     val listItems = verifyInfoAppend(currentListItems, results)
 
                     emit(
-                        WrapperStatusRequest.SuccessResponse(
+                        WrapperStatusInfo.SuccessResponse(
                             listItems
                         )
                     )

@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.dtos.toprated.TopRatedDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.TopRatedModel
@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.flow
 class TopRatedUseCase {
     private val repository: Repository = Repository()
 
-    operator fun invoke(): Flow<WrapperStatusRequest> = flow {
+    operator fun invoke(): Flow<WrapperStatusInfo> = flow {
         basicValidationResponse<TopRatedDTO>(repository.getTopRated()).collect {
             when (it) {
-                is WrapperStatusRequest.SuccessResponse<*> -> {
+                is WrapperStatusInfo.SuccessResponse<*> -> {
                     val results: ArrayList<TopRatedModel> = arrayListOf()
 
                     (it.response as TopRatedDTO).results?.forEach { movie ->
@@ -28,7 +28,7 @@ class TopRatedUseCase {
                         )
                     }
                     emit(
-                        WrapperStatusRequest.SuccessResponse(
+                        WrapperStatusInfo.SuccessResponse(
                             results
                         )
                     )
