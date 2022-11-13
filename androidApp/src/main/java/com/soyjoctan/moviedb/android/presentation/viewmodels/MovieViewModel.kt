@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
 import com.soyjoctan.moviedb.domain.use_cases.*
 import com.soyjoctan.moviedb.presentation.models.*
 import dagger.hilt.android.lifecycle.HiltViewModel

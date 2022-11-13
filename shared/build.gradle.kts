@@ -2,7 +2,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization") version "1.7.10"
-
+    id("com.squareup.sqldelight")
     id("kotlinx-serialization")
     id("com.android.library")
 }
@@ -26,12 +26,15 @@ kotlin {
 
     sourceSets {
         val ktorVersion = "2.1.3"
+        val sqlDelightVersion = "1.5.4"
+
         val commonMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-resources:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("com.squareup.sqldelight:runtime:$sqlDelightVersion")
             }
         }
         val commonTest by getting {
@@ -43,6 +46,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
             }
         }
         val androidTest by getting
@@ -56,6 +60,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation("com.squareup.sqldelight:native-driver:$sqlDelightVersion")
             }
         }
         val iosX64Test by getting
@@ -76,5 +81,10 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 32
+    }
+}
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.soyjoctan.moviedb.shared.cache"
     }
 }

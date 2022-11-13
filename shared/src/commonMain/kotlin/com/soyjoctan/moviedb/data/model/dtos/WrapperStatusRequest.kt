@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.data.model
+package com.soyjoctan.moviedb.data.model.dtos
 
 sealed class WrapperStatusRequest {
 

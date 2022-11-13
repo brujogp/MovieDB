@@ -1,7 +1,7 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.toprated.TopRatedDTO
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.toprated.TopRatedDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.TopRatedModel
 import kotlinx.coroutines.flow.Flow

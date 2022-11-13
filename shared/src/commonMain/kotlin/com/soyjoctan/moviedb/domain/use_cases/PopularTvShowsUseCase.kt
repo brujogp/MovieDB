@@ -1,8 +1,8 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.populartvshows.PopularTvShowsDTO
-import com.soyjoctan.moviedb.data.model.populartvshows.Result
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.populartvshows.PopularTvShowsDTO
+import com.soyjoctan.moviedb.data.model.dtos.populartvshows.Result
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.PopularTvShowsModel
 import kotlinx.coroutines.flow.Flow

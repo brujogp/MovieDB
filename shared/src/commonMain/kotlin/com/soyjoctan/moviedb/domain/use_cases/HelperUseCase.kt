@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

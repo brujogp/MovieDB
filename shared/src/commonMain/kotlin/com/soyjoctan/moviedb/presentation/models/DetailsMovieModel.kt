@@ -1,6 +1,6 @@
 package com.soyjoctan.moviedb.presentation.models
 
-import com.soyjoctan.moviedb.data.model.moviedetails.Genre
+import com.soyjoctan.moviedb.data.model.dtos.moviedetails.Genre
 
 data class DetailsMovieModel(
     override var itemName: String?,

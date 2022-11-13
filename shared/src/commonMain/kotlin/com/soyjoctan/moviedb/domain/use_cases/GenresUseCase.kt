@@ -1,12 +1,9 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.genres.GenresDTO
-import com.soyjoctan.moviedb.data.model.toprated.TopRatedDTO
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.genres.GenresDTO
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.GenreModel
-import com.soyjoctan.moviedb.presentation.models.TopRatedModel
-import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

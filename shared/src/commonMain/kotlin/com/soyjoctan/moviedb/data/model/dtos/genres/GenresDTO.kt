@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.data.model.genres
+package com.soyjoctan.moviedb.data.model.dtos.genres
 
 import kotlinx.serialization.*
 

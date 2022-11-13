@@ -1,8 +1,8 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
-import com.soyjoctan.moviedb.data.model.WrapperStatusRequest
-import com.soyjoctan.moviedb.data.model.findbygenre.FindByGenreDTO
-import com.soyjoctan.moviedb.data.model.findbygenre.Result
+import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusRequest
+import com.soyjoctan.moviedb.data.model.dtos.findbygenre.FindByGenreDTO
+import com.soyjoctan.moviedb.data.model.dtos.findbygenre.Result
 import com.soyjoctan.moviedb.data.repository.Repository
 import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
 import kotlinx.coroutines.flow.Flow

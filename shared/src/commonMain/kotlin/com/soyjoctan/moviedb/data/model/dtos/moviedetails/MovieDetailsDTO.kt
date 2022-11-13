@@ -1,4 +1,4 @@
-package com.soyjoctan.moviedb.data.model.moviedetails
+package com.soyjoctan.moviedb.data.model.dtos.moviedetails
 
 // To parse the JSON, install kotlin's serialization plugin and do:
 //

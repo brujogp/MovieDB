@@ -10,12 +10,14 @@ plugins {
 }
 
 buildscript {
+    val sqlDelightVersion = "1.5.4"
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
+        classpath("com.squareup.sqldelight:gradle-plugin:$sqlDelightVersion")
     }
 }
 
