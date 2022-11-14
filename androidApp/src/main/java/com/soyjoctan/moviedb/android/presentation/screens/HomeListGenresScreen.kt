@@ -94,13 +94,14 @@ fun HomeGenres(
                 }
             }
         },
-        requireTopBar = false,
+        requireTopBar = true,
         onFloatingButtonClick = {
 
         },
         drawableOnClick = {
             onNavigationController(ListToWatchScreen.route)
-        }
+        },
+        onNavigationController = onNavigationController
     )
 
     ComposableDetailsMovieBottomSheet(

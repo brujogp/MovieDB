@@ -67,7 +67,7 @@ class Repository {
     suspend fun getMoviesByGenre(genreId: Long, page: Long): HttpResponse? {
         val finalRequest = try {
             client.get(
-                resource = DiscoverMovies(
+                resource = DiscoverMoviesRequest(
                     withGenres = genreId,
                     page = page,
                     includeAdult = null
@@ -92,10 +92,20 @@ class Repository {
         return finalResponse
     }
 
-
     suspend fun getPopularTVShows(): HttpResponse? {
         val finalResponse = try {
             client.get(resource = PopularTvShowsRequest())
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalResponse
+    }
+
+    suspend fun searchItems(page: Long, query: String): HttpResponse? {
+        val finalResponse = try {
+            client.get(resource = SearchItemsRequest(page, query))
         } catch (e: Throwable) {
             print(e.stackTraceToString())
             null

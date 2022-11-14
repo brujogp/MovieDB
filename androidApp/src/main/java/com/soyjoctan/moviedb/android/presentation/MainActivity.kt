@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soyjoctan.moviedb.android.presentation.screens.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
@@ -142,7 +138,18 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(ListToWatchScreen.route) { bachStackEntry ->
-                            ListToWatchScreen(viewModel)
+                            ListToWatchScreen(viewModel,
+                                onNavigationController = {
+                                    controller.navigate(it)
+                                }
+                            )
+                        }
+                        composable(SearchScreen.route) { bachStackEntry ->
+                            SearchScreen(viewModel,
+                                onNavigationController = {
+                                    controller.navigate(it)
+                                }
+                            )
                         }
                     }
                 }

@@ -38,7 +38,6 @@ fun CompleteDetailsItemScreen(
 
                 }
             }
-
         },
         onFloatingButtonClick = {
 
@@ -46,6 +45,7 @@ fun CompleteDetailsItemScreen(
         requireTopBar = false,
         drawableOnClick = {
             onNavigationController(Routes.ListToWatchScreen.route)
-        }
+        },
+        onNavigationController = onNavigationController
     )
 }

@@ -24,6 +24,7 @@ class MovieViewModel @Inject constructor(
     private val popularTvShowsUseCase: PopularTvShowsUseCase,
     private val itemsForWatchUseCase: ItemsForWatchUseCase,
     private val addItemsForWatchUseCase: AddItemForWatchUseCase,
+    private val searchItemsUseCase: SearchItemUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -63,6 +64,13 @@ class MovieViewModel @Inject constructor(
         _popularTvShowsListMutableLiveData
 
     // Lista de series populares
+    private var _searchItemsListMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
+        MutableLiveData()
+    val searchItemsListLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
+        _searchItemsListMutableLiveData
+
+
+    // Lista de items que quieres ver traidos desde la base de datos
     private var _itemsToWatchListMutableLiveData: MutableLiveData<ArrayList<ItemsToWatch>> =
         MutableLiveData()
     val itemsToWatchListLiveDataObservable: LiveData<ArrayList<ItemsToWatch>> =
@@ -217,6 +225,29 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+    fun searchItems(
+        page: Long = 1,
+        query: String,
+        currentListItems: ArrayList<ClassBaseItemModel>?
+    ) {
+        viewModelScope.launch {
+            searchItemsUseCase.invoke(page, query, currentListItems).collect {
+                when (it) {
+                    is WrapperStatusInfo.Loading -> {
+                        _searchItemsListMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.SuccessResponse<*> -> {
+                        _searchItemsListMutableLiveData.value =
+                            it.response as ArrayList<ClassBaseItemModel>
+                    }
+                    is WrapperStatusInfo.NoInternetConnection -> {
+                        _searchItemsListMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
 
     fun addItemToWatch(itemToWatch: ItemToWatch) {
         viewModelScope.launch {

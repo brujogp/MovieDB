@@ -18,7 +18,10 @@ import java.util.ArrayList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListToWatchScreen(viewModel: MovieViewModel) {
+fun ListToWatchScreen(
+    viewModel: MovieViewModel,
+    onNavigationController: (path: String) -> Unit
+) {
     viewModel.getItemsToWatch()
     val itemsToWatch: ArrayList<ItemsToWatch>? by viewModel.itemsToWatchListLiveDataObservable.observeAsState()
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
@@ -32,7 +35,6 @@ fun ListToWatchScreen(viewModel: MovieViewModel) {
         ComposableVerticalLazyGrid(
             result = convertItems(itemsToWatch),
             viewModel = viewModel,
-            coroutineScope = coroutineScope,
             listState = null,
             bottomSheetState = bottomSheetState
         )
@@ -40,7 +42,6 @@ fun ListToWatchScreen(viewModel: MovieViewModel) {
 }
 
 fun convertItems(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<ClassBaseItemModel> {
-
     val items: ArrayList<ClassBaseItemModel> = arrayListOf()
 
     itemsToWatch?.forEach {

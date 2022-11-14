@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
@@ -20,10 +21,12 @@ import java.util.ArrayList
 fun ComposableVerticalLazyGrid(
     result: ArrayList<ClassBaseItemModel>,
     viewModel: MovieViewModel,
-    coroutineScope: CoroutineScope,
     listState: LazyGridState?,
     bottomSheetState: ModalBottomSheetState
 ) {
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(

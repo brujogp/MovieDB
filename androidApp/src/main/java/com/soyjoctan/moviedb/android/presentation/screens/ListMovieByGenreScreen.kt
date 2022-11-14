@@ -42,6 +42,7 @@ fun ListMovieByGenreScreen(
 
     ComposableMainScaffold(
         scaffoldState = scaffoldState,
+        onNavigationController = onNavigationController,
         content = {
             Box(
                 modifier = Modifier
@@ -53,7 +54,6 @@ fun ListMovieByGenreScreen(
                     ComposableVerticalLazyGrid(
                         result!!,
                         viewModel,
-                        coroutineScope,
                         listState,
                         bottomSheetState
                     )

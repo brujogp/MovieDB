@@ -5,4 +5,5 @@ sealed class Routes(val route: String) {
     object HomeScreen : Routes("HomeScreen")
     object CompleteDetailsItemScreen : Routes("CompleteDetailsItemScreen")
     object ListToWatchScreen : Routes("ListToWatchScreen")
+    object SearchScreen : Routes("SearchScreen")
 }

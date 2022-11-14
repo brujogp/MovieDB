@@ -48,6 +48,9 @@ object UseCaseModule {
     @Singleton
     fun provideAddItemToWatchUseCase(): AddItemForWatchUseCase = AddItemForWatchUseCase()
 
+    @Provides
+    @Singleton
+    fun provideSearchItemsUseCase(): SearchItemUseCase = SearchItemUseCase()
 
     @Provides
     @Singleton

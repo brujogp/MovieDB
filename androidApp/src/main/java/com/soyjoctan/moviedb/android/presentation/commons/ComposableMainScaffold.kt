@@ -1,19 +1,23 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
 import androidx.compose.foundation.layout.*
+import  com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.soyjoctan.moviedb.android.presentation.models.Routes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun ComposableMainScaffold(
     scaffoldState: ScaffoldState,
+    onNavigationController: (path: String) -> Unit,
     titleSection: String?,
     coroutineScope: CoroutineScope,
     content: @Composable (paddingValues: PaddingValues) -> Unit,
@@ -56,7 +60,13 @@ fun ComposableMainScaffold(
                         }
                     },
                     contentColor = Color.White,
-                    elevation = 16.dp
+                    elevation = 16.dp,
+                    actions = {
+                        IconButton(onClick = { onNavigationController(SearchScreen.route) }) {
+                            Icon(Icons.Outlined.Search, contentDescription = "Botón de busqueda")
+                        }
+                    }
+
                 )
             }
         },
@@ -67,6 +77,6 @@ fun ComposableMainScaffold(
                     Icon(Icons.Filled.Add, "Add item", tint = Color.White)
                 }
             }
-        }
+        },
     )
 }
