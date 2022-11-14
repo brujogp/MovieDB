@@ -106,7 +106,6 @@ fun HomeGenres(
 
     ComposableDetailsMovieBottomSheet(
         modalState = bottomSheetState,
-        scope = scope,
         viewModel = viewModel,
         onNavigationController = onNavigationController
     )

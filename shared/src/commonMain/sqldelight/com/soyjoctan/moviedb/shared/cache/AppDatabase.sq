@@ -7,7 +7,10 @@ CREATE TABLE ItemsLiked (
 CREATE TABLE ItemsToWatch(
     itemId Integer NOT NULL PRIMARY KEY,
     itemName TEXT NOT NULL,
-    whereWatch TEXT
+    whereWatch TEXT,
+    posterPathImage TEXT,
+    popularity INTEGER,
+    backdropPath TEXT
 );
 
 insertLikedMovie:
@@ -25,10 +28,16 @@ insertItemsToWatch:
 INSERT INTO ItemsToWatch(
     itemId,
     itemName,
-    whereWatch
+    whereWatch,
+   posterPathImage ,
+   popularity,
+   backdropPath
 ) VALUES (
     ?,
     ?,
+   ?,
+   ?,
+   ?,
    ?
 );
 

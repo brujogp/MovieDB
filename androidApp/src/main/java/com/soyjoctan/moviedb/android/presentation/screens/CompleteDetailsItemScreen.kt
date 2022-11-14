@@ -11,13 +11,15 @@ import com.soyjoctan.moviedb.android.presentation.commons.ComposableLandscapeBac
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableMainScaffold
 import com.soyjoctan.moviedb.android.presentation.commons.LandscapeImage
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun CompleteDetailsItemScreen(
-    viewModel: MovieViewModel = viewModel()
+    viewModel: MovieViewModel = viewModel(),
+    onNavigationController: (path: String) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -32,7 +34,9 @@ fun CompleteDetailsItemScreen(
         content = {
             itemSelected?.let { itemSelected ->
                 Text(text = itemSelected.itemName ?: "")
-                ComposableLandscapeBackdropMovie(movieSelected = movieSelected)
+                ComposableLandscapeBackdropMovie(movieSelected = movieSelected) {
+
+                }
             }
 
         },
@@ -40,6 +44,8 @@ fun CompleteDetailsItemScreen(
 
         },
         requireTopBar = false,
-        drawableOnClick = {}
+        drawableOnClick = {
+            onNavigationController(Routes.ListToWatchScreen.route)
+        }
     )
 }

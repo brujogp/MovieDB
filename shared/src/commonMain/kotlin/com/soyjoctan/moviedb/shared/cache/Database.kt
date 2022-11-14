@@ -1,7 +1,6 @@
 package com.soyjoctan.moviedb.shared.cache
 
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
-import com.soyjoctan.moviedb.data.model.entities.ItemsLiked
 
 internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = AppDatabase(databaseDriverFactory.createDriver())
@@ -22,20 +21,21 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         return dbQuery.selectItemsToWatch().executeAsList()
     }
 
-    internal fun createLaunches(moviesToWatch: List<ItemToWatch>) {
+    internal fun addItemToWatch(moviesToWatch: ItemToWatch) {
         dbQuery.transaction {
-            moviesToWatch.forEach { launch ->
-                insertMovieToWatch(launch)
-            }
+            insertMovieToWatch(moviesToWatch)
         }
     }
 
 
     private fun insertMovieToWatch(itemToWatch: ItemToWatch) {
         dbQuery.insertItemsToWatch(
-            itemId = itemToWatch.itemId,
-            itemName = itemToWatch.itemName,
-            whereWatch = itemToWatch.whereWatch
+            itemId = itemToWatch.itemId!!,
+            itemName = itemToWatch.itemName!!,
+            whereWatch = itemToWatch.whereWatch,
+            posterPathImage = itemToWatch.posterPathImage,
+            popularity = itemToWatch.popularity?.toLong(),
+            backdropPath = itemToWatch.backdropPath
         )
     }
 }

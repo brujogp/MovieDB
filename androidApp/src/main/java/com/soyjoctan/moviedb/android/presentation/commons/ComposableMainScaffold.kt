@@ -25,8 +25,16 @@ fun ComposableMainScaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
             if (drawableOnClick != null) {
-                TextButton(onClick = drawableOnClick) {
-                    Text(text = "Películas para ver")
+                TextButton(onClick = {
+                    drawableOnClick.invoke()
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.apply {
+                            close()
+                        }
+                    }
+                }
+                ) {
+                    Text(text = "Películas para ver", color = Color.White)
                 }
             }
         },

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
+import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.domain.use_cases.*
 import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
@@ -23,6 +24,7 @@ class MovieViewModel @Inject constructor(
     private val moveDetailsUseCase: DetailMoviesUseCase,
     private val popularTvShowsUseCase: PopularTvShowsUseCase,
     private val itemsForWatchUseCase: ItemsForWatchUseCase,
+    private val addItemsForWatchUseCase: AddItemForWatchUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -75,14 +77,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             genresUseCase().collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _genresMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _genresMutableLiveData.value =
                             it.response as ArrayList<GenreModel>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _genresMutableLiveData.value = null
                     }
                     else -> {}
@@ -95,14 +97,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             topRatedMoviesUseCase().collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _topRatedModelMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _topRatedModelMutableLiveData.value =
                             it.response as ArrayList<TopRatedModel>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _topRatedModelMutableLiveData.value = null
                     }
                     else -> {}
@@ -116,14 +118,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             upcomingUseCase().collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _upcomingMoviesModelMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _upcomingMoviesModelMutableLiveData.value =
                             it.response as ArrayList<UpcomingMoviesModel>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _upcomingMoviesModelMutableLiveData.value = null
                     }
                     else -> {}
@@ -140,14 +142,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             findMoviesByGenreUseCase(idGenre, page, currentListItems).collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _moviesByGenreModelMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _moviesByGenreModelMutableLiveData.value =
                             it.response as ArrayList<FindByGenreModel>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _moviesByGenreModelMutableLiveData.value = null
                     }
                     else -> {}
@@ -160,14 +162,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             moveDetailsUseCase(movieId).collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _detailsMovieMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _detailsMovieMutableLiveData.value =
                             it.response as DetailsMovieModel
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _detailsMovieMutableLiveData.value = null
                     }
                     else -> {}
@@ -180,14 +182,14 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             popularTvShowsUseCase().collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _popularTvShowsListMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _popularTvShowsListMutableLiveData.value =
                             it.response as ArrayList<PopularTvShowsModel>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _popularTvShowsListMutableLiveData.value = null
                     }
                     else -> {}
@@ -200,19 +202,26 @@ class MovieViewModel @Inject constructor(
         viewModelScope.launch {
             itemsForWatchUseCase.invoke(sdk = dbSdk).collect {
                 when (it) {
-                    is WrapperStatusInfo.loading -> {
+                    is WrapperStatusInfo.Loading -> {
                         _itemsToWatchListMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _itemsToWatchListMutableLiveData.value =
                             it.response as ArrayList<ItemsToWatch>
                     }
-                    is WrapperStatusInfo.noInternetConnection -> {
+                    is WrapperStatusInfo.NoInternetConnection -> {
                         _itemsToWatchListMutableLiveData.value = null
                     }
                     else -> {}
                 }
             }
+        }
+    }
+
+
+    fun addItemToWatch(itemToWatch: ItemToWatch) {
+        viewModelScope.launch {
+            addItemsForWatchUseCase.invoke(itemToWatch = itemToWatch, sdk = dbSdk)
         }
     }
 }

@@ -46,6 +46,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideAddItemToWatchUseCase(): AddItemForWatchUseCase = AddItemForWatchUseCase()
+
+
+    @Provides
+    @Singleton
     fun provideDatabaseDriverFactory(@ApplicationContext appContext: Context): DatabaseDriverFactory =
         DatabaseDriverFactory(context = appContext)
 

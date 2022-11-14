@@ -25,7 +25,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 
 @Composable
-fun ComposableLandscapeBackdropMovie(movieSelected: CarouselModel?) {
+fun ComposableLandscapeBackdropMovie(
+    movieSelected: CarouselModel?,
+    onClickToWatchButton: (isMarkedToWatch: Boolean) -> Unit
+) {
 
     var isLiked by rememberSaveable { mutableStateOf(false) }
     var isInWishList by rememberSaveable { mutableStateOf(false) }
@@ -55,7 +58,10 @@ fun ComposableLandscapeBackdropMovie(movieSelected: CarouselModel?) {
         }
 
         IconButton(
-            onClick = { isInWishList = !isInWishList },
+            onClick = {
+                isInWishList = !isInWishList
+                onClickToWatchButton(isInWishList)
+            },
             modifier = Modifier.constrainAs(iconLike) {
                 end.linkTo(parent.end, margin = 8.dp)
             }

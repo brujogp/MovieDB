@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 inline fun <reified DtoType> basicValidationResponse(response: HttpResponse?): Flow<WrapperStatusInfo> {
     return flow {
         try {
-            emit(WrapperStatusInfo.loading)
+            emit(WrapperStatusInfo.Loading)
 
             when (response?.status) {
                 HttpStatusCode.OK -> {
@@ -20,10 +20,10 @@ inline fun <reified DtoType> basicValidationResponse(response: HttpResponse?): F
                     emit(WrapperStatusInfo.ErrorResponse("Error en el servidor"))
                 }
                 HttpStatusCode.NotFound -> {
-                    emit(WrapperStatusInfo.notFound)
+                    emit(WrapperStatusInfo.NotFound)
                 }
                 null -> {
-                    emit(WrapperStatusInfo.noInternetConnection)
+                    emit(WrapperStatusInfo.NoInternetConnection)
                 }
             }
 
