@@ -11,11 +11,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ComposableCardPoster(item: CarouselModel, onClickPosterImage: (item: CarouselModel) -> Unit) {
+fun ComposableCardPoster(item: ClassBaseItemModel, onClickPosterImage: (item: ClassBaseItemModel) -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth().background(Color.Transparent),
         contentAlignment = Alignment.Center,
@@ -55,7 +55,7 @@ fun ComposableCardPoster(item: CarouselModel, onClickPosterImage: (item: Carouse
 @Composable
 fun preview() {
     ComposableCardPoster(
-        item = CarouselModel(
+        item = ClassBaseItemModel(
             null,
             null,
             null,

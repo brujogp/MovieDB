@@ -22,11 +22,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 
 @Composable
 fun ComposableLandscapeBackdropMovie(
-    movieSelected: CarouselModel?,
+    movieSelected: ClassBaseItemModel?,
     onClickToWatchButton: (isMarkedToWatch: Boolean) -> Unit
 ) {
 

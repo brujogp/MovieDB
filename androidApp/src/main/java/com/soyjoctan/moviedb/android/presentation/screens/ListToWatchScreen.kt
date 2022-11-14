@@ -11,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableVerticalLazyGrid
 import com.soyjoctan.moviedb.android.presentation.commons.Subtitle
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
 import java.util.ArrayList
@@ -39,13 +39,13 @@ fun ListToWatchScreen(viewModel: MovieViewModel) {
     }
 }
 
-fun convertItems(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<FindByGenreModel> {
+fun convertItems(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<ClassBaseItemModel> {
 
-    val items: ArrayList<FindByGenreModel> = arrayListOf()
+    val items: ArrayList<ClassBaseItemModel> = arrayListOf()
 
     itemsToWatch?.forEach {
         items.add(
-            FindByGenreModel(
+            ClassBaseItemModel(
                 itemName = it.itemName,
                 posterPathImage = it.posterPathImage,
                 popularity = it.popularity?.toDouble(),

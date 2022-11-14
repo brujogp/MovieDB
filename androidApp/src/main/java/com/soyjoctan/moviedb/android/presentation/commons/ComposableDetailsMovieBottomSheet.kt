@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ fun ComposableDetailsMovieBottomSheet(
     viewModel: MovieViewModel,
     onNavigationController: (path: String) -> Unit
 ) {
-    val movieSelected: CarouselModel? by viewModel.itemDetailsSelected.observeAsState()
+    val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
     var isLoading by rememberSaveable { mutableStateOf(true) }

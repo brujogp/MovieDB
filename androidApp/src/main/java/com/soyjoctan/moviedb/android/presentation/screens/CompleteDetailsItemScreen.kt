@@ -10,9 +10,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableLandscapeBackdropMovie
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableMainScaffold
 import com.soyjoctan.moviedb.android.presentation.commons.LandscapeImage
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import kotlinx.coroutines.CoroutineScope
 
@@ -25,7 +25,7 @@ fun CompleteDetailsItemScreen(
     val scope: CoroutineScope = rememberCoroutineScope()
 
     val itemSelected: DetailsMovieModel? by viewModel.detailsOfItemSelected.observeAsState()
-    val movieSelected: CarouselModel? by viewModel.itemDetailsSelected.observeAsState()
+    val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
 
     ComposableMainScaffold(
         scaffoldState = scaffoldState,

@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.*
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.*
@@ -36,9 +35,9 @@ fun HomeGenres(
     var isPopularTvShowsLoading by rememberSaveable { mutableStateOf(true) }
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
-    val topRatedMovies: ArrayList<TopRatedModel>? by viewModel.listTopRatedModelMoviesObservable.observeAsState()
-    val upcomingMovies: ArrayList<UpcomingMoviesModel>? by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
-    val popularTvShows: ArrayList<PopularTvShowsModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
+    val topRatedMovies: ArrayList<ClassBaseItemModel>? by viewModel.listTopRatedModelMoviesObservable.observeAsState()
+    val upcomingMovies: ArrayList<ClassBaseItemModel>? by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
+    val popularTvShows: ArrayList<ClassBaseItemModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
 
     makeRequests(viewModel)
 
@@ -118,34 +117,16 @@ fun makeRequests(viewModel: MovieViewModel) {
     viewModel.getPopularTvShows()
 }
 
-fun convertorToCarouselModel(elements: ArrayList<PresentationModelParent>?): ArrayList<CarouselModel> {
-    val array = arrayListOf<CarouselModel>()
-
-    elements?.forEach {
-        array.add(
-            CarouselModel(
-                itemName = it.itemName,
-                posterPathImage = it.posterPathImage,
-                popularity = it.popularity,
-                itemId = it.itemId,
-                backdropPath = it.backdropPath
-            )
-        )
-    }
-
-    return array
-}
-
 @Composable
-inline fun <reified T : PresentationModelParent> Section(
+inline fun <reified T : ClassBaseItemModel> Section(
     titleSection: String,
     list: ArrayList<T>?,
-    noinline onClickElement: (item: CarouselModel) -> Unit
+    noinline onClickElement: (item: ClassBaseItemModel) -> Unit
 ): Boolean {
     Subtitle(titleSection)
     if (list != null) {
         ViewCarousel(
-            content = convertorToCarouselModel(list as ArrayList<PresentationModelParent>),
+            content = list as ArrayList<ClassBaseItemModel>,
             modifier = Modifier,
             onClickPosterImage = onClickElement
         )
@@ -159,5 +140,4 @@ inline fun <reified T : PresentationModelParent> Section(
         )
         return true
     }
-
 }

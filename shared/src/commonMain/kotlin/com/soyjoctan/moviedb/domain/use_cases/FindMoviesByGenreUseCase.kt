@@ -4,7 +4,7 @@ import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.dtos.findbygenre.FindByGenreDTO
 import com.soyjoctan.moviedb.data.model.dtos.findbygenre.Result
 import com.soyjoctan.moviedb.data.repository.Repository
-import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -14,7 +14,7 @@ class FindMoviesByGenreUseCase {
     operator fun invoke(
         genreId: Long,
         page: Long,
-        currentListItems: ArrayList<FindByGenreModel>?
+        currentListItems: ArrayList<ClassBaseItemModel>?
     ): Flow<WrapperStatusInfo> = flow {
         basicValidationResponse<FindByGenreDTO>(
             repository.getMoviesByGenre(
@@ -24,11 +24,11 @@ class FindMoviesByGenreUseCase {
         ).collect {
             when (it) {
                 is WrapperStatusInfo.SuccessResponse<*> -> {
-                    val results: ArrayList<FindByGenreModel> = arrayListOf()
+                    val results: ArrayList<ClassBaseItemModel> = arrayListOf()
 
                     (it.response as FindByGenreDTO).results?.forEach { item: Result ->
                         results.add(
-                            FindByGenreModel(
+                            ClassBaseItemModel(
                                 itemId = item.id,
                                 itemName = item.title,
                                 posterPathImage = item.posterPath,
@@ -54,10 +54,10 @@ class FindMoviesByGenreUseCase {
     }
 
     private fun verifyInfoAppend(
-        currentListItems: ArrayList<FindByGenreModel>?,
-        newListItems: ArrayList<FindByGenreModel>
-    ): ArrayList<FindByGenreModel> {
-        val finalListItems: ArrayList<FindByGenreModel> =
+        currentListItems: ArrayList<ClassBaseItemModel>?,
+        newListItems: ArrayList<ClassBaseItemModel>
+    ): ArrayList<ClassBaseItemModel> {
+        val finalListItems: ArrayList<ClassBaseItemModel> =
             if (currentListItems?.isNotEmpty() == true) {
                 currentListItems.addAll(newListItems)
                 currentListItems

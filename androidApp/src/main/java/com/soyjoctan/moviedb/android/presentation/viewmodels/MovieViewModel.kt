@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.domain.use_cases.*
@@ -33,21 +32,21 @@ class MovieViewModel @Inject constructor(
     val listGenresObservable: LiveData<List<GenreModel>> = _genresMutableLiveData
 
     // Películas mejor ranqueadas
-    private var _topRatedModelMutableLiveData: MutableLiveData<ArrayList<TopRatedModel>> =
+    private var _topRatedModelMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
         MutableLiveData()
-    val listTopRatedModelMoviesObservable: LiveData<ArrayList<TopRatedModel>> =
+    val listTopRatedModelMoviesObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _topRatedModelMutableLiveData
 
     // Películas próximas a salir
-    private var _upcomingMoviesModelMutableLiveData: MutableLiveData<ArrayList<UpcomingMoviesModel>> =
+    private var _upcomingMoviesModelMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
         MutableLiveData()
-    val listUpcomingMoviesModelMoviesObservable: LiveData<ArrayList<UpcomingMoviesModel>> =
+    val listUpcomingMoviesModelMoviesObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _upcomingMoviesModelMutableLiveData
 
     // Listado de películas por género
-    private var _moviesByGenreModelMutableLiveData: MutableLiveData<ArrayList<FindByGenreModel>> =
+    private var _moviesByGenreModelMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
         MutableLiveData()
-    val moviesByGenreModelMutableLiveDataObservable: LiveData<ArrayList<FindByGenreModel>> =
+    val moviesByGenreModelMutableLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _moviesByGenreModelMutableLiveData
 
     // Detalle de la película
@@ -58,9 +57,9 @@ class MovieViewModel @Inject constructor(
 
 
     // Lista de series populares
-    private var _popularTvShowsListMutableLiveData: MutableLiveData<ArrayList<PopularTvShowsModel>> =
+    private var _popularTvShowsListMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
         MutableLiveData()
-    val popularTvShowsListLiveDataObservable: LiveData<ArrayList<PopularTvShowsModel>> =
+    val popularTvShowsListLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _popularTvShowsListMutableLiveData
 
     // Lista de series populares
@@ -70,7 +69,7 @@ class MovieViewModel @Inject constructor(
         _itemsToWatchListMutableLiveData
 
     // Observers para comunicación de datos
-    val itemDetailsSelected: MutableLiveData<CarouselModel> = MutableLiveData()
+    val itemDetailsSelected: MutableLiveData<ClassBaseItemModel> = MutableLiveData()
     val detailsOfItemSelected: MutableLiveData<DetailsMovieModel> = MutableLiveData()
 
     fun getGenres() {
@@ -102,7 +101,7 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _topRatedModelMutableLiveData.value =
-                            it.response as ArrayList<TopRatedModel>
+                            it.response as ArrayList<ClassBaseItemModel>
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _topRatedModelMutableLiveData.value = null
@@ -123,7 +122,7 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _upcomingMoviesModelMutableLiveData.value =
-                            it.response as ArrayList<UpcomingMoviesModel>
+                            it.response as ArrayList<ClassBaseItemModel>
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _upcomingMoviesModelMutableLiveData.value = null
@@ -137,7 +136,7 @@ class MovieViewModel @Inject constructor(
     fun getMoviesByGenre(
         idGenre: Long,
         page: Long,
-        currentListItems: ArrayList<FindByGenreModel>?
+        currentListItems: ArrayList<ClassBaseItemModel>?
     ) {
         viewModelScope.launch {
             findMoviesByGenreUseCase(idGenre, page, currentListItems).collect {
@@ -147,7 +146,7 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _moviesByGenreModelMutableLiveData.value =
-                            it.response as ArrayList<FindByGenreModel>
+                            it.response as ArrayList<ClassBaseItemModel>
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _moviesByGenreModelMutableLiveData.value = null
@@ -187,7 +186,7 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _popularTvShowsListMutableLiveData.value =
-                            it.response as ArrayList<PopularTvShowsModel>
+                            it.response as ArrayList<ClassBaseItemModel>
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _popularTvShowsListMutableLiveData.value = null

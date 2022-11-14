@@ -15,7 +15,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.ComposableVerticalLazy
 import com.soyjoctan.moviedb.android.presentation.extensions.OnBottomReached
 import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.presentation.models.FindByGenreModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import kotlinx.coroutines.CoroutineScope
 import java.util.ArrayList
 
@@ -38,7 +38,7 @@ fun ListMovieByGenreScreen(
     )
 
     val listState = rememberLazyGridState()
-    val result: ArrayList<FindByGenreModel>? by viewModel.moviesByGenreModelMutableLiveDataObservable.observeAsState()
+    val result: ArrayList<ClassBaseItemModel>? by viewModel.moviesByGenreModelMutableLiveDataObservable.observeAsState()
 
     ComposableMainScaffold(
         scaffoldState = scaffoldState,

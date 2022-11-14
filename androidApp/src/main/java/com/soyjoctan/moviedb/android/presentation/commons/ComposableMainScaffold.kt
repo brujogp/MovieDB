@@ -34,7 +34,7 @@ fun ComposableMainScaffold(
                     }
                 }
                 ) {
-                    Text(text = "Películas para ver", color = Color.White)
+                    Text(text = "Películas para ver", color = MaterialTheme.colors.onBackground)
                 }
             }
         },

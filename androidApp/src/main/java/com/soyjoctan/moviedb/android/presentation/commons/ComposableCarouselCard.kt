@@ -16,20 +16,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soyjoctan.moviedb.android.presentation.models.CarouselModel
+import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 
 @Composable
 fun ViewCarousel(
-    content: ArrayList<CarouselModel>?,
+    content: ArrayList<ClassBaseItemModel>?,
     modifier: Modifier,
-    onClickPosterImage: (item: CarouselModel) -> Unit
+    onClickPosterImage: (item: ClassBaseItemModel) -> Unit
 ) {
     LazyRow(
         contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         content?.let {
-            items(it.toList()) { item: CarouselModel ->
+            items(it.toList()) { item: ClassBaseItemModel ->
                 ComposableCardPoster(item, onClickPosterImage)
             }
         }
@@ -37,7 +37,7 @@ fun ViewCarousel(
 }
 
 @Composable
-fun ComposableMovieRate(item: CarouselModel?) {
+fun ComposableMovieRate(item: ClassBaseItemModel?) {
     Card(
         modifier = Modifier
             .padding(8.dp),
