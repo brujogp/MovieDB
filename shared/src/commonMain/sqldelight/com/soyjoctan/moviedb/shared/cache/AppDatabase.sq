@@ -29,9 +29,9 @@ INSERT INTO ItemsToWatch(
     itemId,
     itemName,
     whereWatch,
-   posterPathImage ,
-   popularity,
-   backdropPath
+    posterPathImage,
+    popularity,
+    backdropPath
 ) VALUES (
     ?,
     ?,
@@ -45,7 +45,11 @@ selectItemsLiked:
     SELECT * FROM ItemsLiked;
 
 selectItemsToWatch:
-SELECT * FROM ItemsToWatch;
+    SELECT * FROM ItemsToWatch;
+
+searchItemToWatchById:
+    SELECT * FROM ItemsToWatch WHERE itemId = ?;
+
 
 removeAllDataIntoItemsToWatch:
     DELETE FROM ItemsToWatch;

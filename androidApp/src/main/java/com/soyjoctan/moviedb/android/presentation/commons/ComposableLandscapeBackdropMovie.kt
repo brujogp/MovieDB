@@ -27,6 +27,7 @@ import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 @Composable
 fun ComposableLandscapeBackdropMovie(
     movieSelected: ClassBaseItemModel?,
+    wasMarkedToWatch: Boolean,
     onClickToWatchButton: (isMarkedToWatch: Boolean) -> Unit
 ) {
 
@@ -67,7 +68,7 @@ fun ComposableLandscapeBackdropMovie(
             }
         ) {
             Icon(
-                if (isInWishList) Icons.Filled.Check else Icons.Outlined.Add,
+                if (isInWishList || wasMarkedToWatch) Icons.Filled.Check else Icons.Outlined.Add,
                 contentDescription = "Añadir a la wish list",
                 tint = Color.White
             )

@@ -13,12 +13,16 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun getAllItemsLiked(): List<com.soyjoctan.moviedb.shared.cache.ItemsLiked> {
+    internal fun getAllItemsLiked(): List<ItemsLiked> {
         return dbQuery.selectItemsLiked().executeAsList()
     }
 
-    internal fun getAllItemsToWatch(): List<com.soyjoctan.moviedb.shared.cache.ItemsToWatch> {
+    internal fun getAllItemsToWatch(): List<ItemsToWatch> {
         return dbQuery.selectItemsToWatch().executeAsList()
+    }
+
+    internal fun searchItemToWatchById(itemId: Long): ItemsToWatch? {
+        return dbQuery.searchItemToWatchById(itemId)?.executeAsOne()
     }
 
     internal fun addItemToWatch(moviesToWatch: ItemToWatch) {
@@ -26,7 +30,6 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             insertMovieToWatch(moviesToWatch)
         }
     }
-
 
     private fun insertMovieToWatch(itemToWatch: ItemToWatch) {
         dbQuery.insertItemsToWatch(

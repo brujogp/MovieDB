@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class ItemsForWatchUseCase {
-
     operator fun invoke(sdk: MovieDataSkd): Flow<WrapperStatusInfo> = flow {
         var result: List<ItemsToWatch> = listOf()
 

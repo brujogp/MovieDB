@@ -14,6 +14,7 @@ import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
+import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -26,6 +27,11 @@ fun CompleteDetailsItemScreen(
 
     val itemSelected: DetailsMovieModel? by viewModel.detailsOfItemSelected.observeAsState()
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
+    val itemToWatchFromDb: ItemsToWatch? by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
+
+    movieSelected?.itemId?.let {
+        viewModel.searchItemToWatchById(it)
+    }
 
     ComposableMainScaffold(
         scaffoldState = scaffoldState,
@@ -34,9 +40,13 @@ fun CompleteDetailsItemScreen(
         content = {
             itemSelected?.let { itemSelected ->
                 Text(text = itemSelected.itemName ?: "")
-                ComposableLandscapeBackdropMovie(movieSelected = movieSelected) {
+                ComposableLandscapeBackdropMovie(
+                    movieSelected = movieSelected,
+                    onClickToWatchButton = {
 
-                }
+                    },
+                    wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId
+                )
             }
         },
         onFloatingButtonClick = {

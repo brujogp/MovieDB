@@ -25,6 +25,7 @@ class MovieViewModel @Inject constructor(
     private val itemsForWatchUseCase: ItemsForWatchUseCase,
     private val addItemsForWatchUseCase: AddItemForWatchUseCase,
     private val searchItemsUseCase: SearchItemUseCase,
+    private val searchItemToWatchUseCase: SearchItemToWatchUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -68,6 +69,12 @@ class MovieViewModel @Inject constructor(
         MutableLiveData()
     val searchItemsListLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _searchItemsListMutableLiveData
+
+    // Item buscado en base de datos
+    private var _searchItemByIdMutableLiveData: MutableLiveData<ItemsToWatch> =
+        MutableLiveData()
+    val searchItemToWatchByIdListLiveDataObservable: LiveData<ItemsToWatch> =
+        _searchItemByIdMutableLiveData
 
 
     // Lista de items que quieres ver traidos desde la base de datos
@@ -242,6 +249,28 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _searchItemsListMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun searchItemToWatchById(
+        itemId: Long
+    ) {
+        viewModelScope.launch {
+            searchItemToWatchUseCase.invoke(dbSdk, itemId).collect {
+                when (it) {
+                    is WrapperStatusInfo.Loading -> {
+                        _searchItemByIdMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.SuccessResponse<*> -> {
+                        _searchItemByIdMutableLiveData.value =
+                            it.response as ItemsToWatch
+                    }
+                    is WrapperStatusInfo.NoInternetConnection -> {
+                        _searchItemByIdMutableLiveData.value = null
                     }
                     else -> {}
                 }

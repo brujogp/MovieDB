@@ -18,7 +18,6 @@ import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -30,6 +29,7 @@ fun ComposableDetailsMovieBottomSheet(
 ) {
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
+    val itemToWatchFromDb by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
@@ -48,20 +48,24 @@ fun ComposableDetailsMovieBottomSheet(
                         .fillMaxWidth(),
                     contentAlignment = Alignment.TopCenter
                 ) {
-                    ComposableLandscapeBackdropMovie(movieSelected) {
-                        if (it) {
-                            viewModel.addItemToWatch(
-                                ItemToWatch(
-                                    itemId = detailMovieSelected?.itemId!!,
-                                    itemName = detailMovieSelected?.itemName!!,
-                                    whereWatch = "Sin especificar",
-                                    posterPathImage = detailMovieSelected!!.posterPathImage,
-                                    popularity = detailMovieSelected!!.popularity,
-                                    backdropPath = detailMovieSelected!!.backdropPath
+                    ComposableLandscapeBackdropMovie(
+                        movieSelected = movieSelected,
+                        wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
+                        onClickToWatchButton = {
+                            if (itemToWatchFromDb == null) {
+                                viewModel.addItemToWatch(
+                                    ItemToWatch(
+                                        itemId = detailMovieSelected?.itemId!!,
+                                        itemName = detailMovieSelected?.itemName!!,
+                                        whereWatch = "Sin especificar",
+                                        posterPathImage = detailMovieSelected!!.posterPathImage,
+                                        popularity = detailMovieSelected!!.popularity,
+                                        backdropPath = detailMovieSelected!!.backdropPath
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
+                    )
                 }
                 if (detailMovieSelected != null) {
                     isLoading = false
@@ -116,4 +120,5 @@ fun ComposableDetailsMovieBottomSheet(
 
 fun makeDetailRequest(viewModel: MovieViewModel, movieId: Long) {
     viewModel.getMovieDetailsById(movieId)
+    viewModel.searchItemToWatchById(movieId)
 }
