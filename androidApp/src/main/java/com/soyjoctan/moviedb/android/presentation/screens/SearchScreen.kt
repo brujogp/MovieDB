@@ -1,10 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
 import android.widget.ProgressBar
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -38,6 +36,8 @@ fun SearchScreen(
     onNavigationController: (path: String) -> Unit
 ) {
     var value by rememberSaveable { mutableStateOf("") }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+
     val result by viewModel.searchItemsListLiveDataObservable.observeAsState()
     val listState: LazyGridState = rememberLazyGridState()
     var currentPage by rememberSaveable { mutableStateOf(1L) }
@@ -65,6 +65,7 @@ fun SearchScreen(
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
             keyboardActions = KeyboardActions(onSearch = {
+                isLoading = true
                 viewModel.searchItems(query = value, page = 1, currentListItems = null)
                 scope.launch {
                     listState.scrollToItem(1)
@@ -83,8 +84,14 @@ fun SearchScreen(
                 listState,
                 bottomSheetState
             )
-        } else {
-            CircularProgressIndicator()
+            isLoading = false
+        } else if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
     }
 

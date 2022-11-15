@@ -31,8 +31,9 @@ fun ComposableDetailsMovieBottomSheet(
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
     val itemToWatchFromDb by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
 
-    var isLoading by rememberSaveable { mutableStateOf(true) }
+    var auxItemToWatchFromDb by rememberSaveable { mutableStateOf(itemToWatchFromDb?.itemId) }
 
+    var isLoading by rememberSaveable { mutableStateOf(true) }
     val scope = rememberCoroutineScope()
 
     movieSelected?.itemId?.let {
@@ -50,9 +51,9 @@ fun ComposableDetailsMovieBottomSheet(
                 ) {
                     ComposableLandscapeBackdropMovie(
                         movieSelected = movieSelected,
-                        wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
+                        wasMarkedToWatch = auxItemToWatchFromDb == movieSelected?.itemId,
                         onClickToWatchButton = {
-                            if (itemToWatchFromDb == null) {
+                            if (itemToWatchFromDb?.itemId != movieSelected?.itemId) {
                                 viewModel.addItemToWatch(
                                     ItemToWatch(
                                         itemId = detailMovieSelected?.itemId!!,
@@ -63,6 +64,7 @@ fun ComposableDetailsMovieBottomSheet(
                                         backdropPath = detailMovieSelected!!.backdropPath
                                     )
                                 )
+                                auxItemToWatchFromDb = movieSelected?.itemId!!
                             }
                         }
                     )

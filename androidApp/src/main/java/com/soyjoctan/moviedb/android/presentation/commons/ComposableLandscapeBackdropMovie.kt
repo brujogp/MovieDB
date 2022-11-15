@@ -68,7 +68,7 @@ fun ComposableLandscapeBackdropMovie(
             }
         ) {
             Icon(
-                if (isInWishList || wasMarkedToWatch) Icons.Filled.Check else Icons.Outlined.Add,
+                if (wasMarkedToWatch) Icons.Filled.Check else Icons.Outlined.Add,
                 contentDescription = "Añadir a la wish list",
                 tint = Color.White
             )
