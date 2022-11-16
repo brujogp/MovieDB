@@ -11,6 +11,7 @@ import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,6 +27,8 @@ class MovieViewModel @Inject constructor(
     private val addItemsForWatchUseCase: AddItemForWatchUseCase,
     private val searchItemsUseCase: SearchItemUseCase,
     private val searchItemToWatchUseCase: SearchItemToWatchUseCase,
+    private val deleteItemsToWatchByIdUseCase: DeleteItemToWatchByIdUseCase,
+
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -226,6 +229,9 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _itemsToWatchListMutableLiveData.value = null
                     }
+                    is WrapperStatusInfo.NotFound-> {
+                        _itemsToWatchListMutableLiveData.value = null
+                    }
                     else -> {}
                 }
             }
@@ -272,6 +278,9 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _searchItemByIdMutableLiveData.value = null
                     }
+                    is WrapperStatusInfo.NotFound-> {
+                        _searchItemByIdMutableLiveData.value = null
+                    }
                     else -> {}
                 }
             }
@@ -281,6 +290,12 @@ class MovieViewModel @Inject constructor(
     fun addItemToWatch(itemToWatch: ItemToWatch) {
         viewModelScope.launch {
             addItemsForWatchUseCase.invoke(itemToWatch = itemToWatch, sdk = dbSdk)
+        }
+    }
+
+    fun removeItemToWatch(itemToRemove: Long) {
+        viewModelScope.launch {
+            deleteItemsToWatchByIdUseCase.invoke(sdk = dbSdk, itemToRemove = itemToRemove)
         }
     }
 }

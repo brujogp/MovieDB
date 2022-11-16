@@ -5,6 +5,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentComposer
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,6 +25,8 @@ fun ListToWatchScreen(
 ) {
     viewModel.getItemsToWatch()
     val itemsToWatch: ArrayList<ItemsToWatch>? by viewModel.itemsToWatchListLiveDataObservable.observeAsState()
+
+
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,

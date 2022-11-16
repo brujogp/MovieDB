@@ -24,7 +24,6 @@ fun ComposableVerticalLazyGrid(
     listState: LazyGridState?,
     bottomSheetState: ModalBottomSheetState
 ) {
-
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     LazyVerticalGrid(

@@ -63,8 +63,10 @@ fun ComposableDetailsMovieBottomSheet(
                                         backdropPath = detailMovieSelected!!.backdropPath
                                     )
                                 )
-
                                 makeDetailRequest(viewModel, movieSelected?.itemId!!)
+                            } else {
+                                viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
+                                viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
                             }
                         }
                     )

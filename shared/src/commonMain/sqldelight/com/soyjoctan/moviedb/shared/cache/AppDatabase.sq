@@ -54,5 +54,11 @@ searchItemToWatchById:
 removeAllDataIntoItemsToWatch:
     DELETE FROM ItemsToWatch;
 
+removeItemToWatchById:
+    DELETE FROM ItemsToWatch WHERE itemId = ?;
+
 removeAllDataIntoItemsLiked:
     DELETE FROM ItemsLiked;
+
+removeItemLikedById:
+    DELETE FROM ItemsLiked WHERE itemId = ?;

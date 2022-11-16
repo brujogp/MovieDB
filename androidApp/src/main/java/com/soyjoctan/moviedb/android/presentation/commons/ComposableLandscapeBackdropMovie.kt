@@ -80,11 +80,13 @@ fun ComposableLandscapeBackdropMovie(
         Text(
             text = movieSelected?.itemName ?: "",
             color = Color.White,
-            modifier = Modifier.constrainAs(text) {
-                bottom.linkTo(parent.bottom, margin = 16.dp)
-                start.linkTo(parent.start, margin = 16.dp)
-                end.linkTo(parent.end, margin = 16.dp)
-            }.padding(start = 16.dp, end = 16.dp),
+            modifier = Modifier
+                .constrainAs(text) {
+                    bottom.linkTo(parent.bottom, margin = 16.dp)
+                    start.linkTo(parent.start, margin = 16.dp)
+                    end.linkTo(parent.end, margin = 16.dp)
+                }
+                .padding(start = 16.dp, end = 16.dp),
             fontWeight = FontWeight.ExtraBold,
             fontSize = 32.sp,
             maxLines = 2,
@@ -96,7 +98,10 @@ fun ComposableLandscapeBackdropMovie(
         NoPaddingAlertDialog(
             onDismissRequest = { openDialog = false },
             confirmButton = {
-                TextButton(onClick = { openDialog = false }) {
+                TextButton(onClick = {
+                    openDialog = false
+                    onClickToWatchButton(false)
+                }) {
                     Text(text = "Sí, eliminar", color = MaterialTheme.colors.onBackground)
                 }
             },

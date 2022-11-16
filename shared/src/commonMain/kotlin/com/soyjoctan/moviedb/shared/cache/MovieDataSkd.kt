@@ -16,6 +16,11 @@ class MovieDataSkd(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     @Throws(Exception::class)
+    fun deleteItemToWatchById(idItem: Long) {
+        return database.deleteItemToWatchById(idItem)
+    }
+
+    @Throws(Exception::class)
     fun addItemForWatch(itemToAdd: ItemToWatch) {
         try {
             database.addItemToWatch(itemToAdd)

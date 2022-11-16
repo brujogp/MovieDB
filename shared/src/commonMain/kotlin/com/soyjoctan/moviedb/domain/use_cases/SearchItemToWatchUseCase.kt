@@ -19,7 +19,7 @@ class SearchItemToWatchUseCase {
         } catch (nullPointer: NullPointerException) {
             emit(WrapperStatusInfo.NotFound)
         } catch (e: Exception) {
-            print(e.stackTraceToString())
+            emit(WrapperStatusInfo.NotFound)
         }
     }
 }

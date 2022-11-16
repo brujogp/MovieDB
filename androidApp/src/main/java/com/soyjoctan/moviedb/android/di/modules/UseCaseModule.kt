@@ -59,6 +59,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideDeleteItemsToWatchByIdUseCase(): DeleteItemToWatchByIdUseCase =
+        DeleteItemToWatchByIdUseCase()
+
+    @Provides
+    @Singleton
     fun provideDatabaseDriverFactory(@ApplicationContext appContext: Context): DatabaseDriverFactory =
         DatabaseDriverFactory(context = appContext)
 
