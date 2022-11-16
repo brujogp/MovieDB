@@ -1,6 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
@@ -81,7 +83,8 @@ fun ComposableLandscapeBackdropMovie(
             modifier = Modifier.constrainAs(text) {
                 bottom.linkTo(parent.bottom, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
-            },
+                end.linkTo(parent.end, margin = 16.dp)
+            }.padding(start = 16.dp, end = 16.dp),
             fontWeight = FontWeight.ExtraBold,
             fontSize = 32.sp,
             maxLines = 2,
@@ -115,7 +118,7 @@ fun ComposableLandscapeBackdropMovie(
             }, text = {
                 Text(
                     text = "¿Quires eliminar este elemento de tu lista?",
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 )
             }
         )
@@ -139,39 +142,41 @@ fun NoPaddingAlertDialog(
         onDismissRequest = onDismissRequest,
         properties = properties
     ) {
-        Surface(
-            modifier = modifier,
-            shape = shape,
-            color = backgroundColor,
-            contentColor = contentColor
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+        Card(shape = RoundedCornerShape(24.dp)) {
+            Surface(
+                modifier = modifier,
+                shape = shape,
+                color = backgroundColor,
+                contentColor = contentColor
             ) {
-                title?.let {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        val textStyle = MaterialTheme.typography.subtitle1
-                        ProvideTextStyle(textStyle, it)
-                    }
-                }
-                text?.let {
-                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                        val textStyle = MaterialTheme.typography.subtitle1
-                        ProvideTextStyle(textStyle, it)
-                    }
-                }
-                Box(
-                    Modifier
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(all = 8.dp)
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.End,
-                        modifier = Modifier.fillMaxWidth()
+                    title?.let {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
+                            val textStyle = MaterialTheme.typography.subtitle1
+                            ProvideTextStyle(textStyle, it)
+                        }
+                    }
+                    text?.let {
+                        CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
+                            val textStyle = MaterialTheme.typography.subtitle1
+                            ProvideTextStyle(textStyle, it)
+                        }
+                    }
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
                     ) {
-                        dismissButton?.invoke()
-                        confirmButton()
+                        Row(
+                            horizontalArrangement = Arrangement.End,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            dismissButton?.invoke()
+                            confirmButton()
+                        }
                     }
                 }
             }
