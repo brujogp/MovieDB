@@ -51,7 +51,7 @@ fun HomeGenres(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                Subtitle("Géneros")
+                Subtitle("Géneros", null)
                 if (genres != null) {
                     isGenresLoading = false
                     ComposableStaggered(
@@ -124,7 +124,7 @@ inline fun <reified T : ClassBaseItemModel> Section(
     list: ArrayList<T>?,
     noinline onClickElement: (item: ClassBaseItemModel) -> Unit
 ): Boolean {
-    Subtitle(titleSection)
+    Subtitle(titleSection, null)
     if (list != null) {
         ViewCarousel(
             content = list as ArrayList<ClassBaseItemModel>,

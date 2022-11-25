@@ -48,8 +48,6 @@ fun SearchScreen(
     val focusManager = LocalFocusManager.current
 
     Column {
-        Subtitle("Buscador")
-
         OutlinedTextField(
             value = value,
             onValueChange = { it: String ->
@@ -63,7 +61,7 @@ fun SearchScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 26.dp),
             keyboardActions = KeyboardActions(onSearch = {
                 isLoading = true
                 viewModel.searchItems(query = value, page = 1, currentListItems = null)

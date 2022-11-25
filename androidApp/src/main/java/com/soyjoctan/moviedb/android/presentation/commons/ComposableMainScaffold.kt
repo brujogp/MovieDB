@@ -1,16 +1,20 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import  com.soyjoctan.moviedb.android.presentation.models.Routes.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.soyjoctan.moviedb.android.presentation.models.Routes
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -29,17 +33,12 @@ fun ComposableMainScaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
             if (drawableOnClick != null) {
-                TextButton(onClick = {
-                    drawableOnClick.invoke()
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.apply {
-                            close()
-                        }
-                    }
-                }
-                ) {
-                    Text(text = "Películas para ver", color = MaterialTheme.colors.onBackground)
-                }
+                EntrySection(
+                    drawableOnClick, coroutineScope, scaffoldState
+                )
+                EntryCommunity(
+                    drawableOnClick, coroutineScope, scaffoldState
+                )
             }
         },
         topBar = {
@@ -78,5 +77,123 @@ fun ComposableMainScaffold(
                 }
             }
         },
+    )
+}
+
+@Composable
+private fun EntryCommunity(
+    drawableOnClick: () -> Unit,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextSection("Comunidad")
+
+        ItemList(
+            "Redes sociales",
+            Icons.Filled.Group,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Foro",
+            Icons.Filled.Forum,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Características",
+            Icons.Default.FeaturedPlayList,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+    }
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp),
+        color = MaterialTheme.colors.onBackground.copy(alpha = .2f)
+    )
+}
+
+@Composable
+private fun EntrySection(
+    drawableOnClick: () -> Unit,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextSection("Secciones")
+
+        ItemList(
+            "Películas para ver",
+            Icons.Filled.MovieFilter,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Favoritos",
+            Icons.Filled.ThumbUp,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Mi perfil",
+            Icons.Filled.Person,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+    }
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp),
+        color = MaterialTheme.colors.onBackground.copy(alpha = .2f)
+    )
+}
+
+fun closeDrawer(coroutineScope: CoroutineScope, scaffoldState: ScaffoldState) {
+    coroutineScope.launch {
+        scaffoldState.drawerState.apply {
+            close()
+        }
+    }
+}
+
+@Composable
+fun ItemList(
+    nameItem: String,
+    icon: ImageVector,
+    drawableOnClick: () -> Unit,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(top = 22.dp)
+    )
+    {
+        Row(modifier = Modifier
+            .clickable {
+                drawableOnClick.invoke()
+                closeDrawer(coroutineScope, scaffoldState)
+            }
+        ) {
+            Icon(
+                icon,
+                contentDescription = "",
+            )
+            Text(
+                text = nameItem,
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun TextSection(nameSection: String) {
+    Text(
+        text = nameSection,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colors.onBackground.copy(alpha = .5f),
+        fontSize = 20.sp
     )
 }

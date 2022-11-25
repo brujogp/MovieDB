@@ -33,7 +33,7 @@ fun ListToWatchScreen(
     )
 
     Column {
-        Subtitle("Películas para ver")
+        Subtitle("Películas para ver", null)
 
         ComposableVerticalLazyGrid(
             result = convertItems(itemsToWatch),

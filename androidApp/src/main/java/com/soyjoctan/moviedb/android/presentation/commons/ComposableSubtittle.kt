@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Subtitle(name: String) {
+fun Subtitle(name: String, modifier: Modifier?) {
     Text(
         text = name,
-        modifier = Modifier
+        modifier = modifier ?: Modifier
             .fillMaxWidth()
             .padding(16.dp),
         fontWeight = FontWeight.Black,
