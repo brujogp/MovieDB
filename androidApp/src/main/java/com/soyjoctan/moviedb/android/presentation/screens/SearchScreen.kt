@@ -80,7 +80,8 @@ fun SearchScreen(
                 result!!,
                 viewModel,
                 listState,
-                bottomSheetState
+                bottomSheetState,
+                null
             )
             isLoading = false
         } else if (isLoading) {

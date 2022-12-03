@@ -55,7 +55,8 @@ fun ListMovieByGenreScreen(
                         result!!,
                         viewModel,
                         listState,
-                        bottomSheetState
+                        bottomSheetState,
+                        null
                     )
                     false
                 } else {

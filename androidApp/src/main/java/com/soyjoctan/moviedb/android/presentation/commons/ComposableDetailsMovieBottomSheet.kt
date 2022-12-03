@@ -73,10 +73,10 @@ fun ComposableDetailsMovieBottomSheet(
                 }
                 if (detailMovieSelected != null) {
                     isLoading = false
-                    Text(
-                        text = detailMovieSelected!!.overview!!,
-                        modifier = Modifier.padding(16.dp),
-                        lineHeight = 26.sp
+
+                    ComposableDescriptionTextMovie(
+                        descriptionMovie = detailMovieSelected!!.overview!!,
+                        modifier = Modifier
                     )
                     Button(
                         onClick = {

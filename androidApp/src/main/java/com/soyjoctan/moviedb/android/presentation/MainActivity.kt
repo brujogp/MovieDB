@@ -119,7 +119,6 @@ class MainActivity : ComponentActivity() {
                         composable(ListByDetailGenreScreen.route + "/{genreName}/{genreId}") { bachStackEntry ->
                             val genreName = bachStackEntry.arguments?.getString("genreName")
                             val genreId = bachStackEntry.arguments?.getString("genreId")
-
                             ListMovieByGenreScreen(
                                 genreName = genreName,
                                 genreId = genreId!!.toLong(),

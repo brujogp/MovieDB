@@ -22,7 +22,8 @@ fun ComposableVerticalLazyGrid(
     result: ArrayList<ClassBaseItemModel>,
     viewModel: MovieViewModel,
     listState: LazyGridState?,
-    bottomSheetState: ModalBottomSheetState
+    bottomSheetState: ModalBottomSheetState?,
+    onClickMoviePoster: (() -> Unit)?
 ) {
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
@@ -41,9 +42,14 @@ fun ComposableVerticalLazyGrid(
                 ComposableCardPoster(
                     item
                 ) {
-                    coroutineScope.launch {
-                        bottomSheetState.show()
+                    bottomSheetState?.let {
+                        coroutineScope.launch {
+                            bottomSheetState.show()
+                        }
                     }
+
+                    onClickMoviePoster?.invoke()
+
                     viewModel.itemDetailsSelected.value = it
                 }
             }
