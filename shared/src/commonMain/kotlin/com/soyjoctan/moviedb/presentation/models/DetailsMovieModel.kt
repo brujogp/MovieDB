@@ -19,6 +19,7 @@ data class DetailsMovieModel(
     val productionCompanies: List<ProductionCompany>? = null,
     val productionCountries: List<ProductionCountry>? = null,
     val spokenLanguages: List<SpokenLanguage>? = null,
+    val revenue: Long?,
 ) : PresentationModelParent()
 
 data class ProductionCompany(

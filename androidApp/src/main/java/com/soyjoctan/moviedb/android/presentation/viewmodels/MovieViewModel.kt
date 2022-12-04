@@ -28,7 +28,7 @@ class MovieViewModel @Inject constructor(
     private val searchItemsUseCase: SearchItemUseCase,
     private val searchItemToWatchUseCase: SearchItemToWatchUseCase,
     private val deleteItemsToWatchByIdUseCase: DeleteItemToWatchByIdUseCase,
-
+    private val getCreditsByMovieIdUseCase: GetCreditsByMovieIdUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -66,6 +66,12 @@ class MovieViewModel @Inject constructor(
         MutableLiveData()
     val popularTvShowsListLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _popularTvShowsListMutableLiveData
+
+    // Lista de actores de cierta película
+    private var _creditsMovieListMutableLiveData: MutableLiveData<MovieCreditsModel> =
+        MutableLiveData()
+    val creditsMoviesListLiveDataObservable: LiveData<MovieCreditsModel> =
+        _creditsMovieListMutableLiveData
 
     // Lista de series populares
     private var _searchItemsListMutableLiveData: MutableLiveData<ArrayList<ClassBaseItemModel>> =
@@ -215,6 +221,26 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+    fun getCreditsByMovieId(movieId: Long) {
+        viewModelScope.launch {
+            getCreditsByMovieIdUseCase(movieId).collect {
+                when (it) {
+                    is WrapperStatusInfo.Loading -> {
+                        _creditsMovieListMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.SuccessResponse<*> -> {
+                        _creditsMovieListMutableLiveData.value =
+                            it.response as MovieCreditsModel
+                    }
+                    is WrapperStatusInfo.NoInternetConnection -> {
+                        _creditsMovieListMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     fun getItemsToWatch() {
         viewModelScope.launch {
             itemsForWatchUseCase.invoke(sdk = dbSdk).collect {
@@ -229,7 +255,7 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _itemsToWatchListMutableLiveData.value = null
                     }
-                    is WrapperStatusInfo.NotFound-> {
+                    is WrapperStatusInfo.NotFound -> {
                         _itemsToWatchListMutableLiveData.value = null
                     }
                     else -> {}
@@ -278,7 +304,7 @@ class MovieViewModel @Inject constructor(
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _searchItemByIdMutableLiveData.value = null
                     }
-                    is WrapperStatusInfo.NotFound-> {
+                    is WrapperStatusInfo.NotFound -> {
                         _searchItemByIdMutableLiveData.value = null
                     }
                     else -> {}

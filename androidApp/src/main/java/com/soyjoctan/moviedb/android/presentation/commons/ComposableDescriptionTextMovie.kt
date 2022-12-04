@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 fun ComposableDescriptionTextMovie(descriptionMovie: String, modifier: Modifier) {
     Text(
         descriptionMovie,
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
         lineHeight = 26.sp
     )
 }

@@ -59,7 +59,8 @@ class DetailMoviesUseCase {
                             voteAverage = voteAverage,
                             productionCompanies = productionCompaniesList,
                             productionCountries = productionCountriesList,
-                            spokenLanguages = spokenLanguagesList
+                            spokenLanguages = spokenLanguagesList,
+                            revenue = revenue
                         )
 
                         emit(

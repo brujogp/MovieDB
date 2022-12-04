@@ -10,6 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
@@ -72,26 +73,29 @@ fun HomeGenres(
                     )
                 }
 
-                isTopMoviesLoading = Section("Las mejores películas", topRatedMovies)
-                {
-                    scope.launch {
-                        bottomSheetState.show()
-                    }
-                    viewModel.itemDetailsSelected.value = it
-                }
+                isTopMoviesLoading = Section(
+                    "Las mejores películas", topRatedMovies, {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
+                        viewModel.itemDetailsSelected.value = it
+                    },
+                    null
+                )
 
-                isUpcomingMoviesLoading = Section("Próximos estrenos", upcomingMovies)
-                {
-                    scope.launch {
-                        bottomSheetState.show()
-                    }
-                    viewModel.itemDetailsSelected.value = it
-                }
+                isUpcomingMoviesLoading = Section(
+                    "Próximos estrenos", upcomingMovies, {
+                        scope.launch {
+                            bottomSheetState.show()
+                        }
+                        viewModel.itemDetailsSelected.value = it
+                    },
+                    null
+                )
 
-                isPopularTvShowsLoading = Section("Series populares", popularTvShows)
-                {
+                isPopularTvShowsLoading = Section("Series populares", popularTvShows, {
                     onNavigationController(CompleteDetailsItemScreen.route)
-                }
+                }, null)
             }
         },
         requireTopBar = true,
@@ -122,14 +126,16 @@ fun makeRequests(viewModel: MovieViewModel) {
 inline fun <reified T : ClassBaseItemModel> Section(
     titleSection: String,
     list: ArrayList<T>?,
-    noinline onClickElement: (item: ClassBaseItemModel) -> Unit
+    noinline onClickElement: (item: ClassBaseItemModel) -> Unit,
+    height: Dp?
 ): Boolean {
     Subtitle(titleSection, null)
     if (list != null) {
         ViewCarousel(
             content = list as ArrayList<ClassBaseItemModel>,
             modifier = Modifier,
-            onClickPosterImage = onClickElement
+            onClickPosterImage = onClickElement,
+            height
         )
         CustomDivider()
         return false

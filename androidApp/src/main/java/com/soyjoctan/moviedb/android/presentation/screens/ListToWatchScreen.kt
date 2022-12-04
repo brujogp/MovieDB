@@ -41,7 +41,7 @@ fun ListToWatchScreen(
         Subtitle("Películas para ver", null)
 
         ComposableVerticalLazyGrid(
-            result = convertItems(itemsToWatch),
+            result = convertItemsToWatch(itemsToWatch),
             viewModel = viewModel,
             listState = null,
             bottomSheetState = null,
@@ -62,7 +62,8 @@ fun ListToWatchScreen(
     )
 }
 
-fun convertItems(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<ClassBaseItemModel> {
+
+fun convertItemsToWatch(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<ClassBaseItemModel> {
     val items: ArrayList<ClassBaseItemModel> = arrayListOf()
 
     itemsToWatch?.forEach {

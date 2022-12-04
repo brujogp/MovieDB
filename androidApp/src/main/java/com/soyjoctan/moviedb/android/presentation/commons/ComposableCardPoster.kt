@@ -10,16 +10,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ComposableCardPoster(item: ClassBaseItemModel, onClickPosterImage: (item: ClassBaseItemModel) -> Unit) {
+fun ComposableCardPoster(
+    item: ClassBaseItemModel,
+    onClickPosterImage: (item: ClassBaseItemModel) -> Unit,
+    height: Dp?
+) {
     Box(
-        modifier = Modifier.fillMaxWidth().background(Color.Transparent),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent),
         contentAlignment = Alignment.Center,
     ) {
+
         Card(
             modifier = Modifier
                 .fillMaxHeight()
@@ -32,7 +40,7 @@ fun ComposableCardPoster(item: ClassBaseItemModel, onClickPosterImage: (item: Cl
         ) {
             Column {
                 Box(contentAlignment = Alignment.BottomStart) {
-                    PortalImage(item.posterPathImage)
+                    PortalImage(item.posterPathImage, height)
 
                     if (item.popularity != null)
                         ComposableMovieRate(item)
@@ -61,8 +69,10 @@ fun preview() {
             null,
             null,
             null
-        )
-    ) {
-    }
+        ),
+        onClickPosterImage = {
+        },
+        null
+    )
 }
 

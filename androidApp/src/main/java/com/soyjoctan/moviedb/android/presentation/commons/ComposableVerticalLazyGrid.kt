@@ -40,18 +40,20 @@ fun ComposableVerticalLazyGrid(
         content = {
             items(result.toList()) { item: ClassBaseItemModel ->
                 ComposableCardPoster(
-                    item
-                ) {
-                    bottomSheetState?.let {
-                        coroutineScope.launch {
-                            bottomSheetState.show()
+                    item = item,
+                    onClickPosterImage = {
+                        bottomSheetState?.let {
+                            coroutineScope.launch {
+                                bottomSheetState.show()
+                            }
                         }
-                    }
 
-                    onClickMoviePoster?.invoke()
+                        onClickMoviePoster?.invoke()
 
-                    viewModel.itemDetailsSelected.value = it
-                }
+                        viewModel.itemDetailsSelected.value = it
+                    },
+                    null
+                )
             }
         },
         modifier = Modifier

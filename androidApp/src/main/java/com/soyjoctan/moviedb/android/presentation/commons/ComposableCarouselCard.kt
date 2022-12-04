@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Star
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
@@ -22,7 +23,8 @@ import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 fun ViewCarousel(
     content: ArrayList<ClassBaseItemModel>?,
     modifier: Modifier,
-    onClickPosterImage: (item: ClassBaseItemModel) -> Unit
+    onClickPosterImage: (item: ClassBaseItemModel) -> Unit,
+    height: Dp?
 ) {
     LazyRow(
         contentPadding = PaddingValues(top = 0.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
@@ -30,7 +32,7 @@ fun ViewCarousel(
     ) {
         content?.let {
             items(it.toList()) { item: ClassBaseItemModel ->
-                ComposableCardPoster(item, onClickPosterImage)
+                ComposableCardPoster(item, onClickPosterImage, height)
             }
         }
     }

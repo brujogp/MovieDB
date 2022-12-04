@@ -59,6 +59,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideGetCreditsByMovieIdUseCase(): GetCreditsByMovieIdUseCase =
+        GetCreditsByMovieIdUseCase()
+
+    @Provides
+    @Singleton
     fun provideDeleteItemsToWatchByIdUseCase(): DeleteItemToWatchByIdUseCase =
         DeleteItemToWatchByIdUseCase()
 

@@ -113,4 +113,16 @@ class Repository {
 
         return finalResponse
     }
+
+
+    suspend fun getCreditsByMovieId(movieId: Long): HttpResponse? {
+        val finalResponse = try {
+            client.get(resource = CreditsRequest.MovieId(movieId = movieId))
+        } catch (e: Throwable) {
+            print(e.stackTraceToString())
+            null
+        }
+
+        return finalResponse
+    }
 }
