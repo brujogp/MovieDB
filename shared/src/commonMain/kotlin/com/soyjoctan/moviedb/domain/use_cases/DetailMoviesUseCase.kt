@@ -43,6 +43,8 @@ class DetailMoviesUseCase {
                             )
                         }
 
+                        val newGenresList: ArrayList<GenreModel> = arrayListOf()
+
                         val result = DetailsMovieModel(
                             backdropPath = backdropPath,
                             posterPathImage = posterPath,
@@ -50,7 +52,7 @@ class DetailMoviesUseCase {
                             itemId = movieId,
                             itemName = title,
                             budget = budget,
-                            genres = genres,
+                            genres = null,
                             homepage = homepage,
                             originalLanguage = originalLanguage,
                             originalTitle = originalTitle,
@@ -62,6 +64,11 @@ class DetailMoviesUseCase {
                             spokenLanguages = spokenLanguagesList,
                             revenue = revenue
                         )
+                        genres?.forEach { g ->
+                            newGenresList.add(GenreModel(g.id, g.name))
+                        }
+
+                        result.genres = newGenresList
 
                         emit(
                             WrapperStatusInfo.SuccessResponse(

@@ -26,7 +26,7 @@ fun ComposableMainScaffold(
     coroutineScope: CoroutineScope,
     content: @Composable (paddingValues: PaddingValues) -> Unit,
     onFloatingButtonClick: (() -> Unit)?,
-    drawableOnClick: (() -> Unit)?,
+    drawableOnClick: ((id: ImageVector) -> Unit)?,
     requireTopBar: Boolean = true
 ) {
     Scaffold(
@@ -65,7 +65,6 @@ fun ComposableMainScaffold(
                             Icon(Icons.Outlined.Search, contentDescription = "Botón de busqueda")
                         }
                     }
-
                 )
             }
         },
@@ -82,7 +81,7 @@ fun ComposableMainScaffold(
 
 @Composable
 private fun EntryCommunity(
-    drawableOnClick: () -> Unit,
+    drawableOnClick: (icon: ImageVector) -> Unit,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState
 ) {
@@ -115,7 +114,7 @@ private fun EntryCommunity(
 
 @Composable
 private fun EntrySection(
-    drawableOnClick: () -> Unit,
+    drawableOnClick: (icon: ImageVector) -> Unit,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState
 ) {
@@ -123,13 +122,13 @@ private fun EntrySection(
         TextSection("Secciones")
 
         ItemList(
-            "Películas para ver",
-            Icons.Filled.MovieFilter,
+            "Inicio",
+            Icons.Filled.Home,
             drawableOnClick, coroutineScope, scaffoldState
         )
         ItemList(
-            "Favoritos",
-            Icons.Filled.ThumbUp,
+            "Películas para ver",
+            Icons.Filled.MovieFilter,
             drawableOnClick, coroutineScope, scaffoldState
         )
         ItemList(
@@ -158,7 +157,7 @@ fun closeDrawer(coroutineScope: CoroutineScope, scaffoldState: ScaffoldState) {
 fun ItemList(
     nameItem: String,
     icon: ImageVector,
-    drawableOnClick: () -> Unit,
+    drawableOnClick: (icon: ImageVector) -> Unit,
     coroutineScope: CoroutineScope,
     scaffoldState: ScaffoldState
 ) {
@@ -170,7 +169,7 @@ fun ItemList(
     {
         Row(modifier = Modifier
             .clickable {
-                drawableOnClick.invoke()
+                drawableOnClick.invoke(icon)
                 closeDrawer(coroutineScope, scaffoldState)
             }
         ) {

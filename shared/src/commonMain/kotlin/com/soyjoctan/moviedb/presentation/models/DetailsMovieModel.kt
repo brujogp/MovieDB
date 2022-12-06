@@ -9,7 +9,7 @@ data class DetailsMovieModel(
     override var itemId: Long?,
     override var backdropPath: String?,
     val budget: Long?,
-    val genres: List<Genre>? = null,
+    var genres: List<GenreModel>? = null,
     val homepage: String?,
     val originalLanguage: String? = null,
     val originalTitle: String? = null,

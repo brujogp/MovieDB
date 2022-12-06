@@ -3,6 +3,9 @@ package com.soyjoctan.moviedb.android.presentation.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -74,8 +77,15 @@ fun ListMovieByGenreScreen(
         titleSection = genreName,
         coroutineScope = coroutineScope,
         onFloatingButtonClick = {},
-        drawableOnClick = {
-            onNavigationController(Routes.ListToWatchScreen.route)
+        drawableOnClick = { icon ->
+            when (icon) {
+                Icons.Filled.Home -> {
+                    onNavigationController(Routes.HomeScreen.route)
+                }
+                Icons.Filled.MovieFilter -> {
+                    onNavigationController(Routes.ListToWatchScreen.route)
+                }
+            }
         }
     )
 

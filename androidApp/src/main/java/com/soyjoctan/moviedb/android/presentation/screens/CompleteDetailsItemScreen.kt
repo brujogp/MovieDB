@@ -1,19 +1,21 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Paid
-import androidx.compose.material.icons.filled.Stars
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -51,10 +53,15 @@ fun CompleteDetailsItemScreen(
         content = {
             itemSelected?.let { itemSelected ->
                 Column(Modifier.verticalScroll(rememberScrollState())) {
-                    ContentDescription(movieSelected, itemToWatchFromDb, itemSelected)
-
+                    ContentDescription(
+                        movieSelected,
+                        itemToWatchFromDb,
+                        itemSelected,
+                        credits,
+                        onNavigationController,
+                        viewModel
+                    )
                     CustomDivider()
-
                     credits?.let {
                         Section(
                             titleSection = "Actores",
@@ -70,8 +77,15 @@ fun CompleteDetailsItemScreen(
 
         },
         requireTopBar = false,
-        drawableOnClick = {
-            onNavigationController(Routes.ListToWatchScreen.route)
+        drawableOnClick = { icon ->
+            when (icon) {
+                Icons.Filled.Home -> {
+                    onNavigationController(Routes.HomeScreen.route)
+                }
+                Icons.Filled.MovieFilter -> {
+                    onNavigationController(Routes.ListToWatchScreen.route)
+                }
+            }
         },
         onNavigationController = onNavigationController
     )
@@ -81,10 +95,13 @@ fun CompleteDetailsItemScreen(
 fun ContentDescription(
     movieSelected: ClassBaseItemModel?,
     itemToWatchFromDb: ItemsToWatch?,
-    itemSelected: DetailsMovieModel
+    itemSelected: DetailsMovieModel,
+    credits: MovieCreditsModel?,
+    onNavigationController: (path: String) -> Unit,
+    viewModel: MovieViewModel,
 ) {
     ConstraintLayout {
-        val (backdropMovie, descriptionMovie, containerBasicInfo) = createRefs()
+        val (backdropMovie, descriptionMovie, containerBasicInfo, listGenres, metaInfo) = createRefs()
 
         Box(
             modifier = Modifier.constrainAs(backdropMovie) {
@@ -125,16 +142,72 @@ fun ContentDescription(
                 modifier = Modifier
             )
         }
+
+        DirectedBy(
+            credits,
+            Modifier
+                .constrainAs(metaInfo) { top.linkTo(containerBasicInfo.bottom) }
+                .padding(top = 16.dp)
+        )
+
         ComposableDescriptionTextMovie(
             descriptionMovie = itemSelected.overview ?: "",
             modifier = Modifier
                 .constrainAs(descriptionMovie) {
-                    top.linkTo(containerBasicInfo.bottom)
+                    top.linkTo(metaInfo.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
         )
+
+        ComposableGenres(
+            genres = itemSelected.genres as ArrayList<GenreModel>,
+            modifier = Modifier
+                .constrainAs(listGenres) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(descriptionMovie.bottom)
+                }
+                .padding(top = 16.dp)
+        ) { genreClickedId: GenreModel ->
+            onNavigationController(Routes.ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
+            genreClickedId.id?.let { it1 ->
+                viewModel.getMoviesByGenre(it1, 1, null)
+            }
+        }
     }
+}
+
+@Composable
+fun DirectedBy(credits: MovieCreditsModel?, modifier: Modifier) {
+    Row(modifier = modifier.padding(start = 16.dp)) {
+        Text(text = "Dirigido por: ")
+        LazyRow {
+            credits?.let {
+                items(credits.directors) { item ->
+                    if (item.job == "Director")
+                        Text(
+                            text = item.originalName ?: item.name ?: "",
+                            fontWeight = FontWeight.Bold
+                        )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ComposableGenres(
+    genres: ArrayList<GenreModel>,
+    modifier: Modifier,
+    onClickGenre: (genre: GenreModel) -> Unit
+) {
+    ComposableStaggered(
+        genres = genres,
+        modifier = modifier,
+        onClickGenre = onClickGenre,
+        cellsRow = 1
+    )
 }
 
 @Composable

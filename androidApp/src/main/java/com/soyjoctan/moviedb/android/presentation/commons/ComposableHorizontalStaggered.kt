@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -15,12 +16,19 @@ import com.soyjoctan.moviedb.presentation.models.GenreModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ComposableStaggered(genres: List<GenreModel>, modifier: Modifier, onClickGenre: (genre: GenreModel) -> Unit) {
+fun ComposableStaggered(
+    genres: List<GenreModel>,
+    modifier: Modifier,
+    onClickGenre: (genre: GenreModel) -> Unit,
+    cellsRow: Int = 2
+) {
+    val height = if (cellsRow == 2) 90.dp else 45.dp
+
     LazyHorizontalStaggeredGrid(
-        contentPadding = PaddingValues(start = 16.dp, end = 0.dp),
+        contentPadding = PaddingValues(),
         modifier = modifier
-            .height(90.dp),
-        rows = StaggeredGridCells.Fixed(2),
+            .height(height),
+        rows = StaggeredGridCells.Fixed(cellsRow),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {

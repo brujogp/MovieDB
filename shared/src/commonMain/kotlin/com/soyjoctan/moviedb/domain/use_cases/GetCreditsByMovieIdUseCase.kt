@@ -1,12 +1,11 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
+
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
+import com.soyjoctan.moviedb.presentation.models.CrewTypes.*
 import com.soyjoctan.moviedb.data.model.dtos.credits.CreditsDTO
 import com.soyjoctan.moviedb.data.repository.Repository
-import com.soyjoctan.moviedb.presentation.models.Cast
-import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
-import com.soyjoctan.moviedb.presentation.models.Crew
-import com.soyjoctan.moviedb.presentation.models.MovieCreditsModel
+import com.soyjoctan.moviedb.presentation.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -46,15 +45,32 @@ class GetCreditsByMovieIdUseCase {
                             Crew(
                                 department = item.department,
                                 job = item.job,
-                                name = "${item.name}${if (item.originalName?.isNotEmpty() == true) " (${item.originalName})" else ""}",
+                                name = "${item.name}",
+                                originalName = item.originalName ?: item.name
                             )
                         )
                     }
-
+                    filterCrew(result)
                     emit(WrapperStatusInfo.SuccessResponse(result))
                 }
                 else -> {
                     emit(it)
+                }
+            }
+        }
+    }
+
+    private fun filterCrew(result: MovieCreditsModel) {
+        result.crew.forEach {
+            when (it.department) {
+                DIRECTOR.type -> {
+                    result.directors.add(
+                        Crew(
+                            department = it.department,
+                            job = it.job,
+                            name = it.name
+                        )
+                    )
                 }
             }
         }

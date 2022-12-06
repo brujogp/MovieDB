@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -57,13 +58,14 @@ fun HomeGenres(
                     isGenresLoading = false
                     ComposableStaggered(
                         genres = genres!!,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    ) { genreClickedId: GenreModel ->
-                        onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
-                        genreClickedId.id?.let { it1 ->
-                            viewModel.getMoviesByGenre(it1, 1, null)
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        onClickGenre = { genreClickedId: GenreModel ->
+                            onNavigationController(ListByDetailGenreScreen.route + "/${genreClickedId.name}/${genreClickedId.id}")
+                            genreClickedId.id?.let { it1 ->
+                                viewModel.getMoviesByGenre(it1, 1, null)
+                            }
                         }
-                    }
+                    )
                     CustomDivider()
                 } else {
                     LinearProgressIndicator(
@@ -102,8 +104,16 @@ fun HomeGenres(
         onFloatingButtonClick = {
 
         },
-        drawableOnClick = {
-            onNavigationController(ListToWatchScreen.route)
+        drawableOnClick = { icon ->
+            when (icon) {
+                Icons.Filled.Home -> {
+                    onNavigationController(HomeScreen.route)
+                }
+                Icons.Filled.MovieFilter -> {
+                    onNavigationController(ListToWatchScreen.route)
+                }
+            }
+
         },
         onNavigationController = onNavigationController
     )
