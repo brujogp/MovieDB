@@ -143,12 +143,26 @@ fun ContentDescription(
             )
         }
 
-        DirectedBy(
-            credits,
+        Column(
             Modifier
                 .constrainAs(metaInfo) { top.linkTo(containerBasicInfo.bottom) }
                 .padding(top = 16.dp)
-        )
+        ) {
+            MetadataItem(
+                credits,
+                Modifier
+            )
+
+            itemSelected.originalTitle?.let {
+                Row(modifier = Modifier.padding(start = 16.dp, top = 4.dp)) {
+                    Text(text = "Título original: ")
+                    Text(
+                        text = it,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        }
 
         ComposableDescriptionTextMovie(
             descriptionMovie = itemSelected.overview ?: "",
@@ -179,7 +193,7 @@ fun ContentDescription(
 }
 
 @Composable
-fun DirectedBy(credits: MovieCreditsModel?, modifier: Modifier) {
+fun MetadataItem(credits: MovieCreditsModel?, modifier: Modifier) {
     Row(modifier = modifier.padding(start = 16.dp)) {
         Text(text = "Dirigido por: ")
         LazyRow {

@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -25,7 +24,7 @@ fun ComposableStaggered(
     val height = if (cellsRow == 2) 90.dp else 45.dp
 
     LazyHorizontalStaggeredGrid(
-        contentPadding = PaddingValues(),
+        contentPadding = PaddingValues(start = 0.dp, end = 16.dp),
         modifier = modifier
             .height(height),
         rows = StaggeredGridCells.Fixed(cellsRow),

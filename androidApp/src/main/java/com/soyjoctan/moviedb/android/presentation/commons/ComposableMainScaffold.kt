@@ -132,8 +132,8 @@ private fun EntrySection(
             drawableOnClick, coroutineScope, scaffoldState
         )
         ItemList(
-            "Mi perfil",
-            Icons.Filled.Person,
+            "Películas favoritas",
+            Icons.Filled.ThumbUp,
             drawableOnClick, coroutineScope, scaffoldState
         )
     }

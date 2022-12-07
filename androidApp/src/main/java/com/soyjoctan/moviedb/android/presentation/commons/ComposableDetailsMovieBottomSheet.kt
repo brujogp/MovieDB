@@ -76,7 +76,8 @@ fun ComposableDetailsMovieBottomSheet(
 
                     ComposableDescriptionTextMovie(
                         descriptionMovie = detailMovieSelected!!.overview!!,
-                        modifier = Modifier
+                        modifier = Modifier,
+                        maxLine = 3
                     )
                     Button(
                         onClick = {
