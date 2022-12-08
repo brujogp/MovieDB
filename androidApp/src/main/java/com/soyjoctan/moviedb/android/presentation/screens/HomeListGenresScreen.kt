@@ -112,6 +112,9 @@ fun HomeGenres(
                 Icons.Filled.MovieFilter -> {
                     onNavigationController(ListToWatchScreen.route)
                 }
+                Icons.Filled.ThumbUp -> {
+                    onNavigationController(ListFavoritesMoviesScreen.route)
+                }
             }
 
         },

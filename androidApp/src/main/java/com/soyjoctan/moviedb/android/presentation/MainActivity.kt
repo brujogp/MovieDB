@@ -143,6 +143,12 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+                        composable(ListFavoritesMoviesScreen.route) { bachStackEntry ->
+                            ListFavoritesMoviesScreen(viewModel
+                            ) {
+                                controller.navigate(it)
+                            }
+                        }
                         composable(SearchScreen.route) { bachStackEntry ->
                             SearchScreen(viewModel,
                                 onNavigationController = {
