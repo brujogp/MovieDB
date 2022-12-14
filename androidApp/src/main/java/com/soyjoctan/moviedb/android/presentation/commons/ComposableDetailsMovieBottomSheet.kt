@@ -74,6 +74,7 @@ fun ComposableDetailsMovieBottomSheet(
                             } else {
                                 viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
                                 viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
+                                viewModel.getItemsToWatch()
                             }
                         }
                     )
