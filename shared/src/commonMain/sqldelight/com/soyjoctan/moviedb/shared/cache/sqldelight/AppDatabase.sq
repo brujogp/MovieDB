@@ -1,27 +1,14 @@
-CREATE TABLE ItemsLiked (
-    itemId INTEGER NOT NULL PRIMARY KEY,
-    itemName TEXT NOT NULL,
-    whenLiked TEXT
-);
-
-CREATE TABLE ItemsToWatch(
-    itemId Integer NOT NULL PRIMARY KEY,
-    itemName TEXT NOT NULL,
-    whereWatch TEXT,
-    posterPathImage TEXT,
-    popularity INTEGER,
-    backdropPath TEXT
-);
-
 insertLikedMovie:
 INSERT INTO ItemsLiked(
     itemId,
     itemName,
-    whenLiked
+    whenLiked,
+    posterPathImage
 ) VALUES (
     ?,
     ?,
-   ?
+   ?,
+  ?
 );
 
 insertItemsToWatch:
@@ -50,7 +37,6 @@ selectItemsToWatch:
 searchItemToWatchById:
     SELECT * FROM ItemsToWatch WHERE itemId = ?;
 
-
 removeAllDataIntoItemsToWatch:
     DELETE FROM ItemsToWatch;
 
@@ -59,6 +45,3 @@ removeItemToWatchById:
 
 removeAllDataIntoItemsLiked:
     DELETE FROM ItemsLiked;
-
-removeItemLikedById:
-    DELETE FROM ItemsLiked WHERE itemId = ?;

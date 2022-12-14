@@ -1,0 +1,14 @@
+CREATE TABLE ItemsLiked (
+    itemId INTEGER NOT NULL PRIMARY KEY,
+    itemName TEXT NOT NULL,
+    whenLiked TEXT
+);
+
+CREATE TABLE ItemsToWatch(
+    itemId Integer NOT NULL PRIMARY KEY,
+    itemName TEXT NOT NULL,
+    whereWatch TEXT,
+    posterPathImage TEXT,
+    popularity INTEGER,
+    backdropPath TEXT
+);

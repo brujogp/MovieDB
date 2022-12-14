@@ -77,14 +77,19 @@ kotlin {
 
 android {
     namespace = "com.soyjoctan.moviedb"
-    compileSdk = 32
+    compileSdk = 33
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 }
+
 sqldelight {
     database("AppDatabase") {
         packageName = "com.soyjoctan.moviedb.shared.cache"
+        schemaOutputDirectory = file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
+        migrationOutputDirectory = file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
+        deriveSchemaFromMigrations = true
+        verifyMigrations = true
     }
 }

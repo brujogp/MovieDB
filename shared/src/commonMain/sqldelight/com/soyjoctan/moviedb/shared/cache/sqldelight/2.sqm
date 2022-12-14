@@ -1,0 +1,1 @@
+ALTER TABLE ItemsLiked ADD COLUMN posterPathImage TEXT;
