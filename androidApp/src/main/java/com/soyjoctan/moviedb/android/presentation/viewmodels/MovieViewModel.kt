@@ -87,9 +87,9 @@ class MovieViewModel @Inject constructor(
 
 
     // Lista de items que quieres ver traidos desde la base de datos
-    private var _itemsToWatchListMutableLiveData: MutableLiveData<ArrayList<ItemsToWatch>> =
+    private var _itemsToWatchListMutableLiveData: MutableLiveData<ArrayList<ItemToWatchModel>> =
         MutableLiveData()
-    val itemsToWatchListLiveDataObservable: LiveData<ArrayList<ItemsToWatch>> =
+    val itemsToWatchListLiveDataObservable: LiveData<ArrayList<ItemToWatchModel>> =
         _itemsToWatchListMutableLiveData
 
     // Observers para comunicación de datos
@@ -250,7 +250,7 @@ class MovieViewModel @Inject constructor(
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
                         _itemsToWatchListMutableLiveData.value =
-                            it.response as ArrayList<ItemsToWatch>
+                            it.response as ArrayList<ItemToWatchModel>
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
                         _itemsToWatchListMutableLiveData.value = null
@@ -313,7 +313,7 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun addItemToWatch(itemToWatch: ItemToWatch) {
+    fun addItemToWatch(itemToWatch: ItemToWatchModel) {
         viewModelScope.launch {
             addItemsForWatchUseCase.invoke(itemToWatch = itemToWatch, sdk = dbSdk)
         }

@@ -36,13 +36,17 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     private fun insertMovieToWatch(itemToWatch: ItemToWatch) {
-        dbQuery.insertItemsToWatch(
-            itemId = itemToWatch.itemId!!,
-            itemName = itemToWatch.itemName!!,
-            whereWatch = itemToWatch.whereWatch,
-            posterPathImage = itemToWatch.posterPathImage,
-            popularity = itemToWatch.popularity?.toLong(),
-            backdropPath = itemToWatch.backdropPath
-        )
+        itemToWatch.apply {
+            dbQuery.insertItemsToWatch(
+                itemId = itemId!!,
+                itemName = itemName!!,
+                whereWatch = whereWatch,
+                posterPathImage = posterPathImage,
+                popularity = popularity?.toLong(),
+                backdropPath = backdropPath,
+                genres = genres,
+                dateAdded = dateAdded
+            )
+        }
     }
 }

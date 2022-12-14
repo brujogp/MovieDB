@@ -1,0 +1,1 @@
+ALTER TABLE ItemsToWatch ADD COLUMN dateAdded TEXT;

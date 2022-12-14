@@ -87,8 +87,10 @@ android {
 sqldelight {
     database("AppDatabase") {
         packageName = "com.soyjoctan.moviedb.shared.cache"
-        schemaOutputDirectory = file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
-        migrationOutputDirectory = file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
+        schemaOutputDirectory =
+            file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
+        migrationOutputDirectory =
+            file("shared.src.commonMain.sqldelight.com.soyjoctan.moviedb.shared.cache")
         deriveSchemaFromMigrations = true
         verifyMigrations = true
     }

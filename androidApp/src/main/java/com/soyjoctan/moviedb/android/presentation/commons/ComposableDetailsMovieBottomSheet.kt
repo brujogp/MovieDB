@@ -1,5 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
@@ -18,8 +20,11 @@ import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
+import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ComposableDetailsMovieBottomSheet(
@@ -54,13 +59,15 @@ fun ComposableDetailsMovieBottomSheet(
                         onClickToWatchButton = {
                             if (it) {
                                 viewModel.addItemToWatch(
-                                    ItemToWatch(
+                                    ItemToWatchModel(
                                         itemId = detailMovieSelected?.itemId!!,
                                         itemName = detailMovieSelected?.itemName!!,
                                         whereWatch = "Sin especificar",
                                         posterPathImage = detailMovieSelected!!.posterPathImage,
                                         popularity = detailMovieSelected!!.popularity,
-                                        backdropPath = detailMovieSelected!!.backdropPath
+                                        backdropPath = detailMovieSelected!!.backdropPath,
+                                        genres = detailMovieSelected!!.genres,
+                                        dateAdded = LocalDate.now().toString()
                                     )
                                 )
                                 makeDetailRequest(viewModel, movieSelected?.itemId!!)

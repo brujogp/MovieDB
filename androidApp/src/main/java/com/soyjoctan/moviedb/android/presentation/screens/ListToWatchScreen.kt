@@ -18,6 +18,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.Subtitle
 import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
+import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ fun ListToWatchScreen(
     onNavigationController: (path: String) -> Unit
 ) {
     viewModel.getItemsToWatch()
-    val itemsToWatch: ArrayList<ItemsToWatch>? by viewModel.itemsToWatchListLiveDataObservable.observeAsState()
+    val itemsToWatch: ArrayList<ItemToWatchModel>? by viewModel.itemsToWatchListLiveDataObservable.observeAsState()
 
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
     val bottomSheetState: ModalBottomSheetState = rememberModalBottomSheetState(
@@ -62,8 +63,7 @@ fun ListToWatchScreen(
     )
 }
 
-
-fun convertItemsToWatch(itemsToWatch: ArrayList<ItemsToWatch>?): ArrayList<ClassBaseItemModel> {
+fun convertItemsToWatch(itemsToWatch: ArrayList<ItemToWatchModel>?): ArrayList<ClassBaseItemModel> {
     val items: ArrayList<ClassBaseItemModel> = arrayListOf()
 
     itemsToWatch?.forEach {

@@ -26,6 +26,7 @@ import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
+import java.time.LocalDate
 
 @Composable
 fun CompleteDetailsItemScreen(
@@ -39,6 +40,7 @@ fun CompleteDetailsItemScreen(
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val itemToWatchFromDb: ItemsToWatch? by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
     val credits: MovieCreditsModel? by viewModel.creditsMoviesListLiveDataObservable.observeAsState()
+    val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
     viewModel.getCreditsByMovieId(movieSelected?.itemId!!)
 
@@ -59,7 +61,8 @@ fun CompleteDetailsItemScreen(
                         itemSelected,
                         credits,
                         onNavigationController,
-                        viewModel
+                        viewModel,
+                        detailMovieSelected
                     )
                     CustomDivider()
                     credits?.let {
@@ -99,6 +102,7 @@ fun ContentDescription(
     credits: MovieCreditsModel?,
     onNavigationController: (path: String) -> Unit,
     viewModel: MovieViewModel,
+    detailMovieSelected: DetailsMovieModel?,
 ) {
     ConstraintLayout {
         val (backdropMovie, descriptionMovie, containerBasicInfo, listGenres, metaInfo) = createRefs()
@@ -113,7 +117,24 @@ fun ContentDescription(
             ComposableLandscapeBackdropMovie(
                 movieSelected = movieSelected,
                 onClickToWatchButton = {
-
+                    if (it) {
+                        viewModel.addItemToWatch(
+                            ItemToWatchModel(
+                                itemId = detailMovieSelected?.itemId!!,
+                                itemName = detailMovieSelected?.itemName!!,
+                                whereWatch = "Sin especificar",
+                                posterPathImage = detailMovieSelected!!.posterPathImage,
+                                popularity = detailMovieSelected!!.popularity,
+                                backdropPath = detailMovieSelected!!.backdropPath,
+                                genres = detailMovieSelected!!.genres,
+                                dateAdded = LocalDate.now().toString()
+                            )
+                        )
+                        makeDetailRequest(viewModel, movieSelected?.itemId!!)
+                    } else {
+                        viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
+                        viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
+                    }
                 },
                 wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
             )

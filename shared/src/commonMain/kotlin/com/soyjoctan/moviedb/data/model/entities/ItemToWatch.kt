@@ -1,5 +1,6 @@
 package com.soyjoctan.moviedb.data.model.entities
 
+import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,5 +18,7 @@ data class ItemToWatch(
     @SerialName("popularity")
     override var popularity: Double?,
     @SerialName("backdrop_path")
-    override var backdropPath: String?
+    override var backdropPath: String?,
+    val genres: String?,
+    val dateAdded: String?
 ) : PresentationModelParent()

@@ -1,25 +1,47 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
+import com.soyjoctan.moviedb.presentation.models.GenreModel
+import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class ItemsForWatchUseCase {
     operator fun invoke(sdk: MovieDataSkd): Flow<WrapperStatusInfo> = flow {
-        var result: List<ItemsToWatch> = listOf()
+        val resultToPresentation: ArrayList<ItemToWatchModel> = arrayListOf()
 
         try {
-            result = sdk.getMoviesToWatch()
+            val result: List<ItemsToWatch> = sdk.getMoviesToWatch()
+            result.let {
+                it.forEach { itemToWatch ->
+                    resultToPresentation.add(
+                        ItemToWatchModel(
+                            itemToWatch.itemId,
+                            itemToWatch.itemName,
+                            itemToWatch.whereWatch ?: "",
+                            itemToWatch.posterPathImage,
+                            itemToWatch.popularity?.toDouble(),
+                            itemToWatch.backdropPath,
+                            Json.decodeFromString<List<GenreModel>>(itemToWatch.genres!!),
+                            itemToWatch.dateAdded
+                        )
+                    )
+                }
+            }
+
+
         } catch (e: Exception) {
             print(e.stackTraceToString())
         }
 
-        if (result.isEmpty()) {
+        if (resultToPresentation.isEmpty()) {
             emit(WrapperStatusInfo.NotFound)
         } else {
-            emit(WrapperStatusInfo.SuccessResponse(result))
+            emit(WrapperStatusInfo.SuccessResponse(resultToPresentation))
         }
     }
 }

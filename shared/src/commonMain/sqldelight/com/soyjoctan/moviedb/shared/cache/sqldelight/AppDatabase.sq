@@ -18,10 +18,14 @@ INSERT INTO ItemsToWatch(
     whereWatch,
     posterPathImage,
     popularity,
-    backdropPath
+    backdropPath,
+    genres,
+    dateAdded
 ) VALUES (
     ?,
     ?,
+   ?,
+   ?,
    ?,
    ?,
    ?,
