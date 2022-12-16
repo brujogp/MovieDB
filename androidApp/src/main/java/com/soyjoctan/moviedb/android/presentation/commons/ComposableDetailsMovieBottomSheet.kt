@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
 import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
@@ -57,25 +56,7 @@ fun ComposableDetailsMovieBottomSheet(
                         movieSelected = movieSelected,
                         wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
                         onClickToWatchButton = {
-                            if (it) {
-                                viewModel.addItemToWatch(
-                                    ItemToWatchModel(
-                                        itemId = detailMovieSelected?.itemId!!,
-                                        itemName = detailMovieSelected?.itemName!!,
-                                        whereWatch = "Sin especificar",
-                                        posterPathImage = detailMovieSelected!!.posterPathImage,
-                                        popularity = detailMovieSelected!!.popularity,
-                                        backdropPath = detailMovieSelected!!.backdropPath,
-                                        genres = detailMovieSelected!!.genres,
-                                        dateAdded = LocalDate.now().toString()
-                                    )
-                                )
-                                makeDetailRequest(viewModel, movieSelected?.itemId!!)
-                            } else {
-                                viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
-                                viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
-                                viewModel.getItemsToWatch()
-                            }
+                            addItemToWatchList(it, viewModel, detailMovieSelected, movieSelected)
                         }
                     )
                 }
@@ -128,6 +109,34 @@ fun ComposableDetailsMovieBottomSheet(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {}
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun addItemToWatchList(
+    b: Boolean,
+    viewModel: MovieViewModel,
+    detailMovieSelected: DetailsMovieModel?,
+    movieSelected: ClassBaseItemModel?
+) {
+    if (b) {
+        viewModel.addItemToWatch(
+            ItemToWatchModel(
+                itemId = detailMovieSelected?.itemId!!,
+                itemName = detailMovieSelected.itemName!!,
+                whereWatch = "Sin especificar",
+                posterPathImage = detailMovieSelected.posterPathImage,
+                popularity = detailMovieSelected.popularity,
+                backdropPath = detailMovieSelected.backdropPath,
+                genres = detailMovieSelected.genres,
+                dateAdded = LocalDate.now().toString()
+            )
+        )
+        makeDetailRequest(viewModel, movieSelected?.itemId!!)
+    } else {
+        viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
+        viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
+        viewModel.getItemsToWatch()
     }
 }
 

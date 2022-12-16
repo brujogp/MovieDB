@@ -26,7 +26,6 @@ import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
-import java.time.LocalDate
 
 @Composable
 fun CompleteDetailsItemScreen(
@@ -117,24 +116,7 @@ fun ContentDescription(
             ComposableLandscapeBackdropMovie(
                 movieSelected = movieSelected,
                 onClickToWatchButton = {
-                    if (it) {
-                        viewModel.addItemToWatch(
-                            ItemToWatchModel(
-                                itemId = detailMovieSelected?.itemId!!,
-                                itemName = detailMovieSelected?.itemName!!,
-                                whereWatch = "Sin especificar",
-                                posterPathImage = detailMovieSelected!!.posterPathImage,
-                                popularity = detailMovieSelected!!.popularity,
-                                backdropPath = detailMovieSelected!!.backdropPath,
-                                genres = detailMovieSelected!!.genres,
-                                dateAdded = LocalDate.now().toString()
-                            )
-                        )
-                        makeDetailRequest(viewModel, movieSelected?.itemId!!)
-                    } else {
-                        viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
-                        viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
-                    }
+                    addItemToWatchList(it, viewModel, detailMovieSelected, movieSelected)
                 },
                 wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
             )

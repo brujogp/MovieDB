@@ -30,6 +30,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-resources:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")

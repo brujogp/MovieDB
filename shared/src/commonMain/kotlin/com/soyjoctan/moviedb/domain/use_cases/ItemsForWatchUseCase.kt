@@ -1,12 +1,15 @@
 package com.soyjoctan.moviedb.domain.use_cases
 
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
+
 import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
+import io.ktor.http.HttpHeaders.Date
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -33,6 +36,9 @@ class ItemsForWatchUseCase {
                 }
             }
 
+            resultToPresentation.sortWith(compareByDescending {
+                it.dateAdded
+            })
 
         } catch (e: Exception) {
             print(e.stackTraceToString())

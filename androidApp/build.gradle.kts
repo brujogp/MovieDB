@@ -60,11 +60,11 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("io.coil-kt:coil-compose:$coliVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
+    implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
-    implementation ("com.google.android.exoplayer:exoplayer:2.18.2")
+    implementation("com.google.android.exoplayer:exoplayer:2.18.2")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-
 }
 
 kapt {
