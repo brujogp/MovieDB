@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
-
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +32,6 @@ fun ComposableDetailsMovieBottomSheet(
 ) {
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val itemToWatchFromDb by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
-
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
@@ -101,15 +99,16 @@ fun ComposableDetailsMovieBottomSheet(
             }
         },
         sheetState = modalState,
-        scrimColor = Color(0xC8000000)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {}
-    }
+        scrimColor = Color(0xC8000000),
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {}
+        }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
