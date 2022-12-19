@@ -14,8 +14,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class ItemsForWatchUseCase {
-    operator fun invoke(sdk: MovieDataSkd): Flow<WrapperStatusInfo> = flow {
-        val resultToPresentation: ArrayList<ItemToWatchModel> = arrayListOf()
+    operator fun invoke(
+        sdk: MovieDataSkd,
+        filterByGenres: ArrayList<GenreModel>? = null
+    ): Flow<WrapperStatusInfo> = flow {
+        var resultToPresentation: ArrayList<ItemToWatchModel> = arrayListOf()
 
         try {
             val result: List<ItemsToWatch> = sdk.getMoviesToWatch()
@@ -40,6 +43,11 @@ class ItemsForWatchUseCase {
                 it.dateAdded
             })
 
+
+            filterByGenres?.let {
+                if (filterByGenres.size > 0)
+                    resultToPresentation = filterByGenres(resultToPresentation, it)
+            }
         } catch (e: Exception) {
             print(e.stackTraceToString())
         }
@@ -49,5 +57,21 @@ class ItemsForWatchUseCase {
         } else {
             emit(WrapperStatusInfo.SuccessResponse(resultToPresentation))
         }
+    }
+
+    private fun filterByGenres(
+        resultToPresentation: ArrayList<ItemToWatchModel>,
+        listGenres: ArrayList<GenreModel>
+    ): ArrayList<ItemToWatchModel> {
+        val s: ArrayList<ItemToWatchModel> = arrayListOf()
+
+        listGenres.forEach { genre: GenreModel ->
+            val temporalResult = resultToPresentation.filter { it.genres!!.contains(genre) }
+            temporalResult.forEach {
+                s.add(it)
+            }
+        }
+
+        return s
     }
 }

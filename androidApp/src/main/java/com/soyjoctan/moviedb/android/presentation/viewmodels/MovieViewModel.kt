@@ -5,13 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
-import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 import com.soyjoctan.moviedb.domain.use_cases.*
 import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -241,9 +239,9 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun getItemsToWatch() {
+    fun getItemsToWatch(filterByGenres: ArrayList<GenreModel>? = null) {
         viewModelScope.launch {
-            itemsForWatchUseCase.invoke(sdk = dbSdk).collect {
+            itemsForWatchUseCase.invoke(sdk = dbSdk, filterByGenres).collect {
                 when (it) {
                     is WrapperStatusInfo.Loading -> {
                         _itemsToWatchListMutableLiveData.value = null

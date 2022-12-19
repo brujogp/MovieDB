@@ -134,7 +134,7 @@ fun addItemToWatchList(
         makeDetailRequest(viewModel, movieSelected?.itemId!!)
     } else {
         viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
-        viewModel.searchItemToWatchById(detailMovieSelected?.itemId!!)
+        viewModel.searchItemToWatchById(detailMovieSelected.itemId!!)
         viewModel.getItemsToWatch()
     }
 }
