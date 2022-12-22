@@ -1,5 +1,6 @@
 package com.soyjoctan.moviedb.shared.cache
 
+import com.soyjoctan.moviedb.data.model.entities.ItemLiked
 import com.soyjoctan.moviedb.data.model.entities.ItemToWatch
 
 internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
@@ -21,8 +22,12 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         return dbQuery.selectItemsToWatch().executeAsList()
     }
 
-    internal fun searchItemToWatchById(itemId: Long): ItemsToWatch? {
-        return dbQuery.searchItemToWatchById(itemId)?.executeAsOne()
+    internal fun searchItemToWatchById(itemId: Long): ItemsToWatch {
+        return dbQuery.searchItemToWatchById(itemId).executeAsOne()
+    }
+
+    internal fun searchLikedItemById(itemId: Long): ItemsLiked {
+        return dbQuery.searchLikedItemById(itemId).executeAsOne()
     }
 
     internal fun deleteItemToWatchById(itemId: Long) {
@@ -32,6 +37,12 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     internal fun addItemToWatch(moviesToWatch: ItemToWatch) {
         dbQuery.transaction {
             insertMovieToWatch(moviesToWatch)
+        }
+    }
+
+    internal fun addItemToLikedList(moviesLiked: ItemLiked) {
+        dbQuery.transaction {
+            insertMovieToLikedList(moviesLiked)
         }
     }
 
@@ -46,6 +57,20 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 backdropPath = backdropPath,
                 genres = genres,
                 dateAdded = dateAdded
+            )
+        }
+    }
+
+    private fun insertMovieToLikedList(itemLiked: ItemLiked) {
+        itemLiked.apply {
+            dbQuery.insertLikedMovie(
+                itemId = itemId!!,
+                itemName = itemName!!,
+                posterPathImage = posterPathImage!!,
+                backdropPath = backdropPath,
+                genres = genres,
+                dateAdded = dateAdded,
+                fromListToWatch = if (itemLiked.fromListToWatch) 1 else 0
             )
         }
     }

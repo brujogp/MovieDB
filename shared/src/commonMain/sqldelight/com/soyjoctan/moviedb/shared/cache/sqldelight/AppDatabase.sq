@@ -1,10 +1,16 @@
 insertLikedMovie:
 INSERT INTO ItemsLiked(
-    itemId,
+    itemId ,
     itemName,
-    whenLiked,
-    posterPathImage
+    posterPathImage ,
+    backdropPath ,
+    genres ,
+    dateAdded ,
+    fromListToWatch
 ) VALUES (
+    ?,
+    ?,
+    ?,
     ?,
     ?,
    ?,
@@ -33,19 +39,53 @@ INSERT INTO ItemsToWatch(
 );
 
 selectItemsLiked:
-    SELECT * FROM ItemsLiked;
+    SELECT
+    itemId,
+    itemName,
+    posterPathImage,
+    backdropPath,
+    genres,
+    dateAdded,
+    fromListToWatch
+    FROM ItemsLiked;
 
 selectItemsToWatch:
-    SELECT * FROM ItemsToWatch;
+    SELECT
+    itemId,
+    itemName,
+    whereWatch,
+    posterPathImage,
+    popularity,
+    backdropPath,
+    genres,
+    dateAdded
+    FROM ItemsToWatch;
 
 searchItemToWatchById:
-    SELECT * FROM ItemsToWatch WHERE itemId = ?;
+    SELECT
+    itemId,
+    itemName,
+    whereWatch,
+    posterPathImage,
+    popularity,
+    backdropPath,
+    genres,
+    dateAdded
+    FROM ItemsToWatch WHERE itemId = ?;
+
+searchLikedItemById:
+    SELECT
+    itemId,
+    itemName,
+    posterPathImage,
+    backdropPath,
+    genres,
+    dateAdded,
+    fromListToWatch
+    FROM ItemsLiked WHERE itemId = ?;
 
 removeAllDataIntoItemsToWatch:
     DELETE FROM ItemsToWatch;
 
 removeItemToWatchById:
     DELETE FROM ItemsToWatch WHERE itemId = ?;
-
-removeAllDataIntoItemsLiked:
-    DELETE FROM ItemsLiked;

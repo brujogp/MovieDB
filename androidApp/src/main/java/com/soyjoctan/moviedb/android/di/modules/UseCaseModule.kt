@@ -50,12 +50,21 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideAddItemToLikedListUseCase(): AddItemToLikedListUseCase = AddItemToLikedListUseCase()
+
+    @Provides
+    @Singleton
     fun provideSearchItemsUseCase(): SearchItemUseCase = SearchItemUseCase()
 
     @Provides
     @Singleton
     fun provideSearchItemsToWatchByIdUseCase(): SearchItemToWatchUseCase =
         SearchItemToWatchUseCase()
+
+    @Provides
+    @Singleton
+    fun provideSearchLikedItemByIdUseCase(): SearchLikedItemByIdUseCase =
+        SearchLikedItemByIdUseCase()
 
     @Provides
     @Singleton

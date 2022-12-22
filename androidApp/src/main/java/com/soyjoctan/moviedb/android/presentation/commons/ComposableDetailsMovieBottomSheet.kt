@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.DetailsMovieModel
+import com.soyjoctan.moviedb.presentation.models.ItemLikedModel
 import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -53,6 +54,10 @@ fun ComposableDetailsMovieBottomSheet(
                     ComposableLandscapeBackdropMovie(
                         movieSelected = movieSelected,
                         wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
+                        wasMarkedAsLikedItem = false,
+                        onClickToLikeButton = {
+                            addItemToLikeList(it, viewModel, detailMovieSelected, movieSelected)
+                        },
                         onClickToWatchButton = {
                             addItemToWatchList(it, viewModel, detailMovieSelected, movieSelected)
                         }
@@ -109,6 +114,36 @@ fun ComposableDetailsMovieBottomSheet(
             ) {}
         }
     )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun addItemToLikeList(
+    b: Boolean,
+    viewModel: MovieViewModel,
+    detailsMovieModel: DetailsMovieModel?,
+    movieSelected: ClassBaseItemModel?
+) {
+    if (b) {
+        viewModel.addItemToLikedList(
+            detailsMovieModel.let {
+                ItemLikedModel(
+                    itemId = it?.itemId,
+                    itemName = it?.itemName,
+                    posterPathImage = it?.posterPathImage,
+                    popularity = it?.popularity,
+                    backdropPath = it?.backdropPath,
+                    genres = it?.genres,
+                    dateAdded = LocalDate.now().toString(),
+                    fromListToWatch = false
+                )
+            }
+        )
+        makeDetailRequest(viewModel, movieSelected?.itemId!!)
+    } else {
+        // viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
+        // viewModel.searchItemToWatchById(detailMovieSelected.itemId!!)
+        // viewModel.getItemsToWatch()
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

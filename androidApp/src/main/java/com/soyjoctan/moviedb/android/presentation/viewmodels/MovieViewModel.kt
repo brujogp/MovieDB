@@ -27,6 +27,8 @@ class MovieViewModel @Inject constructor(
     private val searchItemToWatchUseCase: SearchItemToWatchUseCase,
     private val deleteItemsToWatchByIdUseCase: DeleteItemToWatchByIdUseCase,
     private val getCreditsByMovieIdUseCase: GetCreditsByMovieIdUseCase,
+    private val addItemToLikedListUseCase: AddItemToLikedListUseCase,
+    private val searchLikedItemByIdUseCase: SearchLikedItemByIdUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -311,9 +313,41 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+    fun searchLikedItemById(
+        itemId: Long
+    ) {
+        viewModelScope.launch {
+            searchLikedItemByIdUseCase.invoke(dbSdk, itemId).collect {
+                when (it) {
+                    is WrapperStatusInfo.Loading -> {
+                        _searchItemByIdMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.SuccessResponse<*> -> {
+                        _searchItemByIdMutableLiveData.value =
+                            it.response as ItemsToWatch
+                    }
+                    is WrapperStatusInfo.NoInternetConnection -> {
+                        _searchItemByIdMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.NotFound -> {
+                        _searchItemByIdMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+
+            }
+        }
+    }
+
     fun addItemToWatch(itemToWatch: ItemToWatchModel) {
         viewModelScope.launch {
             addItemsForWatchUseCase.invoke(itemToWatch = itemToWatch, sdk = dbSdk)
+        }
+    }
+
+    fun addItemToLikedList(itemLiked: ItemLikedModel) {
+        viewModelScope.launch {
+            addItemToLikedListUseCase.invoke(itemLiked = itemLiked, sdk = dbSdk)
         }
     }
 

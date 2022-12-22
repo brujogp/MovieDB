@@ -1,5 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 
@@ -27,6 +29,7 @@ import com.soyjoctan.moviedb.presentation.models.*
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CompleteDetailsItemScreen(
     viewModel: MovieViewModel = viewModel(),
@@ -93,6 +96,7 @@ fun CompleteDetailsItemScreen(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ContentDescription(
     movieSelected: ClassBaseItemModel?,
@@ -118,7 +122,11 @@ fun ContentDescription(
                 onClickToWatchButton = {
                     addItemToWatchList(it, viewModel, detailMovieSelected, movieSelected)
                 },
+                onClickToLikeButton = {
+
+                },
                 wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
+                wasMarkedAsLikedItem = false
             )
         }
 

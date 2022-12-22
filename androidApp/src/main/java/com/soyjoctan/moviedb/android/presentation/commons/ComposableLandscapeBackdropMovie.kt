@@ -28,10 +28,10 @@ import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 fun ComposableLandscapeBackdropMovie(
     movieSelected: ClassBaseItemModel?,
     wasMarkedToWatch: Boolean,
-    onClickToWatchButton: (isMarkedToWatch: Boolean) -> Unit
+    wasMarkedAsLikedItem: Boolean,
+    onClickToWatchButton: (isMarkedToWatch: Boolean) -> Unit,
+    onClickToLikeButton: (isMarkedAsLikedItem: Boolean) -> Unit
 ) {
-
-    var isLiked by rememberSaveable { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
 
     LandscapeImage(stringPath = movieSelected?.backdropPath)
@@ -40,19 +40,23 @@ fun ComposableLandscapeBackdropMovie(
             .fillMaxWidth()
             .height(200.dp),
     ) {
-        val (iconBookmark, text, iconLike) = createRefs()
+        val (iconBookmark, text, iconWatchLater) = createRefs()
 
         IconButton(
             onClick = {
-                isLiked = !isLiked
+                if (wasMarkedAsLikedItem) {
+                    openDialog = true
+                } else {
+                    onClickToLikeButton(true)
+                }
             },
             modifier = Modifier.constrainAs(iconBookmark) {
-                top.linkTo(iconLike.bottom)
+                top.linkTo(iconWatchLater.bottom)
                 end.linkTo(parent.end, margin = 8.dp)
             }
         ) {
             Icon(
-                if (isLiked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
+                if (wasMarkedAsLikedItem) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
                 contentDescription = "Me gusta",
                 tint = Color.White
             )
@@ -66,7 +70,7 @@ fun ComposableLandscapeBackdropMovie(
                     onClickToWatchButton(true)
                 }
             },
-            modifier = Modifier.constrainAs(iconLike) {
+            modifier = Modifier.constrainAs(iconWatchLater) {
                 end.linkTo(parent.end, margin = 8.dp)
             }
         ) {

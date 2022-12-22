@@ -1,0 +1,10 @@
+DROP TABLE ItemsLiked;
+CREATE TABLE ItemsLiked (
+    itemId INTEGER NOT NULL PRIMARY KEY,
+    itemName TEXT NOT NULL,
+    posterPathImage TEXT NOT NULL,
+    backdropPath TEXT,
+    genres TEXT NOT NULL,
+    dateAdded TEXT NOT NULL,
+    fromListToWatch INTEGER
+);
