@@ -12,6 +12,11 @@ class MovieDataSkd(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     @Throws(Exception::class)
+    fun getLikedItems(): List<ItemsLiked> {
+        return database.getAllItemsLiked()
+    }
+
+    @Throws(Exception::class)
     fun getItemToWatchById(idItem: Long): ItemsToWatch {
         return database.searchItemToWatchById(idItem)
     }

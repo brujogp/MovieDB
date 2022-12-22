@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +34,7 @@ import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import com.soyjoctan.moviedb.presentation.models.GenreModel
 import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
+import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -92,7 +92,7 @@ fun ListToWatchScreen(
         }
 
         ComposableVerticalLazyGrid(
-            result = convertItemsToWatch(itemsToWatch),
+            result = convertItemsToClassBaseItemModel(itemsToWatch as ArrayList<PresentationModelParent>),
             viewModel = viewModel,
             listState = null,
             bottomSheetState = null,
@@ -256,7 +256,7 @@ fun ButtonCheckbox(item: GenreModel, onClick: (isChecked: Boolean, genreName: Ge
     }
 }
 
-fun convertItemsToWatch(itemsToWatch: ArrayList<ItemToWatchModel>?): ArrayList<ClassBaseItemModel> {
+fun convertItemsToClassBaseItemModel(itemsToWatch: ArrayList<PresentationModelParent>?): ArrayList<ClassBaseItemModel> {
     val items: ArrayList<ClassBaseItemModel> = arrayListOf()
 
     itemsToWatch?.forEach {

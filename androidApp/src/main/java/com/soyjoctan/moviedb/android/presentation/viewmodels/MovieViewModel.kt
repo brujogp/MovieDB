@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.soyjoctan.moviedb.data.model.dtos.WrapperStatusInfo
 import com.soyjoctan.moviedb.domain.use_cases.*
 import com.soyjoctan.moviedb.presentation.models.*
+import com.soyjoctan.moviedb.shared.cache.ItemsLiked
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import com.soyjoctan.moviedb.shared.cache.MovieDataSkd
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,7 @@ class MovieViewModel @Inject constructor(
     private val getCreditsByMovieIdUseCase: GetCreditsByMovieIdUseCase,
     private val addItemToLikedListUseCase: AddItemToLikedListUseCase,
     private val searchLikedItemByIdUseCase: SearchLikedItemByIdUseCase,
+    private val getLikedItemsUseCase: LikedItemsUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -79,18 +81,29 @@ class MovieViewModel @Inject constructor(
     val searchItemsListLiveDataObservable: LiveData<ArrayList<ClassBaseItemModel>> =
         _searchItemsListMutableLiveData
 
-    // Item buscado en base de datos
+    // Item de la lista WatchLater buscado en base de datos
     private var _searchItemByIdMutableLiveData: MutableLiveData<ItemsToWatch> =
         MutableLiveData()
     val searchItemToWatchByIdListLiveDataObservable: LiveData<ItemsToWatch> =
         _searchItemByIdMutableLiveData
 
+    // Item de la lista LikedItems buscado en base de datos
+    private var _searchLikedItemByIdMutableLiveData: MutableLiveData<ItemsLiked> =
+        MutableLiveData()
+    val searchLikedItemsToWatchByIdListLiveDataObservable: LiveData<ItemsLiked> =
+        _searchLikedItemByIdMutableLiveData
 
-    // Lista de items que quieres ver traidos desde la base de datos
+    // Lista de items marcados para ver que quieres ver traidos desde la base de datos
     private var _itemsToWatchListMutableLiveData: MutableLiveData<ArrayList<ItemToWatchModel>> =
         MutableLiveData()
     val itemsToWatchListLiveDataObservable: LiveData<ArrayList<ItemToWatchModel>> =
         _itemsToWatchListMutableLiveData
+
+    // Lista de items marcados como favoritos que quieres ver traidos desde la base de datos
+    private var _likedItemsListMutableLiveData: MutableLiveData<ArrayList<ItemLikedModel>> =
+        MutableLiveData()
+    val likedItemsListMutableLiveData: LiveData<ArrayList<ItemLikedModel>> =
+        _likedItemsListMutableLiveData
 
     // Observers para comunicación de datos
     val itemDetailsSelected: MutableLiveData<ClassBaseItemModel> = MutableLiveData()
@@ -264,6 +277,30 @@ class MovieViewModel @Inject constructor(
         }
     }
 
+
+    fun getLikedItems(filterByGenres: ArrayList<GenreModel>? = null) {
+        viewModelScope.launch {
+            getLikedItemsUseCase.invoke(sdk = dbSdk, filterByGenres).collect {
+                when (it) {
+                    is WrapperStatusInfo.Loading -> {
+                        _likedItemsListMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.SuccessResponse<*> -> {
+                        _likedItemsListMutableLiveData.value =
+                            it.response as ArrayList<ItemLikedModel>
+                    }
+                    is WrapperStatusInfo.NoInternetConnection -> {
+                        _likedItemsListMutableLiveData.value = null
+                    }
+                    is WrapperStatusInfo.NotFound -> {
+                        _likedItemsListMutableLiveData.value = null
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     fun searchItems(
         page: Long = 1,
         query: String,
@@ -320,17 +357,17 @@ class MovieViewModel @Inject constructor(
             searchLikedItemByIdUseCase.invoke(dbSdk, itemId).collect {
                 when (it) {
                     is WrapperStatusInfo.Loading -> {
-                        _searchItemByIdMutableLiveData.value = null
+                        _searchLikedItemByIdMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.SuccessResponse<*> -> {
-                        _searchItemByIdMutableLiveData.value =
-                            it.response as ItemsToWatch
+                        _searchLikedItemByIdMutableLiveData.value =
+                            it.response as ItemsLiked
                     }
                     is WrapperStatusInfo.NoInternetConnection -> {
-                        _searchItemByIdMutableLiveData.value = null
+                        _searchLikedItemByIdMutableLiveData.value = null
                     }
                     is WrapperStatusInfo.NotFound -> {
-                        _searchItemByIdMutableLiveData.value = null
+                        _searchLikedItemByIdMutableLiveData.value = null
                     }
                     else -> {}
                 }

@@ -68,6 +68,10 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun providerGetLikedItemsUseCase(): LikedItemsUseCase = LikedItemsUseCase()
+
+    @Provides
+    @Singleton
     fun provideGetCreditsByMovieIdUseCase(): GetCreditsByMovieIdUseCase =
         GetCreditsByMovieIdUseCase()
 

@@ -33,6 +33,7 @@ fun ComposableDetailsMovieBottomSheet(
 ) {
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val itemToWatchFromDb by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
+    val likedItemFromDb by viewModel.searchLikedItemsToWatchByIdListLiveDataObservable.observeAsState()
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
@@ -54,7 +55,7 @@ fun ComposableDetailsMovieBottomSheet(
                     ComposableLandscapeBackdropMovie(
                         movieSelected = movieSelected,
                         wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
-                        wasMarkedAsLikedItem = false,
+                        wasMarkedAsLikedItem = likedItemFromDb?.itemId == movieSelected?.itemId,
                         onClickToLikeButton = {
                             addItemToLikeList(it, viewModel, detailMovieSelected, movieSelected)
                         },
@@ -141,8 +142,8 @@ fun addItemToLikeList(
         makeDetailRequest(viewModel, movieSelected?.itemId!!)
     } else {
         // viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
-        // viewModel.searchItemToWatchById(detailMovieSelected.itemId!!)
-        // viewModel.getItemsToWatch()
+        viewModel.searchLikedItemById(detailsMovieModel?.itemId!!)
+        viewModel.getLikedItems()
     }
 }
 
@@ -177,4 +178,5 @@ fun addItemToWatchList(
 fun makeDetailRequest(viewModel: MovieViewModel, movieId: Long) {
     viewModel.getMovieDetailsById(movieId)
     viewModel.searchItemToWatchById(movieId)
+    viewModel.searchLikedItemById(movieId)
 }

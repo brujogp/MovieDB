@@ -7,13 +7,6 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = AppDatabase(databaseDriverFactory.createDriver())
     private val dbQuery = database.appDatabaseQueries
 
-    internal fun clearDatabase() {
-        dbQuery.transaction {
-            dbQuery.removeAllDataIntoItemsLiked()
-            dbQuery.removeAllDataIntoItemsToWatch()
-        }
-    }
-
     internal fun getAllItemsLiked(): List<ItemsLiked> {
         return dbQuery.selectItemsLiked().executeAsList()
     }
