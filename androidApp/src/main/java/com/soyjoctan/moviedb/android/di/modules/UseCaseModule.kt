@@ -82,6 +82,11 @@ object UseCaseModule {
 
     @Provides
     @Singleton
+    fun provideDeleteLikedItemByIdUseCase(): DeleteLikedItemByIdUseCase =
+        DeleteLikedItemByIdUseCase()
+
+    @Provides
+    @Singleton
     fun provideDatabaseDriverFactory(@ApplicationContext appContext: Context): DatabaseDriverFactory =
         DatabaseDriverFactory(context = appContext)
 

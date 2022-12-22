@@ -34,6 +34,9 @@ fun ComposableLandscapeBackdropMovie(
 ) {
     var openDialog by remember { mutableStateOf(false) }
 
+    var wasClickedLikeButton by remember { mutableStateOf(false) }
+    var wasClickedWatchLateButton by remember { mutableStateOf(false) }
+
     LandscapeImage(stringPath = movieSelected?.backdropPath)
     ConstraintLayout(
         modifier = Modifier
@@ -44,6 +47,7 @@ fun ComposableLandscapeBackdropMovie(
 
         IconButton(
             onClick = {
+                wasClickedLikeButton = true
                 if (wasMarkedAsLikedItem) {
                     openDialog = true
                 } else {
@@ -64,6 +68,7 @@ fun ComposableLandscapeBackdropMovie(
 
         IconButton(
             onClick = {
+                wasClickedWatchLateButton = true
                 if (wasMarkedToWatch) {
                     openDialog = true
                 } else {
@@ -104,7 +109,14 @@ fun ComposableLandscapeBackdropMovie(
             confirmButton = {
                 TextButton(onClick = {
                     openDialog = false
-                    onClickToWatchButton(false)
+
+                    if (wasClickedLikeButton) {
+                        onClickToLikeButton(false)
+                        wasClickedLikeButton = false
+                    } else if (wasClickedWatchLateButton) {
+                        onClickToWatchButton(false)
+                        wasClickedWatchLateButton = false
+                    }
                 }) {
                     Text(text = "Sí, eliminar", color = MaterialTheme.colors.onBackground)
                 }

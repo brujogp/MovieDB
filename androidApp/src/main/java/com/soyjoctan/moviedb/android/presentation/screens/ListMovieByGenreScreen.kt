@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MovieFilter
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -84,6 +85,9 @@ fun ListMovieByGenreScreen(
                 }
                 Icons.Filled.MovieFilter -> {
                     onNavigationController(Routes.ListToWatchScreen.route)
+                }
+                Icons.Filled.ThumbUp -> {
+                    onNavigationController(Routes.ListFavoritesMoviesScreen.route)
                 }
             }
         }

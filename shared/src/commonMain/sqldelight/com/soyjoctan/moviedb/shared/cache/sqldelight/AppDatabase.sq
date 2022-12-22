@@ -84,8 +84,8 @@ searchLikedItemById:
     fromListToWatch
     FROM ItemsLiked WHERE itemId = ?;
 
-removeAllDataIntoItemsToWatch:
-    DELETE FROM ItemsToWatch;
+removeLikedItemById:
+    DELETE FROM ItemsLiked WHERE itemId = ?;
 
 removeItemToWatchById:
     DELETE FROM ItemsToWatch WHERE itemId = ?;

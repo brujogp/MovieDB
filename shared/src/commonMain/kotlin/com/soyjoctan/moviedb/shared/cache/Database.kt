@@ -27,6 +27,10 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         return dbQuery.removeItemToWatchById(itemId)
     }
 
+    internal fun deleteLikedItemById(itemId: Long) {
+        return dbQuery.removeLikedItemById(itemId)
+    }
+
     internal fun addItemToWatch(moviesToWatch: ItemToWatch) {
         dbQuery.transaction {
             insertMovieToWatch(moviesToWatch)

@@ -140,9 +140,10 @@ fun addItemToLikeList(
             }
         )
         makeDetailRequest(viewModel, movieSelected?.itemId!!)
+        viewModel.getLikedItems()
     } else {
-        // viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
-        viewModel.searchLikedItemById(detailsMovieModel?.itemId!!)
+        viewModel.removeLikedItem(detailsMovieModel?.itemId!!)
+        viewModel.searchLikedItemById(detailsMovieModel.itemId!!)
         viewModel.getLikedItems()
     }
 }
@@ -168,6 +169,7 @@ fun addItemToWatchList(
             )
         )
         makeDetailRequest(viewModel, movieSelected?.itemId!!)
+        viewModel.getItemsToWatch()
     } else {
         viewModel.removeItemToWatch(detailMovieSelected?.itemId!!)
         viewModel.searchItemToWatchById(detailMovieSelected.itemId!!)
