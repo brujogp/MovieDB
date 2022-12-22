@@ -26,6 +26,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.*
 import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
 import com.soyjoctan.moviedb.presentation.models.*
+import com.soyjoctan.moviedb.shared.cache.ItemsLiked
 import com.soyjoctan.moviedb.shared.cache.ItemsToWatch
 import kotlinx.coroutines.CoroutineScope
 
@@ -41,6 +42,7 @@ fun CompleteDetailsItemScreen(
     val itemSelected: DetailsMovieModel? by viewModel.detailsOfItemSelected.observeAsState()
     val movieSelected: ClassBaseItemModel? by viewModel.itemDetailsSelected.observeAsState()
     val itemToWatchFromDb: ItemsToWatch? by viewModel.searchItemToWatchByIdListLiveDataObservable.observeAsState()
+    val likedItemFromDb: ItemsLiked? by viewModel.searchLikedItemsToWatchByIdListLiveDataObservable.observeAsState()
     val credits: MovieCreditsModel? by viewModel.creditsMoviesListLiveDataObservable.observeAsState()
     val detailMovieSelected: DetailsMovieModel? by viewModel.detailsMovieLiveDataObservable.observeAsState()
 
@@ -48,6 +50,7 @@ fun CompleteDetailsItemScreen(
 
     movieSelected?.itemId?.let {
         viewModel.searchItemToWatchById(it)
+        viewModel.searchLikedItemById(it)
     }
 
     ComposableMainScaffold(
@@ -60,6 +63,7 @@ fun CompleteDetailsItemScreen(
                     ContentDescription(
                         movieSelected,
                         itemToWatchFromDb,
+                        likedItemFromDb,
                         itemSelected,
                         credits,
                         onNavigationController,
@@ -101,6 +105,7 @@ fun CompleteDetailsItemScreen(
 fun ContentDescription(
     movieSelected: ClassBaseItemModel?,
     itemToWatchFromDb: ItemsToWatch?,
+    likedItemFromDb: ItemsLiked?,
     itemSelected: DetailsMovieModel,
     credits: MovieCreditsModel?,
     onNavigationController: (path: String) -> Unit,
@@ -123,10 +128,10 @@ fun ContentDescription(
                     addItemToWatchList(it, viewModel, detailMovieSelected, movieSelected)
                 },
                 onClickToLikeButton = {
-
+                    addItemToLikeList(it, viewModel, detailMovieSelected, movieSelected)
                 },
                 wasMarkedToWatch = itemToWatchFromDb?.itemId == movieSelected?.itemId,
-                wasMarkedAsLikedItem = false
+                wasMarkedAsLikedItem = likedItemFromDb?.itemId == movieSelected?.itemId
             )
         }
 
