@@ -1,5 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.*
@@ -23,6 +25,7 @@ import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
 import kotlinx.coroutines.CoroutineScope
 import java.util.ArrayList
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListMovieByGenreScreen(

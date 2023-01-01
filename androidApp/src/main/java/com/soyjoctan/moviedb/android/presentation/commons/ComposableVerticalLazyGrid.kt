@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -39,21 +40,23 @@ fun ComposableVerticalLazyGrid(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         content = {
             items(result.toList()) { item: ClassBaseItemModel ->
-                ComposableCardPoster(
-                    item = item,
-                    onClickPosterImage = {
-                        bottomSheetState?.let {
-                            coroutineScope.launch {
-                                bottomSheetState.show()
-                            }
-                        }
+               key(item.itemId) {
+                   ComposableCardPoster(
+                       item = item,
+                       onClickPosterImage = {
+                           bottomSheetState?.let {
+                               coroutineScope.launch {
+                                   bottomSheetState.show()
+                               }
+                           }
 
-                        onClickMoviePoster?.invoke()
+                           onClickMoviePoster?.invoke()
 
-                        viewModel.itemDetailsSelected.value = it
-                    },
-                    null
-                )
+                           viewModel.itemDetailsSelected.value = it
+                       },
+                       null
+                   )
+               }
             }
         },
         modifier = Modifier

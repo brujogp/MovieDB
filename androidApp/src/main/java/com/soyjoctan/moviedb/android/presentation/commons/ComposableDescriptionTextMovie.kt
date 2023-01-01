@@ -16,7 +16,7 @@ fun ComposableDescriptionTextMovie(
 ) {
     Text(
         descriptionMovie,
-        modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+        modifier = modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
         lineHeight = 26.sp,
         maxLines = maxLine,
         overflow = TextOverflow.Ellipsis

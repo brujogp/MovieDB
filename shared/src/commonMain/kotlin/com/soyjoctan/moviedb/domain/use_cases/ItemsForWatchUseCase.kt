@@ -52,6 +52,8 @@ class ItemsForWatchUseCase {
             print(e.stackTraceToString())
         }
 
+        println("Hola")
+
         if (resultToPresentation.isEmpty()) {
             emit(WrapperStatusInfo.NotFound)
         } else {
