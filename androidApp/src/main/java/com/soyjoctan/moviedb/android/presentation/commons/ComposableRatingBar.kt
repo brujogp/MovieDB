@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarHalf
@@ -28,7 +29,7 @@ fun RatingBar(
     modifier: Modifier = Modifier,
     rating: Double = 0.0,
     stars: Int = 5,
-    starsColor: Color = Color.Yellow,
+    starsColor: Color = MaterialTheme.colors.primary,
     onChangeValuation: (Double) -> Unit
 ) {
     val starSize: Dp = 55.dp
@@ -74,9 +75,10 @@ fun RatingBar(
                             else
                                 result
 
+                            Log.d("TEST", defResult.toString())
+
                             defResult
                         }
-
 
                         onChangeValuation(newRating)
                     }

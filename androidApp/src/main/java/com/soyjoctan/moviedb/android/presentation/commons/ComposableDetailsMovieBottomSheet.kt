@@ -1,6 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.commons
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.soyjoctan.moviedb.android.presentation.commons.RatingBar
 import androidx.compose.foundation.layout.*
@@ -76,9 +77,8 @@ fun ComposableDetailsMovieBottomSheet(
                 ) {
                     RatingBar(
                         modifier = Modifier.fillMaxWidth(),
-                        rating = 0.0
+                        rating = 1.8298133611679077
                     ) {
-
                     }
                 }
 
