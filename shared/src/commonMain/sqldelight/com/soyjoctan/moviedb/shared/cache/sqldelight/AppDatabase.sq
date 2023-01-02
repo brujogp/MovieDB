@@ -17,6 +17,9 @@ INSERT INTO ItemsLiked(
   ?
 );
 
+insertRating:
+UPDATE ItemsLiked SET rating = ? WHERE itemId = ?;
+
 insertItemsToWatch:
 INSERT INTO ItemsToWatch(
     itemId,
@@ -46,7 +49,8 @@ selectItemsLiked:
     backdropPath,
     genres,
     dateAdded,
-    fromListToWatch
+    fromListToWatch,
+    rating
     FROM ItemsLiked;
 
 selectItemsToWatch:
@@ -81,7 +85,8 @@ searchLikedItemById:
     backdropPath,
     genres,
     dateAdded,
-    fromListToWatch
+    fromListToWatch,
+    rating
     FROM ItemsLiked WHERE itemId = ?;
 
 removeLikedItemById:

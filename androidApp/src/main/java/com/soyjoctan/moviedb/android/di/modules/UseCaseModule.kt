@@ -52,6 +52,13 @@ object UseCaseModule {
     @Singleton
     fun provideAddItemToLikedListUseCase(): AddItemToLikedListUseCase = AddItemToLikedListUseCase()
 
+
+    @Provides
+    @Singleton
+    fun provideUpdateRatingForLikedItemUseCase(): UpdateRatingForLikedItemUseCase =
+        UpdateRatingForLikedItemUseCase()
+
+
     @Provides
     @Singleton
     fun provideSearchItemsUseCase(): SearchItemUseCase = SearchItemUseCase()

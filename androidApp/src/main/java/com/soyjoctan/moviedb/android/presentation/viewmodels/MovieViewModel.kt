@@ -32,6 +32,7 @@ class MovieViewModel @Inject constructor(
     private val searchLikedItemByIdUseCase: SearchLikedItemByIdUseCase,
     private val getLikedItemsUseCase: LikedItemsUseCase,
     private val deleteLikedItemByIdUseCase: DeleteLikedItemByIdUseCase,
+    private val updateRatingForLikedItemUseCase: UpdateRatingForLikedItemUseCase,
 
     private val dbSdk: MovieDataSkd
 ) : ViewModel() {
@@ -395,9 +396,15 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun removeLikedItem(itemToRemove: Long) {
+    fun updateRatingForLikedItem(itemToRemove: Long) {
         viewModelScope.launch {
             deleteLikedItemByIdUseCase.invoke(sdk = dbSdk, itemToRemove = itemToRemove)
+        }
+    }
+
+    fun updateRatingForLikedItem(newRating: Double, itemId: Long) {
+        viewModelScope.launch {
+            updateRatingForLikedItemUseCase.invoke(sdk = dbSdk, newRating, itemId)
         }
     }
 }

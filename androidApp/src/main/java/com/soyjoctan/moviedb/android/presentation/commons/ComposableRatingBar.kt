@@ -29,7 +29,7 @@ fun RatingBar(
     modifier: Modifier = Modifier,
     rating: Double = 0.0,
     stars: Int = 5,
-    starsColor: Color = MaterialTheme.colors.primary,
+    starsColor: Color = MaterialTheme.colors.onBackground,
     onChangeValuation: (Double) -> Unit
 ) {
     val starSize: Dp = 55.dp
@@ -52,6 +52,7 @@ fun RatingBar(
             .pointerInput(Unit) {
                 detectDragGestures { change: PointerInputChange, _: Offset ->
                     val s = change.position.x.toDp()
+
                     if (starWidth > 0.dp) {
                         newRating = if (s.toPx() >= completeWidth)
                             stars.toDouble()
@@ -75,8 +76,6 @@ fun RatingBar(
                             else
                                 result
 
-                            Log.d("TEST", defResult.toString())
-
                             defResult
                         }
 
@@ -85,6 +84,7 @@ fun RatingBar(
                 }
             }
             .onGloballyPositioned { layoutCoordinates: LayoutCoordinates ->
+                newRating = rating
                 completeWidth = layoutCoordinates.size.width
             }
     ) {

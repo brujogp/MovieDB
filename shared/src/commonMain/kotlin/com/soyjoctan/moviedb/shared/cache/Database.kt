@@ -43,6 +43,12 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
+    internal fun updateRatingForLikedItem(newRating: Double, itemId: Long) {
+        dbQuery.transaction {
+            updateRating(newRating, itemId)
+        }
+    }
+
     private fun insertMovieToWatch(itemToWatch: ItemToWatch) {
         itemToWatch.apply {
             dbQuery.insertItemsToWatch(
@@ -56,6 +62,10 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 dateAdded = dateAdded
             )
         }
+    }
+
+    private fun updateRating(newRating: Double, itemId: Long) {
+        dbQuery.insertRating(rating = newRating, itemId = itemId)
     }
 
     private fun insertMovieToLikedList(itemLiked: ItemLiked) {

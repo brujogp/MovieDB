@@ -3,7 +3,6 @@ package com.soyjoctan.moviedb.android.presentation.commons
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.soyjoctan.moviedb.android.presentation.commons.RatingBar
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.soyjoctan.moviedb.android.presentation.models.Routes.*
@@ -12,10 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,16 +66,20 @@ fun ComposableDetailsMovieBottomSheet(
                     )
                 }
 
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    RatingBar(
-                        modifier = Modifier.fillMaxWidth(),
-                        rating = 1.8298133611679077
+                if (likedItemFromDb != null) {
+                    Log.d("TEST-T", likedItemFromDb.toString())
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     ) {
+                        RatingBar(
+                            modifier = Modifier.fillMaxWidth(),
+                            rating = likedItemFromDb!!.rating!!
+                        ) {
+                            viewModel.updateRatingForLikedItem(it, likedItemFromDb!!.itemId)
+                        }
                     }
                 }
 
@@ -160,7 +161,7 @@ fun addItemToLikeList(
         makeDetailRequest(viewModel, movieSelected?.itemId!!)
         viewModel.getLikedItems()
     } else {
-        viewModel.removeLikedItem(detailsMovieModel?.itemId!!)
+        viewModel.updateRatingForLikedItem(detailsMovieModel?.itemId!!)
         viewModel.searchLikedItemById(detailsMovieModel.itemId!!)
         viewModel.getLikedItems()
     }

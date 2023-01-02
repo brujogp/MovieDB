@@ -53,4 +53,13 @@ class MovieDataSkd(databaseDriverFactory: DatabaseDriverFactory) {
             print(e.stackTraceToString())
         }
     }
+
+    @Throws(Exception::class)
+    fun updateRatingForLikedItem(newRating: Double, itemId: Long) {
+        try {
+            database.updateRatingForLikedItem(newRating, itemId)
+        } catch (e: Exception) {
+            print(e.stackTraceToString())
+        }
+    }
 }

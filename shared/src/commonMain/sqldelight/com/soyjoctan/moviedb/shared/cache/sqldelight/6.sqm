@@ -1,0 +1,1 @@
+ALTER TABLE ItemsLiked ADD COLUMN rating REAL DEFAULT 0.0;
