@@ -87,7 +87,7 @@ fun HomeGenres(
                             }
                             viewModel.itemDetailsSelected.value = it
                         },
-                        null,
+                        280.dp,
                         onShowMore = {
                             onNavigationController(ListToWatchScreen.route)
                         }
@@ -101,7 +101,7 @@ fun HomeGenres(
                         }
                         viewModel.itemDetailsSelected.value = it
                     },
-                    null,
+                    280.dp,
                     onShowMore = {
                         onNavigationController(BestMoviesScreen.route)
                     }
@@ -114,7 +114,7 @@ fun HomeGenres(
                         }
                         viewModel.itemDetailsSelected.value = it
                     },
-                    null,
+                    280.dp,
                     onShowMore = {
                         onNavigationController(NextReleasesScreen.route)
                     }
@@ -167,7 +167,7 @@ inline fun <reified T : ClassBaseItemModel> Section(
     titleSection: String,
     list: ArrayList<T>?,
     noinline onClickElement: (item: ClassBaseItemModel) -> Unit,
-    height: Dp?,
+    height: Dp = 140.dp,
     noinline onShowMore: (() -> Unit?)? = null
 ): Boolean {
     Subtitle(titleSection, null)

@@ -34,7 +34,7 @@ class GetCreditsByMovieIdUseCase {
                                 name = "${item.name}${if (item.originalName?.isNotEmpty() == true) " (${item.originalName})" else ""}",
                                 posterPathImage = item.profilePath,
                                 itemName = "${item.name}${if (item.originalName?.isNotEmpty() == true) " (${item.character})" else ""}",
-                                popularity = null,
+                                popularity = PARAMS.Actors,
                                 backdropPath = null
                             )
                         )
@@ -74,5 +74,9 @@ class GetCreditsByMovieIdUseCase {
                 }
             }
         }
+    }
+
+    companion object PARAMS{
+        const val Actors = 1111.0
     }
 }
