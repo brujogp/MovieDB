@@ -34,14 +34,16 @@ fun HomeGenres(
     var isGenresLoading by rememberSaveable { mutableStateOf(true) }
     var isTopMoviesLoading by rememberSaveable { mutableStateOf(true) }
     var isUpcomingMoviesLoading by rememberSaveable { mutableStateOf(true) }
-    var isPopularTvShowsLoading by rememberSaveable { mutableStateOf(true) }
+    // var isPopularTvShowsLoading by rememberSaveable { mutableStateOf(true) }
 
     val genres: List<GenreModel>? by viewModel.listGenresObservable.observeAsState()
     val topRatedMovies: ArrayList<ClassBaseItemModel>? by viewModel.listTopRatedModelMoviesObservable.observeAsState()
     val upcomingMovies: ArrayList<ClassBaseItemModel>? by viewModel.listUpcomingMoviesModelMoviesObservable.observeAsState()
-    val popularTvShows: ArrayList<ClassBaseItemModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
+    val itemsToWatch by viewModel.itemsToWatchListLiveDataObservable.observeAsState()
+    // val popularTvShows: ArrayList<ClassBaseItemModel>? by viewModel.popularTvShowsListLiveDataObservable.observeAsState()
 
     makeRequests(viewModel)
+    getItemsToWatch(viewModel)
 
     ComposableMainScaffold(
         scaffoldState = scaffoldState,
@@ -75,6 +77,21 @@ fun HomeGenres(
                     )
                 }
 
+
+                if (itemsToWatch != null && itemsToWatch ?.size != 0) {
+                    isTopMoviesLoading = Section(
+                        "Películas para ver",
+                        convertItemsToClassBaseItemModel(itemsToWatch as ArrayList<PresentationModelParent>),
+                        {
+                            scope.launch {
+                                bottomSheetState.show()
+                            }
+                            viewModel.itemDetailsSelected.value = it
+                        },
+                        null
+                    )
+                }
+
                 isTopMoviesLoading = Section(
                     "Las mejores películas", topRatedMovies, {
                         scope.launch {
@@ -95,9 +112,11 @@ fun HomeGenres(
                     null
                 )
 
+                /*
                 isPopularTvShowsLoading = Section("Series populares", popularTvShows, {
                     onNavigationController(CompleteDetailsItemScreen.route)
                 }, null)
+                */
             }
         },
         requireTopBar = true,
@@ -160,4 +179,8 @@ inline fun <reified T : ClassBaseItemModel> Section(
         )
         return true
     }
+}
+
+private fun getItemsToWatch(viewModel: MovieViewModel) {
+    viewModel.getItemsToWatch()
 }

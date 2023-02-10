@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableDetailsMovieBottomSheet
+import com.soyjoctan.moviedb.android.presentation.commons.ComposableNoItemsToShow
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableVerticalLazyGrid
 import com.soyjoctan.moviedb.android.presentation.commons.Subtitle
 import com.soyjoctan.moviedb.android.presentation.models.Routes
@@ -91,17 +92,21 @@ fun ListToWatchScreen(
             )
         }
 
-        ComposableVerticalLazyGrid(
-            result = convertItemsToClassBaseItemModel(itemsToWatch as ArrayList<PresentationModelParent>),
-            viewModel = viewModel,
-            listState = null,
-            bottomSheetState = null,
-            onClickMoviePoster = {
-                coroutineScope.launch {
-                    if (detailsBottomSheetState.isVisible) detailsBottomSheetState.hide() else detailsBottomSheetState.show()
+        if (itemsToWatch != null) {
+            ComposableVerticalLazyGrid(
+                result = convertItemsToClassBaseItemModel(itemsToWatch as ArrayList<PresentationModelParent>),
+                viewModel = viewModel,
+                listState = null,
+                bottomSheetState = null,
+                onClickMoviePoster = {
+                    coroutineScope.launch {
+                        if (detailsBottomSheetState.isVisible) detailsBottomSheetState.hide() else detailsBottomSheetState.show()
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            ComposableNoItemsToShow("Aún no hay películas para ver")
+        }
     }
 
     ComposableDetailsMovieBottomSheet(

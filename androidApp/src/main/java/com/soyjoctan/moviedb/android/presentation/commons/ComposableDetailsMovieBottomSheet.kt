@@ -67,7 +67,6 @@ fun ComposableDetailsMovieBottomSheet(
                 }
 
                 if (likedItemFromDb != null) {
-                    Log.d("TEST-T", likedItemFromDb.toString())
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier

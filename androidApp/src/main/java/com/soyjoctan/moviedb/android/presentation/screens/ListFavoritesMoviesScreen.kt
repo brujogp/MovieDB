@@ -2,16 +2,22 @@ package com.soyjoctan.moviedb.android.presentation.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetState
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType.Companion.Text
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableDetailsMovieBottomSheet
+import com.soyjoctan.moviedb.android.presentation.commons.ComposableNoItemsToShow
 import com.soyjoctan.moviedb.android.presentation.commons.ComposableVerticalLazyGrid
 import com.soyjoctan.moviedb.android.presentation.commons.Subtitle
 import com.soyjoctan.moviedb.android.presentation.models.Routes
@@ -39,17 +45,21 @@ fun ListFavoritesMoviesScreen(
 
     Column {
         Subtitle("Películas favoritas", null)
-        ComposableVerticalLazyGrid(
-            result = convertItemsToClassBaseItemModel(likedItems as ArrayList<PresentationModelParent>),
-            viewModel = viewModel,
-            listState = null,
-            bottomSheetState = null,
-            onClickMoviePoster = {
-                coroutineScope.launch {
-                    bottomSheetState.show()
+        if (likedItems != null) {
+            ComposableVerticalLazyGrid(
+                result = convertItemsToClassBaseItemModel(likedItems as ArrayList<PresentationModelParent>),
+                viewModel = viewModel,
+                listState = null,
+                bottomSheetState = null,
+                onClickMoviePoster = {
+                    coroutineScope.launch {
+                        bottomSheetState.show()
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            ComposableNoItemsToShow("Aún no hay películas favoritas")
+        }
     }
 
     ComposableDetailsMovieBottomSheet(
@@ -61,6 +71,6 @@ fun ListFavoritesMoviesScreen(
     )
 }
 
-fun makeLikedItemsRequest(viewModel: MovieViewModel) {
+private fun makeLikedItemsRequest(viewModel: MovieViewModel) {
     viewModel.getLikedItems()
 }
