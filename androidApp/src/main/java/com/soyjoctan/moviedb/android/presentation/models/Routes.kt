@@ -7,4 +7,6 @@ sealed class Routes(val route: String) {
     object ListToWatchScreen : Routes("ListToWatchScreen")
     object ListFavoritesMoviesScreen : Routes("ListFavoritesMoviesScreen")
     object SearchScreen : Routes("SearchScreen")
+    object BestMoviesScreen: Routes("BestMoviesScreen")
+    object NextReleasesScreen: Routes("NextReleasesScreen")
 }

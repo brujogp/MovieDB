@@ -58,21 +58,3 @@ fun ComposableCardPoster(
         }
     }
 }
-
-@Preview
-@Composable
-fun preview() {
-    ComposableCardPoster(
-        item = ClassBaseItemModel(
-            null,
-            null,
-            null,
-            null,
-            null
-        ),
-        onClickPosterImage = {
-        },
-        null
-    )
-}
-

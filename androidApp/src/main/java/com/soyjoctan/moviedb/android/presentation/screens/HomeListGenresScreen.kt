@@ -77,8 +77,7 @@ fun HomeGenres(
                     )
                 }
 
-
-                if (itemsToWatch != null && itemsToWatch ?.size != 0) {
+                if (itemsToWatch != null && itemsToWatch?.size != 0) {
                     isTopMoviesLoading = Section(
                         "Películas para ver",
                         convertItemsToClassBaseItemModel(itemsToWatch as ArrayList<PresentationModelParent>),
@@ -88,7 +87,10 @@ fun HomeGenres(
                             }
                             viewModel.itemDetailsSelected.value = it
                         },
-                        null
+                        null,
+                        onShowMore = {
+                            onNavigationController(ListToWatchScreen.route)
+                        }
                     )
                 }
 
@@ -99,7 +101,10 @@ fun HomeGenres(
                         }
                         viewModel.itemDetailsSelected.value = it
                     },
-                    null
+                    null,
+                    onShowMore = {
+                        onNavigationController(BestMoviesScreen.route)
+                    }
                 )
 
                 isUpcomingMoviesLoading = Section(
@@ -109,7 +114,10 @@ fun HomeGenres(
                         }
                         viewModel.itemDetailsSelected.value = it
                     },
-                    null
+                    null,
+                    onShowMore = {
+                        onNavigationController(NextReleasesScreen.route)
+                    }
                 )
 
                 /*
@@ -159,7 +167,8 @@ inline fun <reified T : ClassBaseItemModel> Section(
     titleSection: String,
     list: ArrayList<T>?,
     noinline onClickElement: (item: ClassBaseItemModel) -> Unit,
-    height: Dp?
+    height: Dp?,
+    noinline onShowMore: (() -> Unit?)? = null
 ): Boolean {
     Subtitle(titleSection, null)
     if (list != null) {
@@ -167,7 +176,8 @@ inline fun <reified T : ClassBaseItemModel> Section(
             content = list as ArrayList<ClassBaseItemModel>,
             modifier = Modifier,
             onClickPosterImage = onClickElement,
-            height
+            height,
+            onShowMore
         )
         CustomDivider()
         return false
