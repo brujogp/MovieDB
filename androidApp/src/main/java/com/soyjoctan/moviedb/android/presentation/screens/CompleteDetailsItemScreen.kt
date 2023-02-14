@@ -58,6 +58,7 @@ fun CompleteDetailsItemScreen(
         content = {
             itemSelected?.let { itemSelected ->
                 Column(Modifier.verticalScroll(rememberScrollState())) {
+
                     ContentDescription(
                         movieSelected,
                         itemToWatchFromDb,
@@ -68,6 +69,7 @@ fun CompleteDetailsItemScreen(
                         viewModel,
                         detailMovieSelected
                     )
+
                     CustomDivider()
                     credits?.let {
                         Section(
@@ -111,7 +113,7 @@ fun ContentDescription(
     detailMovieSelected: DetailsMovieModel?,
 ) {
     ConstraintLayout {
-        val (backdropMovie, descriptionMovie, containerBasicInfo, listGenres, metaInfo) = createRefs()
+        val (backdropMovie, descriptionMovie, containerBasicInfo, listGenres, metaInfo, ratingBar) = createRefs()
 
         Box(
             modifier = Modifier.constrainAs(backdropMovie) {
@@ -157,9 +159,37 @@ fun ContentDescription(
             )
         }
 
+        if (likedItemFromDb != null) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .constrainAs(ratingBar) {
+                        top.linkTo(containerBasicInfo.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            ) {
+                RatingBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    rating = likedItemFromDb!!.rating!!
+                ) {
+                    viewModel.updateRatingForLikedItem(it, likedItemFromDb!!.itemId)
+                }
+            }
+        }
+
+
         Column(
             Modifier
-                .constrainAs(metaInfo) { top.linkTo(containerBasicInfo.bottom) }
+                .constrainAs(metaInfo) {
+                    if (likedItemFromDb != null) {
+                        top.linkTo(ratingBar.bottom)
+                    } else {
+                        top.linkTo(containerBasicInfo.bottom)
+                    }
+                }
                 .padding(top = 16.dp)
         ) {
             MetadataItem(
