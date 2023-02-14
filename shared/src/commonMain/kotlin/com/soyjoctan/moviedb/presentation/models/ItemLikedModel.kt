@@ -6,7 +6,7 @@ data class ItemLikedModel(
     override var posterPathImage: String?,
     override var popularity: Double?,
     override var backdropPath: String?,
-    val genres: List<GenreModel>?,
-    val dateAdded: String?,
-    val fromListToWatch: Boolean
-) : PresentationModelParent()
+    override var genres: List<GenreModel>?,
+    val fromListToWatch: Boolean,
+    override var dateAdded: String?
+) : AbstractCommonPresentationListItems()

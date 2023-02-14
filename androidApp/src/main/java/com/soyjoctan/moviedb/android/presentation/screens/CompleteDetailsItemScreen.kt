@@ -173,13 +173,12 @@ fun ContentDescription(
             ) {
                 RatingBar(
                     modifier = Modifier.fillMaxWidth(),
-                    rating = likedItemFromDb!!.rating!!
+                    rating = likedItemFromDb.rating!!
                 ) {
-                    viewModel.updateRatingForLikedItem(it, likedItemFromDb!!.itemId)
+                    viewModel.updateRatingForLikedItem(it, likedItemFromDb.itemId)
                 }
             }
         }
-
 
         Column(
             Modifier
@@ -190,7 +189,7 @@ fun ContentDescription(
                         top.linkTo(containerBasicInfo.bottom)
                     }
                 }
-                .padding(top = 16.dp)
+                .padding(top = if (likedItemFromDb == null) 16.dp else 0.dp)
         ) {
             MetadataItem(
                 credits,

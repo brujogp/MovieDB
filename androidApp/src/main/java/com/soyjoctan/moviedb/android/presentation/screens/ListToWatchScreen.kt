@@ -4,12 +4,14 @@ import android.os.Build
 import androidx.compose.material3.AssistChip
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -32,10 +34,7 @@ import com.soyjoctan.moviedb.android.presentation.commons.ComposableVerticalLazy
 import com.soyjoctan.moviedb.android.presentation.commons.Subtitle
 import com.soyjoctan.moviedb.android.presentation.models.Routes
 import com.soyjoctan.moviedb.android.presentation.viewmodels.MovieViewModel
-import com.soyjoctan.moviedb.presentation.models.ClassBaseItemModel
-import com.soyjoctan.moviedb.presentation.models.GenreModel
-import com.soyjoctan.moviedb.presentation.models.ItemToWatchModel
-import com.soyjoctan.moviedb.presentation.models.PresentationModelParent
+import com.soyjoctan.moviedb.presentation.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
@@ -120,7 +119,7 @@ fun ListToWatchScreen(
     if (existGenresBottomSheet) {
         GenresFilterBottomSheet(
             genresFilterBottomSheetState = genresFilterBottomSheetState,
-            itemsToWatch = itemsToWatch,
+            itemsToWatch = convertItemsToCommonPresentationLisItems(itemsToWatch),
             onGenresChecked = { isChecked, genreItem ->
                 if (isChecked && !genresSelected.contains(genreItem)) {
                     genresSelected.add(genreItem)
@@ -140,9 +139,9 @@ fun ListToWatchScreen(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun GenresFilterBottomSheet(
+fun GenresFilterBottomSheet(
     genresFilterBottomSheetState: ModalBottomSheetState,
-    itemsToWatch: ArrayList<ItemToWatchModel>?,
+    itemsToWatch: ArrayList<CommonPresentationLisItems>?,
     onGenresChecked: (isChecked: Boolean, genreName: GenreModel) -> Unit,
     onApplyGenres: () -> Unit
 ) {
@@ -152,36 +151,41 @@ private fun GenresFilterBottomSheet(
         scrimColor = Color(0xC8000000),
         sheetContent = {
             val elements: ArrayList<GenreModel> = getGenres(itemsToWatch)
-            LazyColumn(
-                content = {
-                    itemsIndexed(elements) { index, item: GenreModel ->
-                        ButtonCheckbox(
-                            item = item,
-                            onClick = { isChecked: Boolean, genreItem: GenreModel ->
-                                onGenresChecked(isChecked, genreItem)
-                            })
-                    }
-                },
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-            )
-            Button(
-                onClick = {
-                    rememberCoroutineScope.launch {
-                        genresFilterBottomSheetState.hide()
-                    }
-                    onApplyGenres.invoke()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            ) {
-                Text(
-                    text = "Aplicar",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color.White,
-                    modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+
+            Column{
+                LazyColumn(
+                    content = {
+                        itemsIndexed(elements) { index, item: GenreModel ->
+                            ButtonCheckbox(
+                                item = item,
+                                onClick = { isChecked: Boolean, genreItem: GenreModel ->
+                                    onGenresChecked(isChecked, genreItem)
+                                })
+                        }
+                    },
+                    modifier = Modifier
+                        .heightIn(0.dp, 500.dp)
+                        .padding(top = 16.dp, bottom = 16.dp)
                 )
+                Button(
+                    onClick = {
+                        rememberCoroutineScope.launch {
+                            genresFilterBottomSheetState.hide()
+                        }
+                        onApplyGenres.invoke()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                ) {
+                    Text(
+                        text = "Aplicar",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White,
+                        modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                    )
+                }
             }
         },
         content = {
@@ -196,7 +200,7 @@ private fun GenresFilterBottomSheet(
     )
 }
 
-fun getGenres(itemsToWatch: ArrayList<ItemToWatchModel>?): ArrayList<GenreModel> {
+fun getGenres(itemsToWatch: ArrayList<CommonPresentationLisItems>?): ArrayList<GenreModel> {
     val items: ArrayList<GenreModel> = arrayListOf()
     itemsToWatch?.forEach { item ->
         item.genres?.forEach { genre ->
@@ -272,6 +276,26 @@ fun convertItemsToClassBaseItemModel(itemsToWatch: ArrayList<PresentationModelPa
                 popularity = it.popularity?.toDouble(),
                 itemId = it.itemId,
                 backdropPath = it.backdropPath
+            )
+        )
+    }
+
+    return items
+}
+
+fun convertItemsToCommonPresentationLisItems(itemsToWatch: ArrayList<out AbstractCommonPresentationListItems>?): ArrayList<CommonPresentationLisItems> {
+    val items: ArrayList<CommonPresentationLisItems> = arrayListOf()
+
+    itemsToWatch?.forEach {
+        items.add(
+            CommonPresentationLisItems(
+                itemName = it.itemName,
+                posterPathImage = it.posterPathImage,
+                popularity = it.popularity?.toDouble(),
+                itemId = it.itemId,
+                backdropPath = it.backdropPath,
+                genres = it.genres,
+                dateAdded = it.dateAdded
             )
         )
     }

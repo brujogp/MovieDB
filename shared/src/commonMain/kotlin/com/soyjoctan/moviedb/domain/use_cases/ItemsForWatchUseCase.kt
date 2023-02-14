@@ -26,14 +26,14 @@ class ItemsForWatchUseCase {
                 it.forEach { itemToWatch ->
                     resultToPresentation.add(
                         ItemToWatchModel(
-                            itemToWatch.itemId,
-                            itemToWatch.itemName,
-                            itemToWatch.whereWatch ?: "",
-                            itemToWatch.posterPathImage,
-                            itemToWatch.popularity?.toDouble(),
-                            itemToWatch.backdropPath,
-                            Json.decodeFromString<List<GenreModel>>(itemToWatch.genres!!),
-                            itemToWatch.dateAdded
+                            itemId = itemToWatch.itemId,
+                            itemName = itemToWatch.itemName,
+                            whereWatch = itemToWatch.whereWatch ?: "",
+                            posterPathImage = itemToWatch.posterPathImage,
+                            popularity = itemToWatch.popularity?.toDouble(),
+                            backdropPath = itemToWatch.backdropPath,
+                            genres = Json.decodeFromString<List<GenreModel>>(itemToWatch.genres!!),
+                            dateAdded = itemToWatch.dateAdded
                         )
                     )
                 }
