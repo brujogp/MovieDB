@@ -80,39 +80,6 @@ fun ComposableMainScaffold(
 }
 
 @Composable
-private fun EntryCommunity(
-    drawableOnClick: (icon: ImageVector) -> Unit,
-    coroutineScope: CoroutineScope,
-    scaffoldState: ScaffoldState
-) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        TextSection("Comunidad")
-
-        ItemList(
-            "Redes sociales",
-            Icons.Filled.Group,
-            drawableOnClick, coroutineScope, scaffoldState
-        )
-        ItemList(
-            "Foro",
-            Icons.Filled.Forum,
-            drawableOnClick, coroutineScope, scaffoldState
-        )
-        ItemList(
-            "Características",
-            Icons.Default.FeaturedPlayList,
-            drawableOnClick, coroutineScope, scaffoldState
-        )
-    }
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(1.dp),
-        color = MaterialTheme.colors.onBackground.copy(alpha = .2f)
-    )
-}
-
-@Composable
 private fun EntrySection(
     drawableOnClick: (icon: ImageVector) -> Unit,
     coroutineScope: CoroutineScope,
@@ -145,6 +112,39 @@ private fun EntrySection(
     )
 }
 
+@Composable
+private fun EntryCommunity(
+    drawableOnClick: (icon: ImageVector) -> Unit,
+    coroutineScope: CoroutineScope,
+    scaffoldState: ScaffoldState
+) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextSection("Comunidad")
+
+        ItemList(
+            "Redes sociales",
+            Icons.Filled.Group,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Foro",
+            Icons.Filled.Forum,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+        ItemList(
+            "Características",
+            Icons.Default.FeaturedPlayList,
+            drawableOnClick, coroutineScope, scaffoldState
+        )
+    }
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp),
+        color = MaterialTheme.colors.onBackground.copy(alpha = .2f)
+    )
+}
+
 fun closeDrawer(coroutineScope: CoroutineScope, scaffoldState: ScaffoldState) {
     coroutineScope.launch {
         scaffoldState.drawerState.apply {
@@ -165,8 +165,7 @@ fun ItemList(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(top = 22.dp)
-    )
-    {
+    ) {
         Row(modifier = Modifier
             .clickable {
                 drawableOnClick.invoke(icon)
@@ -181,7 +180,8 @@ fun ItemList(
                 text = nameItem,
                 color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(start = 20.dp),
+                fontSize = 15.sp
             )
         }
     }

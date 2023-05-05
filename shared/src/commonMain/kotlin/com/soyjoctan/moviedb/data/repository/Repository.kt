@@ -42,10 +42,10 @@ class Repository {
         return finalRequest
     }
 
-    suspend fun getTopRated(): HttpResponse? {
+    suspend fun getTopRated(page: Long): HttpResponse? {
         val finalResponse =
             try {
-                client.get(resource = TopRatedRequest())
+                client.get(resource = TopRatedRequest(page))
             } catch (e: Throwable) {
                 print(e.stackTraceToString())
                 null

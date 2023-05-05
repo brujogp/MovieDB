@@ -70,25 +70,27 @@ fun ListToWatchScreen(
                 .horizontalScroll(scrollState)
                 .padding(end = 16.dp)
         ) {
-            AddAssistChipFilter(
-                "Géneros",
-                Icons.Default.ClearAll,
-                onClick =
-                {
-                    existGenresBottomSheet = true
 
-                    if (genresSelected.size > 0) {
-                        genresSelected = arrayListOf()
-                        viewModel.getItemsToWatch()
-                    } else {
-                        coroutineScope.launch {
-                            if (genresFilterBottomSheetState.isVisible) genresFilterBottomSheetState.hide() else genresFilterBottomSheetState.show()
+            if (itemsToWatch != null) {
+                AddAssistChipFilter(
+                    "Géneros",
+                    Icons.Default.ClearAll,
+                    onClick =
+                    {
+                        existGenresBottomSheet = true
+                        if (genresSelected.size > 0) {
+                            genresSelected = arrayListOf()
+                            viewModel.getItemsToWatch()
+                        } else {
+                            coroutineScope.launch {
+                                if (genresFilterBottomSheetState.isVisible) genresFilterBottomSheetState.hide() else genresFilterBottomSheetState.show()
+                            }
                         }
-                    }
-                },
-                trailingIcon = if (genresSelected.size > 0) Icons.Default.Close else null
+                    },
+                    trailingIcon = if (genresSelected.size > 0) Icons.Default.Close else null
 
-            )
+                )
+            }
         }
 
         if (itemsToWatch != null) {
@@ -116,7 +118,7 @@ fun ListToWatchScreen(
         }
     )
 
-    if (existGenresBottomSheet) {
+    if (existGenresBottomSheet && itemsToWatch != null) {
         GenresFilterBottomSheet(
             genresFilterBottomSheetState = genresFilterBottomSheetState,
             itemsToWatch = convertItemsToCommonPresentationLisItems(itemsToWatch),
@@ -152,7 +154,7 @@ fun GenresFilterBottomSheet(
         sheetContent = {
             val elements: ArrayList<GenreModel> = getGenres(itemsToWatch)
 
-            Column{
+            Column {
                 LazyColumn(
                     content = {
                         itemsIndexed(elements) { index, item: GenreModel ->

@@ -1,5 +1,7 @@
 package com.soyjoctan.moviedb.android.presentation.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +22,7 @@ import com.soyjoctan.moviedb.presentation.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeGenres(

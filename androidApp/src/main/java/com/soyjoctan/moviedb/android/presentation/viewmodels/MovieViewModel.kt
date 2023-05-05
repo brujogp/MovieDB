@@ -131,9 +131,12 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun getTopRatedMovies() {
+    fun getTopRatedMovies(
+        page: Long = 1,
+        currentListItems: ArrayList<ClassBaseItemModel>? = null
+    ) {
         viewModelScope.launch {
-            topRatedMoviesUseCase().collect {
+            topRatedMoviesUseCase.invoke(page, currentListItems).collect {
                 when (it) {
                     is WrapperStatusInfo.Loading -> {
                         _topRatedModelMutableLiveData.value = null

@@ -65,25 +65,27 @@ fun ListFavoritesMoviesScreen(
                 .horizontalScroll(scrollState)
                 .padding(end = 16.dp)
         ) {
-            AddAssistChipFilter(
-                "Géneros",
-                Icons.Default.ClearAll,
-                onClick =
-                {
-                    existGenresBottomSheet = true
+            if (likedItems != null) {
+                AddAssistChipFilter(
+                    "Géneros",
+                    Icons.Default.ClearAll,
+                    onClick =
+                    {
+                        existGenresBottomSheet = true
 
-                    if (genresSelected.size > 0) {
-                        genresSelected = arrayListOf()
-                        viewModel.getItemsToWatch()
-                    } else {
-                        coroutineScope.launch {
-                            if (genresFilterBottomSheetState.isVisible) genresFilterBottomSheetState.hide() else genresFilterBottomSheetState.show()
+                        if (genresSelected.size > 0) {
+                            genresSelected = arrayListOf()
+                            viewModel.getItemsToWatch()
+                        } else {
+                            coroutineScope.launch {
+                                if (genresFilterBottomSheetState.isVisible) genresFilterBottomSheetState.hide() else genresFilterBottomSheetState.show()
+                            }
                         }
-                    }
-                },
-                trailingIcon = if (genresSelected.size > 0) Icons.Default.Close else null
+                    },
+                    trailingIcon = if (genresSelected.size > 0) Icons.Default.Close else null
 
-            )
+                )
+            }
         }
 
         if (likedItems != null) {
